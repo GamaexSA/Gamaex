@@ -512,7 +512,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
               step: "03",
               icon: "🏛",
               title: "Operamos en el local",
-              desc: "Venís a nuestra oficina en Providencia. Proceso rápido, atención directa y sin comisiones ocultas.",
+              desc: "Vienes a nuestra oficina en Providencia. Proceso rápido, atención directa y sin comisiones ocultas.",
             },
           ].map((s, i) => (
             <div
