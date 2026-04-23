@@ -125,7 +125,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
           display: grid; grid-template-columns: 40px 1fr 110px 110px;
           align-items: center; padding: 14px 20px;
           border-bottom: 1px solid var(--border); transition: background 0.2s;
-          cursor: default; gap: 12px;
+          cursor: default; gap: 12px; min-width: 320px;
         }
         .rate-row:hover { background: var(--bg3); }
         .rate-row:last-child { border-bottom: none; }
@@ -165,12 +165,15 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
           .nav-links { display: none !important; }
         }
         @media (max-width: 768px) {
-          .rate-row { grid-template-columns: 32px 1fr 90px 90px; padding: 11px 14px; gap: 8px; }
+          .rate-row { grid-template-columns: 28px 1fr 80px 80px; padding: 10px 12px; gap: 6px; }
           .hero-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
           .services-grid { grid-template-columns: 1fr !important; }
           .hero-section { padding: 48px 20px 40px !important; min-height: auto !important; }
           .converter-box { padding: 20px !important; }
           .section-pad { padding-left: 20px !important; padding-right: 20px !important; }
+        }
+        @media (max-width: 400px) {
+          .rate-row { grid-template-columns: 24px 1fr 70px 70px; padding: 9px 10px; gap: 4px; font-size: 13px; }
         }
       `}</style>
 
@@ -571,7 +574,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
             background: "#111916",
             border: "1px solid rgba(201,168,76,0.14)",
             borderRadius: 18,
-            overflow: "hidden",
+            overflowX: "auto",
             boxShadow: "0 16px 48px rgba(0,0,0,0.3)",
           }}
         >
