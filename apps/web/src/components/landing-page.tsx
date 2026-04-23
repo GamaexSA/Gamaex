@@ -626,14 +626,14 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
                   }}
                 >
                   ${rate.buy.toLocaleString("es-CL", {
-                    minimumFractionDigits: rate.decimal_places,
-                    maximumFractionDigits: rate.decimal_places,
+                    minimumFractionDigits: rate.buy < 1 ? rate.decimal_places : 0,
+                    maximumFractionDigits: rate.buy < 1 ? rate.decimal_places : 0,
                   })}
                 </div>
                 <div className="mono" style={{ textAlign: "right", fontSize: 15, fontWeight: 500 }}>
                   ${rate.sell.toLocaleString("es-CL", {
-                    minimumFractionDigits: rate.decimal_places,
-                    maximumFractionDigits: rate.decimal_places,
+                    minimumFractionDigits: rate.sell < 1 ? rate.decimal_places : 0,
+                    maximumFractionDigits: rate.sell < 1 ? rate.decimal_places : 0,
                   })}
                 </div>
               </div>
