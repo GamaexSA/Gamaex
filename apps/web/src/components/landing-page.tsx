@@ -1051,8 +1051,8 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
           <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} style={{ fontSize: 12, color: "#8A8780", textDecoration: "none" }}>
             📞 {FIXED_PHONE} (fijo)
           </a>
-          <a href="mailto:contacto@gamaex.cl" style={{ fontSize: 12, color: "#8A8780", textDecoration: "none" }}>
-            ✉ contacto@gamaex.cl
+          <a href="mailto:gamaex@gmail.com" style={{ fontSize: 12, color: "#8A8780", textDecoration: "none" }}>
+            ✉ gamaex@gmail.com
           </a>
         </div>
         <p style={{ fontSize: 11, color: "#4A5350" }}>
