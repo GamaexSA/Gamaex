@@ -969,7 +969,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
             Providencia, Santiago · Metro Pedro de Valdivia
           </p>
           <a
-            href="https://maps.google.com/?q=Av+Pedro+de+Valdivia+020,+Providencia,+Santiago"
+            href="https://maps.google.com/?q=-33.4232948606249,-70.6126826154358"
             target="_blank"
             rel="noopener noreferrer"
             style={{ display: "inline-block", fontSize: 13, color: "#C9A84C", textDecoration: "none", marginBottom: 16, opacity: 0.85 }}
@@ -978,7 +978,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
           </a>
           <div style={{ marginBottom: 36, borderRadius: 12, overflow: "hidden", border: "1px solid #2A2F2C" }}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!4v1776975132724!6m8!1m7!1sHiOUKwxtkdhLltTGtazSxA!2m2!1d-33.4232948606249!2d-70.6126826154358!3f211.72070402856832!4f-0.10699491030922559!5f1.8412259963801398"
+              src="https://www.google.com/maps/embed?pb=!4v1776977116640!6m8!1m7!1sHiOUKwxtkdhLltTGtazSxA!2m2!1d-33.4232948606249!2d-70.6126826154358!3f219.86831397446946!4f0.2564110419943262!5f1.8039058824642895"
               width="100%"
               height="300"
               style={{ border: 0, display: "block" }}
