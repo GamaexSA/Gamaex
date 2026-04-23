@@ -938,14 +938,10 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
         </div>
 
         <div style={{ textAlign: "center", marginTop: 32 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 12, background: "#111916", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 40, padding: "12px 28px" }}>
-            <span style={{ fontSize: 22, fontWeight: 700, color: "#E8E6E1", letterSpacing: "-0.02em" }}>5.0</span>
-            <div style={{ display: "flex", gap: 2 }}>
-              {Array.from({ length: 5 }).map((_, j) => (
-                <span key={j} style={{ color: "#F9AB00", fontSize: 15 }}>★</span>
-              ))}
-            </div>
-            <span style={{ fontSize: 11, color: "#8A8780", letterSpacing: "0.04em" }}>en Google Maps</span>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 10, background: "#111916", border: "1px solid rgba(201,168,76,0.2)", borderRadius: 40, padding: "12px 28px" }}>
+            <span style={{ fontSize: 15, color: "#C9A84C" }}>✦</span>
+            <span style={{ fontSize: 13, color: "#C8C6C0", letterSpacing: "0.04em", fontWeight: 500 }}>Testimonios reales de clientes</span>
+            <span style={{ fontSize: 15, color: "#C9A84C" }}>✦</span>
           </div>
         </div>
       </section>
