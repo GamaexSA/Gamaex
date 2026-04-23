@@ -1,0 +1,289 @@
+// ─────────────────────────────────────────────────────────────────────────────
+// Gamaex — Schema de base de datos
+// Fuente oficial de verdad: el backend central.
+// La web, WhatsApp y la IA solo leen. El backend escribe.
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────────────────────
+
+enum QuoteMode {
+  AUTO    // base_price de ExchangeRatesAPI + márgenes definidos por Gamaex
+  MANUAL  // compra y venta fijadas directamente por el admin
+}
+
+enum SnapshotSource {
+  CRON_AUTO       // sync automático vía cron job
+  ADMIN_PANEL     // cambio hecho desde el panel web
+  WHATSAPP_CMD    // comando recibido por WhatsApp
+  API_FORCE_SYNC  // sync forzado manualmente desde la API
+}
+
+enum AuditAction {
+  // Configuración de precios
+  UPDATE_MARGINS
+  SET_MANUAL_PRICES
+  SWITCH_TO_AUTO
+  SWITCH_TO_MANUAL
+  FORCE_SYNC
+
+  // Gestión de monedas
+  CREATE_CURRENCY
+  UPDATE_CURRENCY
+  TOGGLE_CURRENCY_ACTIVE
+  UPDATE_DISPLAY_ORDER
+
+  // Gestión de usuarios admin
+  CREATE_ADMIN_USER
+  UPDATE_ADMIN_USER
+  DEACTIVATE_ADMIN_USER
+  RESET_ADMIN_PASSWORD
+
+  // WhatsApp
+  ADD_WA_NUMBER
+  REMOVE_WA_NUMBER
+  TOGGLE_WA_NUMBER
+
+  // API Keys
+  CREATE_API_KEY
+  REVOKE_API_KEY
+}
+
+enum AdminRole {
+  SUPER_ADMIN // acceso total: usuarios, sistema, precios
+  OPERATOR    // puede editar precios y márgenes, no gestiona usuarios
+}
+
+enum ApiKeyScope {
+  READ_ONLY // solo GET: /api/ai/rates, /api/ai/context
+  WEBHOOK   // para integraciones externas futuras (POS, etc.)
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// CURRENCIES — catálogo maestro de monedas
+// Separado de la configuración para poder agregar monedas sin activarlas aún.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model Currency {
+  id             String   @id @default(cuid())
+  code           String   @unique // ISO 4217: "USD", "EUR", "BRL"
+  name           String           // "Dólar USA"
+  flag_emoji     String           // "🇺🇸"
+  decimal_places Int      @default(2)
+  is_active      Boolean  @default(true)
+  display_order  Int      @default(0) // orden en la tabla pública
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  quote_config    QuoteConfig?
+  quote_snapshots QuoteSnapshot[]
+
+  @@map("currencies")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// QUOTE_CONFIGS — configuración de precios por moneda
+//
+// Regla central del negocio:
+//   AUTO:   current_buy  = base_price + buy_margin
+//           current_sell = base_price + sell_margin
+//   MANUAL: current_buy  = manual_buy   (ignorar base_price)
+//           current_sell = manual_sell  (ignorar base_price)
+//
+// current_buy y current_sell son siempre los precios finales que expone la API.
+// Nunca se calculan en el frontend ni en WhatsApp.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model QuoteConfig {
+  id          String   @id @default(cuid())
+  currency_id String   @unique
+  currency    Currency @relation(fields: [currency_id], references: [id], onDelete: Cascade)
+
+  // Modo de cotización
+  mode QuoteMode @default(AUTO)
+
+  // Márgenes en pesos CLP (aplican solo en AUTO)
+  // Negativos = compra por debajo del base. Positivos = venta por encima.
+  buy_margin  Float @default(0)
+  sell_margin Float @default(0)
+
+  // Precios manuales en CLP (aplican solo en MANUAL)
+  manual_buy  Float?
+  manual_sell Float?
+
+  // Precios finales calculados y cacheados — siempre actualizados por el backend
+  // Estos son los valores que devuelve la API pública
+  current_buy  Float?
+  current_sell Float?
+
+  // Último base_price recibido del proveedor externo (solo referencial)
+  last_base_price Float?
+
+  // Metadatos de la última sync
+  last_synced_at  DateTime?
+  last_synced_by  String?   // "system:cron" | user id | "+569..."
+
+  // Señal de alerta: si el proveedor devuelve un valor fuera del umbral normal
+  price_alert_active Boolean @default(false)
+  price_alert_reason String?
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("quote_configs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// QUOTE_SNAPSHOTS — historial de precios (append-only)
+//
+// Cada vez que el backend actualiza un precio (auto o manual), se crea un
+// snapshot. Nunca se editan registros anteriores.
+// Sirve para historial, gráficos en el admin y auditoría de mercado.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model QuoteSnapshot {
+  id          String   @id @default(cuid())
+  currency_id String
+  currency    Currency @relation(fields: [currency_id], references: [id])
+
+  base_price  Float
+  buy_price   Float
+  sell_price  Float
+  buy_margin  Float
+  sell_margin Float
+  mode        QuoteMode
+  source      SnapshotSource
+  source_meta String?  // info adicional: proveedor, nro WA, email admin
+
+  captured_at DateTime @default(now())
+
+  @@index([currency_id, captured_at])
+  @@index([captured_at]) // para queries de historial global
+  @@map("quote_snapshots")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AUDIT_LOGS — trazabilidad completa de cambios de configuración
+//
+// Todo cambio hecho por un admin, por WhatsApp o por el sistema queda aquí.
+// Inmutable. Solo INSERT. Nunca UPDATE ni DELETE.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AuditLog {
+  id        String      @id @default(cuid())
+  entity    String      // "quote_config", "currency", "admin_user", "api_key"
+  entity_id String      // id del registro afectado
+  action    AuditAction
+
+  // Quién ejecutó la acción
+  actor_id  String? // admin_user.id (null si es sistema o WA)
+  actor_ref String  // "user:alan@gamaex.cl" | "system:cron" | "whatsapp:+56912345678"
+
+  // Snapshot del estado antes y después del cambio
+  before Json?
+  after  Json?
+
+  // Contexto de red (para acciones desde el panel)
+  ip_address String?
+  user_agent String?
+
+  created_at DateTime @default(now())
+
+  @@index([entity_id, created_at])
+  @@index([actor_ref, created_at])
+  @@index([action, created_at])
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ADMIN_USERS — usuarios del panel de administración
+// ─────────────────────────────────────────────────────────────────────────────
+
+model AdminUser {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password_hash String    // bcrypt, cost factor >= 12
+  name          String
+  role          AdminRole @default(OPERATOR)
+  is_active     Boolean   @default(true)
+
+  last_login_at DateTime?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  @@map("admin_users")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WHATSAPP_ALLOWED_NUMBERS — números autorizados para comandos admin por WA
+//
+// Solo estos números pueden modificar configuración vía WhatsApp.
+// Formato E.164 obligatorio: "+56912345678"
+// ─────────────────────────────────────────────────────────────────────────────
+
+model WhatsappAllowedNumber {
+  id         String   @id @default(cuid())
+  phone      String   @unique // E.164: "+56912345678"
+  label      String           // "Alan — propietario"
+  is_active  Boolean  @default(true)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("whatsapp_allowed_numbers")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// API_KEYS — claves para consumidores externos (IA, futuras integraciones)
+//
+// La clave en texto plano se muestra UNA sola vez al crearla.
+// En DB solo se guarda el hash y un prefijo para identificación.
+// Prefijo de formato: "gmx_live_xxxxxxxx"
+// ─────────────────────────────────────────────────────────────────────────────
+
+model ApiKey {
+  id           String      @id @default(cuid())
+  name         String      // "Asistente IA" | "Integración POS"
+  key_hash     String      @unique // SHA-256 del token
+  key_prefix   String      // primeros 12 chars para mostrar en UI: "gmx_live_abc1"
+  scope        ApiKeyScope @default(READ_ONLY)
+  is_active    Boolean     @default(true)
+
+  last_used_at DateTime?
+  expires_at   DateTime?   // null = no expira
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("api_keys")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SYSTEM_CONFIGS — configuración operacional del sistema (key/value)
+//
+// Permite ajustar comportamientos sin redeploy.
+// Keys definidas: sync_interval_seconds, price_alert_delta_pct,
+//                 max_cron_failures_before_alert, public_cache_ttl_seconds
+// ─────────────────────────────────────────────────────────────────────────────
+
+model SystemConfig {
+  key         String  @id // nombre único de la config
+  value       String
+  description String? // qué hace este valor
+  updated_by  String? // actor que lo modificó
+  updated_at  DateTime @updatedAt
+
+  @@map("system_configs")
+}
