@@ -8,7 +8,7 @@ import LoginScreen from './src/screens/LoginScreen';
 import CurrencyListScreen from './src/screens/CurrencyListScreen';
 import EditCurrencyScreen from './src/screens/EditCurrencyScreen';
 import type { RootStackParamList } from './src/navigation';
-import { colors } from './src/theme';
+import { GX } from './src/theme';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -17,36 +17,21 @@ function RootNavigator() {
 
   if (isLoading) {
     return (
-      <View style={{ flex: 1, backgroundColor: colors.bg, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator color={colors.gold} size="large" />
+      <View style={{ flex: 1, backgroundColor: GX.bg, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator color={GX.gold} size="large" />
       </View>
     );
   }
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: colors.bg2 },
-          headerTintColor: colors.gold,
-          headerTitleStyle: { color: colors.text, fontWeight: '600' },
-          contentStyle: { backgroundColor: colors.bg },
-        }}
-      >
+      <Stack.Navigator screenOptions={{ headerShown: false, contentStyle: { backgroundColor: GX.bg } }}>
         {user === null ? (
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>
-            <Stack.Screen
-              name="CurrencyList"
-              component={CurrencyListScreen}
-              options={{ title: 'Monedas' }}
-            />
-            <Stack.Screen
-              name="EditCurrency"
-              component={EditCurrencyScreen}
-              options={({ route }) => ({ title: route.params.currency.name })}
-            />
+            <Stack.Screen name="CurrencyList" component={CurrencyListScreen} />
+            <Stack.Screen name="EditCurrency" component={EditCurrencyScreen} />
           </>
         )}
       </Stack.Navigator>

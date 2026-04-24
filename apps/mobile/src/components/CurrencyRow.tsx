@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
-import { colors, spacing, radius, font } from '../theme';
+import {
+  View, Text, TouchableOpacity, StyleSheet,
+  ActivityIndicator, Switch,
+} from 'react-native';
+import { GX, font, spacing, radius } from '../theme';
 import type { Currency } from '../types';
 
 interface Props {
@@ -11,7 +14,7 @@ interface Props {
 
 function fmtCLP(n: number | null) {
   if (n === null) return '—';
-  return n.toLocaleString('es-CL', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+  return new Intl.NumberFormat('es-CL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n);
 }
 
 export default function CurrencyRow({ currency, onEdit, onToggle }: Props) {
@@ -21,187 +24,116 @@ export default function CurrencyRow({ currency, onEdit, onToggle }: Props) {
 
   async function handleToggle() {
     setToggling(true);
-    try {
-      await onToggle(currency.code);
-    } finally {
-      setToggling(false);
-    }
+    try { await onToggle(currency.code); }
+    finally { setToggling(false); }
   }
 
   return (
-    <View style={[styles.row, !currency.is_active && styles.rowInactive]}>
-      <View style={styles.left}>
+    <View style={[styles.card, !currency.is_active && styles.cardInactive]}>
+      {/* Top row */}
+      <View style={styles.topRow}>
         <Text style={styles.flag}>{currency.flag_emoji}</Text>
-        <View>
+        <View style={styles.nameBlock}>
           <View style={styles.nameRow}>
             <Text style={styles.code}>{currency.code}</Text>
             <View style={[styles.badge, isManual ? styles.badgeManual : styles.badgeAuto]}>
-              <Text style={[styles.badgeText, isManual ? styles.badgeTextManual : styles.badgeTextAuto]}>
+              <View style={[styles.badgeDot, { backgroundColor: isManual ? GX.orange : GX.green }]} />
+              <Text style={[styles.badgeText, { color: isManual ? GX.orange : GX.green }]}>
                 {isManual ? 'MANUAL' : 'AUTO'}
               </Text>
             </View>
           </View>
-          <Text style={styles.name}>{currency.name}</Text>
+          <Text style={styles.name} numberOfLines={1}>{currency.name}</Text>
+        </View>
+        {toggling
+          ? <ActivityIndicator size="small" color={GX.gold} />
+          : <Switch
+              value={currency.is_active}
+              onValueChange={handleToggle}
+              trackColor={{ false: GX.redSoft, true: GX.greenSoft }}
+              thumbColor={currency.is_active ? GX.green : GX.red}
+              ios_backgroundColor={GX.redSoft}
+            />
+        }
+      </View>
+
+      {/* Prices */}
+      <View style={styles.pricesBox}>
+        <View style={styles.priceCol}>
+          <Text style={styles.priceLabel}>Compra</Text>
+          <Text style={[styles.priceValue, { color: GX.green }]}>${fmtCLP(qc?.current_buy ?? null)}</Text>
+        </View>
+        <View style={styles.priceDivider} />
+        <View style={styles.priceCol}>
+          <Text style={styles.priceLabel}>Venta</Text>
+          <Text style={styles.priceValue}>${fmtCLP(qc?.current_sell ?? null)}</Text>
         </View>
       </View>
 
-      <View style={styles.right}>
-        <View style={styles.prices}>
-          <View style={styles.priceCol}>
-            <Text style={styles.priceLabel}>Compra</Text>
-            <Text style={styles.priceValue}>{fmtCLP(qc?.current_buy ?? null)}</Text>
-          </View>
-          <View style={styles.priceCol}>
-            <Text style={styles.priceLabel}>Venta</Text>
-            <Text style={styles.priceValue}>{fmtCLP(qc?.current_sell ?? null)}</Text>
-          </View>
-        </View>
-
-        <View style={styles.actions}>
-          <TouchableOpacity
-            style={[styles.toggleBtn, currency.is_active ? styles.toggleActive : styles.toggleInactive]}
-            onPress={handleToggle}
-            disabled={toggling}
-            activeOpacity={0.7}
-          >
-            {toggling ? (
-              <ActivityIndicator size="small" color={colors.text} />
-            ) : (
-              <Text style={styles.toggleText}>{currency.is_active ? 'Activa' : 'Inactiva'}</Text>
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.editBtn} onPress={() => onEdit(currency)} activeOpacity={0.7}>
-            <Text style={styles.editText}>Editar</Text>
-          </TouchableOpacity>
-        </View>
+      {/* Footer */}
+      <View style={styles.footer}>
+        <Text style={styles.updated}>
+          {qc?.last_synced_at
+            ? new Date(qc.last_synced_at).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' })
+            : '—'}
+        </Text>
+        <TouchableOpacity style={styles.editBtn} onPress={() => onEdit(currency)} activeOpacity={0.7}>
+          <Text style={styles.editText}>Editar ›</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  row: {
-    backgroundColor: colors.bg2,
-    borderRadius: radius.md,
+  card: {
+    backgroundColor: GX.card,
+    borderRadius: radius.lg,
     borderWidth: 1,
-    borderColor: colors.border,
+    borderColor: GX.border,
     padding: spacing.md,
-    marginBottom: spacing.sm,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    gap: spacing.sm,
+    marginBottom: 10,
   },
-  rowInactive: {
-    opacity: 0.5,
-  },
-  left: {
+  cardInactive: { opacity: 0.45 },
+  topRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: spacing.sm,
-    flex: 1,
+    gap: 12,
+    marginBottom: 12,
   },
-  flag: {
-    fontSize: 28,
-  },
-  nameRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: spacing.xs,
-    flexWrap: 'wrap',
-  },
-  code: {
-    color: colors.text,
-    fontSize: font.md,
-    fontWeight: '700',
-  },
-  name: {
-    color: colors.textDim,
-    fontSize: font.sm,
-    marginTop: 2,
-  },
+  flag: { fontSize: 26 },
+  nameBlock: { flex: 1, minWidth: 0 },
+  nameRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 3 },
+  code: { fontSize: font.md + 1, fontWeight: '600', color: GX.text, letterSpacing: 0.5 },
   badge: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: radius.sm,
+    flexDirection: 'row', alignItems: 'center', gap: 5,
+    paddingHorizontal: 9, paddingVertical: 3, borderRadius: 20,
   },
-  badgeAuto: {
-    backgroundColor: colors.greenDim,
-  },
-  badgeManual: {
-    backgroundColor: colors.goldDim,
-  },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: '700',
-    letterSpacing: 0.5,
-  },
-  badgeTextAuto: {
-    color: colors.green,
-  },
-  badgeTextManual: {
-    color: colors.gold,
-  },
-  right: {
-    alignItems: 'flex-end',
-    gap: spacing.sm,
-  },
-  prices: {
+  badgeAuto:   { backgroundColor: GX.greenSoft },
+  badgeManual: { backgroundColor: GX.orangeSoft },
+  badgeDot: { width: 5, height: 5, borderRadius: 3 },
+  badgeText: { fontSize: font.xs, fontWeight: '700', letterSpacing: 1.2, textTransform: 'uppercase' },
+  name: { fontSize: font.sm - 0.5, color: GX.dim },
+  pricesBox: {
     flexDirection: 'row',
-    gap: spacing.md,
+    backgroundColor: GX.elem,
+    borderRadius: radius.sm + 2,
+    padding: spacing.sm + 2,
+    marginBottom: 12,
   },
-  priceCol: {
-    alignItems: 'flex-end',
-  },
-  priceLabel: {
-    color: colors.textFaint,
-    fontSize: 10,
-    textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  priceValue: {
-    color: colors.text,
-    fontSize: font.sm,
-    fontWeight: '600',
-  },
-  actions: {
-    flexDirection: 'row',
-    gap: spacing.xs,
-  },
-  toggleBtn: {
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
-    borderRadius: radius.sm,
-    minWidth: 62,
-    alignItems: 'center',
-  },
-  toggleActive: {
-    backgroundColor: colors.greenDim,
-    borderWidth: 1,
-    borderColor: colors.green,
-  },
-  toggleInactive: {
-    backgroundColor: colors.redDim,
-    borderWidth: 1,
-    borderColor: colors.red,
-  },
-  toggleText: {
-    color: colors.text,
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  priceCol: { flex: 1, alignItems: 'flex-start' },
+  priceDivider: { width: 1, backgroundColor: GX.border, marginHorizontal: 10 },
+  priceLabel: { fontSize: 9.5, letterSpacing: 1.5, color: GX.dim, textTransform: 'uppercase', marginBottom: 3 },
+  priceValue: { fontFamily: 'monospace', fontWeight: '500', fontSize: font.md + 1, color: GX.text },
+  footer: { flexDirection: 'row', alignItems: 'center' },
+  updated: { flex: 1, fontSize: font.xs + 0.5, color: GX.dim },
   editBtn: {
-    paddingHorizontal: spacing.sm,
-    paddingVertical: 4,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 8,
     borderRadius: radius.sm,
-    backgroundColor: colors.goldDim,
+    backgroundColor: GX.goldSoft,
     borderWidth: 1,
-    borderColor: colors.goldBorder,
+    borderColor: GX.goldBorder,
   },
-  editText: {
-    color: colors.gold,
-    fontSize: 11,
-    fontWeight: '600',
-  },
+  editText: { fontSize: font.sm, fontWeight: '600', color: GX.gold, letterSpacing: 0.5 },
 });
