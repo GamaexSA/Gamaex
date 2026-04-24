@@ -7,10 +7,10 @@ services:
 
     rootDir: .
     buildCommand: >
-      npx pnpm@10 install --no-frozen-lockfile &&
-      npx pnpm@10 --filter @gamaex/types build &&
-      npx pnpm@10 --filter @gamaex/database db:generate &&
-      npx pnpm@10 --filter @gamaex/api build
+      pnpm install --no-frozen-lockfile &&
+      pnpm --filter @gamaex/types build &&
+      pnpm --filter @gamaex/database db:generate &&
+      pnpm --filter @gamaex/api build
     startCommand: node apps/api/dist/main
 
     envVars:
