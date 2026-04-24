@@ -2,7 +2,6 @@ services:
   - type: web
     name: gamaex-api
     runtime: node
-    nodeVersion: 20.19.1
     region: oregon
     plan: free
 
