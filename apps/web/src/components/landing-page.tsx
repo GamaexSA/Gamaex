@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import type { PublicRate } from "@gamaex/types";
+import { track } from "./analytics";
 
 // ─── CONFIGURACIÓN WhatsApp ───────────────────────────────────────────────────
 // ⚠ PENDIENTE: reemplazar WA_NUMBER con el número real de WhatsApp Business.
@@ -327,6 +328,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
                 rel="noopener noreferrer"
                 className="cta-wa"
                 style={{ letterSpacing: "0.01em" }}
+                onClick={() => track.whatsappClick("hero")}
               >
                 💬 Consultar cotización
               </a>
@@ -511,6 +513,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
               rel="noopener noreferrer"
               className="cta-wa"
               style={{ width: "100%", justifyContent: "center", display: "flex", borderRadius: 10 }}
+              onClick={() => track.calcWaClick(fromCurrency, toCurrency, numAmount)}
             >
               💬 Consultar esta cotización
             </a>
@@ -1104,6 +1107,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
               href="https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago,+Chile"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => track.mapsClick()}
               style={{
                 display: "inline-flex",
                 alignItems: "center",
@@ -1147,7 +1151,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
             >
               💬 Consultar por WhatsApp
             </a>
-            <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="cta-gold">
+            <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="cta-gold" onClick={() => track.phoneClick()}>
               📞 Llamar al local
             </a>
           </div>

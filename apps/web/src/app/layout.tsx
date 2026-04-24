@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Analytics from "@/components/analytics";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gamaex.cl"),
@@ -211,7 +212,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <Analytics />
+        {children}
+      </body>
     </html>
   );
 }
