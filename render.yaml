@@ -6,11 +6,7 @@ services:
     plan: free
 
     rootDir: .
-    buildCommand: >
-      pnpm install --no-frozen-lockfile &&
-      pnpm --filter @gamaex/types build &&
-      pnpm --filter @gamaex/database db:generate &&
-      pnpm --filter @gamaex/api build
+    buildCommand: bash build.sh
     startCommand: node apps/api/dist/main
 
     envVars:
