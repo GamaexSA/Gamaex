@@ -20,12 +20,48 @@ interface Props {
   lastSyncAt: string;
 }
 
+const FAQ_ITEMS = [
+  {
+    q: "¿Compran y venden dólares?",
+    a: "Sí. Compramos y vendemos dólares americanos (USD) y más de 40 monedas. Los precios se publican diariamente y se confirman al momento de la operación.",
+  },
+  {
+    q: "¿Tienen comisiones adicionales?",
+    a: "No. Operamos con precios finales. Sin comisiones ocultas, sin cargos extra. El precio que ves es el precio de la operación.",
+  },
+  {
+    q: "¿Puedo cotizar por WhatsApp antes de ir?",
+    a: "Sí. Escríbenos con el monto y las monedas que quieres operar. Te confirmamos precio y disponibilidad al instante.",
+  },
+  {
+    q: "¿Qué monedas trabajan?",
+    a: "Más de 40 monedas: dólar (USD), euro (EUR), real brasileño (BRL), libra esterlina (GBP), yen japonés (JPY), peso argentino (ARS), franco suizo (CHF) y muchas más.",
+  },
+  {
+    q: "¿Cuáles son los horarios de atención?",
+    a: "Lunes a viernes de 9:00 a 17:30 y sábados de 9:00 a 13:00. Domingos y festivos cerrado.",
+  },
+  {
+    q: "¿Aceptan billetes en mal estado o fuera de circulación?",
+    a: "Aceptamos dólares corrientes que no estén en circulación, sujeto a evaluación en el momento. Consúltanos por WhatsApp si tienes dudas sobre un billete específico.",
+  },
+  {
+    q: "¿Hacen transferencias internacionales?",
+    a: "Sí. Ofrecemos transferencias internacionales y pago a proveedores en moneda extranjera. Tenemos condiciones especiales para empresas.",
+  },
+  {
+    q: "¿Cómo llego al local?",
+    a: "Estamos en Av. Pedro de Valdivia 020, Providencia. A pasos de la salida del Metro Pedro de Valdivia (Línea 1). También cerca de Costanera Center.",
+  },
+];
+
 export default function LandingPage({ rates, lastSyncAt }: Props) {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("CLP");
   const [amount, setAmount] = useState("1000");
   const [hoveredRate, setHoveredRate] = useState<number | null>(null);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -161,6 +197,11 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
         .nav-links { display: flex; gap: 28px; align-items: center; }
         .nav-link { font-size: 11px; color: var(--text-dim); text-decoration: none; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; transition: color 0.2s; }
         .nav-link:hover { color: var(--text); }
+        .faq-item { border-bottom: 1px solid rgba(201,168,76,0.1); }
+        .faq-item:last-child { border-bottom: none; }
+        .faq-btn { width: 100%; background: none; border: none; color: var(--text); font-family: inherit; font-size: 15px; font-weight: 500; text-align: left; padding: 22px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; transition: color 0.2s; }
+        .faq-btn:hover { color: var(--gold); }
+        .faq-answer { font-size: 14px; color: var(--text-dim); line-height: 1.75; padding-bottom: 20px; font-weight: 300; }
         @media (max-width: 900px) {
           .nav-links { display: none !important; }
         }
@@ -202,6 +243,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
           <a href="#servicios" className="nav-link">Servicios</a>
           <a href="#local" className="nav-link">Nuestro local</a>
           <a href="#testimonios" className="nav-link">Opiniones</a>
+          <a href="#faq" className="nav-link">FAQ</a>
           <a href="#ubicacion" className="nav-link">Ubicación</a>
           <a
             href={wa()}
@@ -259,21 +301,24 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
                 letterSpacing: "-0.03em",
               }}
             >
-              Compra y venta de{" "}
-              <span style={{ color: "#C9A84C" }}>divisas en Santiago</span>
+              Casa de cambio en{" "}
+              <span style={{ color: "#C9A84C" }}>Providencia</span>
             </h1>
             <p
               style={{
                 fontSize: 17,
                 color: "#9A9890",
                 lineHeight: 1.7,
-                marginBottom: 36,
+                marginBottom: 12,
                 maxWidth: 420,
                 fontWeight: 300,
                 letterSpacing: "0.01em",
               }}
             >
-              38 años de trayectoria en Providencia. Atención presencial, precios transparentes y sin comisiones ocultas.
+              38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.
+            </p>
+            <p style={{ fontSize: 14, color: "#6A7A70", marginBottom: 36, maxWidth: 380, lineHeight: 1.6 }}>
+              Precios transparentes, sin comisiones ocultas. El precio que ves es el precio final.
             </p>
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", marginBottom: 44 }}>
               <a
@@ -931,7 +976,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
                 ))}
               </div>
               <p style={{ fontSize: 14, color: "#C8C6C0", lineHeight: 1.65, margin: 0 }}>
-                "{r.text}"
+                &ldquo;{r.text}&rdquo;
               </p>
             </div>
           ))}
@@ -946,23 +991,99 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
         </div>
       </section>
 
+      {/* ── FAQ ── */}
+      <section
+        id="faq"
+        data-anim
+        style={{
+          padding: "80px 28px",
+          background: "#0D1511",
+          borderTop: "1px solid rgba(201,168,76,0.1)",
+          borderBottom: "1px solid rgba(201,168,76,0.1)",
+          ...visStyle("faq"),
+        }}
+      >
+        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 52 }}>
+            <div style={{ fontSize: 10, color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: 14 }}>
+              Preguntas frecuentes
+            </div>
+            <h2 style={{ fontSize: 30, fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 10 }}>
+              Todo lo que necesitás saber
+            </h2>
+            <p style={{ fontSize: 14, color: "#8A8780", fontWeight: 300 }}>
+              Respondemos las consultas más comunes antes de tu visita
+            </p>
+          </div>
+
+          <div
+            style={{
+              background: "#111916",
+              border: "1px solid rgba(201,168,76,0.14)",
+              borderRadius: 18,
+              overflow: "hidden",
+              padding: "0 28px",
+            }}
+          >
+            {FAQ_ITEMS.map((item, i) => (
+              <div key={i} className="faq-item">
+                <button
+                  className="faq-btn"
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                >
+                  <span>{item.q}</span>
+                  <span
+                    style={{
+                      color: "#C9A84C",
+                      fontSize: 20,
+                      flexShrink: 0,
+                      transition: "transform 0.25s",
+                      transform: openFaq === i ? "rotate(45deg)" : "rotate(0deg)",
+                      display: "inline-block",
+                      lineHeight: 1,
+                    }}
+                  >
+                    +
+                  </span>
+                </button>
+                {openFaq === i && (
+                  <p className="faq-answer">{item.a}</p>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: "center", marginTop: 36 }}>
+            <p style={{ fontSize: 14, color: "#8A8780", marginBottom: 16 }}>
+              ¿Tenés otra pregunta? Escribinos directamente.
+            </p>
+            <a href={wa("Hola, tengo una consulta sobre el servicio de Gamaex.")} target="_blank" rel="noopener noreferrer" className="cta-wa">
+              💬 Consultar por WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* ── Ubicación ── */}
       <section
         id="ubicacion"
         style={{
           padding: "80px 28px 72px",
-          background: "#0D1511",
-          borderTop: "1px solid rgba(201,168,76,0.1)",
+          background: "#0A0F0D",
         }}
       >
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <div style={{ fontSize: 10, color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: 16 }}>Ubicación</div>
-          <h2 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8, letterSpacing: "-0.025em" }}>Encuéntranos</h2>
+          <h2 style={{ fontSize: 30, fontWeight: 700, marginBottom: 8, letterSpacing: "-0.025em" }}>Cómo llegar</h2>
           <p style={{ fontSize: 22, color: "#C9A84C", fontWeight: 500, marginBottom: 4 }}>
             Av. Pedro de Valdivia 020
           </p>
-          <p style={{ fontSize: 15, color: "#8A8780", marginBottom: 12 }}>
-            Providencia, Santiago · Metro Pedro de Valdivia
+          <p style={{ fontSize: 15, color: "#8A8780", marginBottom: 6 }}>
+            Providencia, Santiago
+          </p>
+          <p style={{ fontSize: 13, color: "#6A6860", marginBottom: 28 }}>
+            🚇 A pasos de Metro Pedro de Valdivia (Línea 1) · También cerca de Costanera Center
           </p>
           <div style={{ marginBottom: 36, borderRadius: 12, overflow: "hidden", border: "1px solid #2A2F2C" }}>
             <iframe
@@ -973,8 +1094,41 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
+              title="Gamaex Chile — Av. Pedro de Valdivia 020, Providencia"
             />
           </div>
+
+          {/* Botón Ver en Google Maps */}
+          <div style={{ marginBottom: 32 }}>
+            <a
+              href="https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago,+Chile"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                fontSize: 13,
+                color: "#8A8780",
+                textDecoration: "none",
+                border: "1px solid #2A3330",
+                borderRadius: 8,
+                padding: "9px 16px",
+                transition: "all 0.2s",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "rgba(201,168,76,0.4)";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#C9A84C";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.borderColor = "#2A3330";
+                (e.currentTarget as HTMLAnchorElement).style.color = "#8A8780";
+              }}
+            >
+              📍 Ver en Google Maps
+            </a>
+          </div>
+
           <div
             style={{
               display: "flex",
@@ -1057,6 +1211,12 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
             ✉ gamaex@gmail.com
           </a>
         </div>
+        <div style={{ display: "flex", justifyContent: "center", gap: 20, flexWrap: "wrap", marginBottom: 16 }}>
+          <a href="#tasas" style={{ fontSize: 11, color: "#4A5350", textDecoration: "none" }}>Tasas</a>
+          <a href="#servicios" style={{ fontSize: 11, color: "#4A5350", textDecoration: "none" }}>Servicios</a>
+          <a href="#faq" style={{ fontSize: 11, color: "#4A5350", textDecoration: "none" }}>Preguntas frecuentes</a>
+          <a href="#ubicacion" style={{ fontSize: 11, color: "#4A5350", textDecoration: "none" }}>Ubicación</a>
+        </div>
         <p style={{ fontSize: 11, color: "#4A5350" }}>
           © {new Date().getFullYear()} · Entidad regulada por la Unidad de Análisis Financiero (UAF)
         </p>
@@ -1068,6 +1228,7 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
         target="_blank"
         rel="noopener noreferrer"
         title="Consultar cotización por WhatsApp"
+        aria-label="Consultar por WhatsApp"
       >
         💬
       </a>
