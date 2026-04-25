@@ -439,7 +439,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
           </div>
 
           {/* Calculadora */}
-          <div className="converter-box">
+          <div className="converter-box" id="calculadora">
             <div
               style={{
                 display: "flex",
@@ -793,6 +793,8 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
                 className="rate-row"
                 onMouseEnter={() => setHoveredRate(i)}
                 onMouseLeave={() => setHoveredRate(null)}
+                onClick={() => { setFromCurrency(rate.code); setToCurrency("CLP"); document.getElementById("calculadora")?.scrollIntoView({ behavior: "smooth" }); }}
+                style={{ cursor: "pointer" } as React.CSSProperties}
               >
                 <span style={{ fontSize: 22 }}>{rate.flag_emoji}</span>
                 <div>
