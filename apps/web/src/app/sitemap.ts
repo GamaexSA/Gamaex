@@ -249,6 +249,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/casa-de-cambio-el-bosque",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/casa-de-cambio-tobalaba",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.gamaex.cl/cuanto-esta-el-dolar-en-chile",
       lastModified: new Date(),
       changeFrequency: "daily",
