@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { AdminShell } from "@/components/admin-shell";
 import { api, type Currency } from "@/lib/api";
 
@@ -46,6 +46,23 @@ function Input({ label, value, onChange, placeholder }: { label: string; value: 
   );
 }
 
+type SortKey = "name" | "buy" | "sell" | "mode";
+type SortDir = "asc" | "desc";
+
+function sortCurrencies(list: Currency[], key: SortKey, dir: SortDir): Currency[] {
+  return [...list].sort((a, b) => {
+    let va: string | number = 0;
+    let vb: string | number = 0;
+    if (key === "name") { va = a.name; vb = b.name; }
+    else if (key === "mode") { va = a.quote_config?.mode ?? ""; vb = b.quote_config?.mode ?? ""; }
+    else if (key === "buy") { va = a.quote_config?.current_buy ?? -1; vb = b.quote_config?.current_buy ?? -1; }
+    else if (key === "sell") { va = a.quote_config?.current_sell ?? -1; vb = b.quote_config?.current_sell ?? -1; }
+    if (va < vb) return dir === "asc" ? -1 : 1;
+    if (va > vb) return dir === "asc" ? 1 : -1;
+    return 0;
+  });
+}
+
 export default function CurrenciesPage() {
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,6 +70,16 @@ export default function CurrenciesPage() {
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState<string | null>(null);
   const [toast, setToast] = useState("");
+  const [sortKey, setSortKey] = useState<SortKey>("name");
+  const [sortDir, setSortDir] = useState<SortDir>("asc");
+
+  function toggleSort(key: SortKey) {
+    if (sortKey === key) setSortDir((d) => d === "asc" ? "desc" : "asc");
+    else { setSortKey(key); setSortDir("asc"); }
+  }
+
+  const sorted = sortCurrencies(currencies, sortKey, sortDir);
+  const sortIcon = (key: SortKey) => sortKey === key ? (sortDir === "asc" ? " ↑" : " ↓") : "";
 
   const load = useCallback(() => {
     setLoading(true);
@@ -64,9 +91,13 @@ export default function CurrenciesPage() {
 
   useEffect(() => { load(); }, [load]);
 
+  const handleSaveRef = useRef(handleSave);
+  handleSaveRef.current = handleSave;
+
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if (e.key === "Escape") setEdit(null);
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { void handleSaveRef.current(); }
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
@@ -171,15 +202,35 @@ export default function CurrenciesPage() {
             gap: 10, padding: "10px 16px",
             background: "var(--bg3)", borderBottom: "1px solid var(--border)",
           }}>
-            {["", "Moneda", "Modo", "Compra", "Venta", "Alerta", "Activa", "Acciones"].map((h) => (
-              <span key={h} style={{ fontSize: 11, color: "var(--text-dim)", textTransform: "uppercase", letterSpacing: 0.7, fontWeight: 500 }}>{h}</span>
+            {([
+              ["", null],
+              ["Moneda", "name"],
+              ["Modo", "mode"],
+              ["Compra", "buy"],
+              ["Venta", "sell"],
+              ["Alerta", null],
+              ["Activa", null],
+              ["Acciones", null],
+            ] as [string, SortKey | null][]).map(([h, k]) => (
+              <span
+                key={h}
+                onClick={k ? () => toggleSort(k) : undefined}
+                style={{
+                  fontSize: 11, color: k ? "var(--text)" : "var(--text-dim)",
+                  textTransform: "uppercase", letterSpacing: 0.7, fontWeight: 500,
+                  cursor: k ? "pointer" : "default",
+                  userSelect: "none",
+                }}
+              >
+                {h}{k ? sortIcon(k) : ""}
+              </span>
             ))}
           </div>
 
           {loading ? (
             <div style={{ padding: 32, textAlign: "center", color: "var(--text-dim)" }}>Cargando...</div>
           ) : (
-            currencies.map((c) => {
+            sorted.map((c) => {
               const qc = c.quote_config;
               const isManual = qc?.mode === "MANUAL";
               const hasAlert = qc?.price_alert_active;
@@ -396,7 +447,7 @@ export default function CurrenciesPage() {
                 cursor: saving ? "not-allowed" : "pointer",
               }}
             >
-              {saving ? "Guardando..." : "Guardar cambios"}
+              {saving ? "Guardando..." : "Guardar cambios"}{!saving && <span style={{ fontSize: 10, opacity: 0.5, marginLeft: 8 }}>⌘↵</span>}
             </button>
           </div>
         </div>

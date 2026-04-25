@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import type { PublicRatesResponse } from "@gamaex/types";
 import LandingPage from "@/components/landing-page";
 
+const breadcrumb = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.gamaex.cl" },
+    { "@type": "ListItem", position: 2, name: "Cambio de Moneda en Santiago", item: "https://www.gamaex.cl/cambio-de-moneda-santiago" },
+  ],
+});
+
 export const metadata: Metadata = {
   title: "Cambio de Moneda en Santiago | Gamaex Chile — Providencia",
   description:
@@ -49,10 +58,13 @@ async function getRates(): Promise<PublicRatesResponse> {
 export default async function CambioMonedaSantiagoPage() {
   const data = await getRates();
   return (
-    <LandingPage
-      rates={data.rates}
-      systemStatus={data.system_status}
-      lastSyncAt={data.last_sync_at}
-    />
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
+      <LandingPage
+        rates={data.rates}
+        systemStatus={data.system_status}
+        lastSyncAt={data.last_sync_at}
+      />
+    </>
   );
 }

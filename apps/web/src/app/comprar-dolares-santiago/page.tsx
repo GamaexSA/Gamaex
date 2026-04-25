@@ -7,32 +7,33 @@ const breadcrumb = JSON.stringify({
   "@type": "BreadcrumbList",
   itemListElement: [
     { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.gamaex.cl" },
-    { "@type": "ListItem", position: 2, name: "Casa de Cambio en Providencia", item: "https://www.gamaex.cl/casa-de-cambio-providencia" },
+    { "@type": "ListItem", position: 2, name: "Comprar Dólares en Santiago", item: "https://www.gamaex.cl/comprar-dolares-santiago" },
   ],
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio en Providencia | Gamaex — Av. Pedro de Valdivia 020",
+  title: "Comprar Dólares en Santiago | Gamaex Chile — Providencia",
   description:
-    "Gamaex: la casa de cambio de referencia en Providencia con 38 años de trayectoria. Compra y venta de +40 divisas en Av. Pedro de Valdivia 020, a metros del Metro Pedro de Valdivia. Sin comisiones ocultas.",
+    "¿Dónde comprar dólares en Santiago? Gamaex en Providencia: 38 años de trayectoria, precios transparentes y atención directa a pasos del Metro Pedro de Valdivia. Sin comisiones ocultas.",
   keywords: [
-    "casa de cambio providencia",
-    "casa de cambio pedro de valdivia",
-    "cambio moneda providencia",
-    "donde cambiar moneda providencia",
-    "casa de cambio cerca de mí providencia",
-    "cambio divisas providencia santiago",
-    "mejor casa de cambio providencia",
-    "gamaex chile providencia",
+    "comprar dolares santiago",
+    "donde comprar dolares en santiago",
+    "comprar dolares providencia",
+    "comprar USD chile",
+    "comprar divisas santiago",
+    "mejor precio dolares santiago",
+    "comprar dolares sin comision santiago",
+    "cambio dolar compra providencia",
+    "comprar dolares metro pedro de valdivia",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/casa-de-cambio-providencia",
+    canonical: "https://www.gamaex.cl/comprar-dolares-santiago",
   },
   openGraph: {
-    title: "Casa de Cambio en Providencia | Gamaex Chile",
+    title: "Comprar Dólares en Santiago | Gamaex Chile — Providencia",
     description:
-      "38 años de trayectoria en Providencia. +40 divisas, precios finales, sin comisiones. Av. Pedro de Valdivia 020.",
-    url: "https://www.gamaex.cl/casa-de-cambio-providencia",
+      "38 años cambiando moneda en Providencia. Precios finales, sin comisiones. Metro Pedro de Valdivia.",
+    url: "https://www.gamaex.cl/comprar-dolares-santiago",
   },
 };
 
@@ -53,7 +54,7 @@ async function getRates(): Promise<PublicRatesResponse> {
   }
 }
 
-export default async function CasaDeCambioPage() {
+export default async function ComprarDolaresSantiagoPage() {
   const data = await getRates();
   return (
     <>
