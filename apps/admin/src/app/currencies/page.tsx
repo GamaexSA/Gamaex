@@ -99,6 +99,11 @@ export default function CurrenciesPage() {
 
   useEffect(() => { load(); }, [load]);
 
+  useEffect(() => {
+    const interval = setInterval(load, 90_000);
+    return () => clearInterval(interval);
+  }, [load]);
+
   const handleSaveRef = useRef(handleSave);
   handleSaveRef.current = handleSave;
 

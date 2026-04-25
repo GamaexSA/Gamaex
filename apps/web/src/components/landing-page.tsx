@@ -63,6 +63,25 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
   const [hoveredRate, setHoveredRate] = useState<number | null>(null);
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  function copyShareLink() {
+    const url = `${window.location.origin}?from=${fromCurrency}&to=${toCurrency}&amount=${amount}`;
+    void navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const from = params.get("from");
+    const to = params.get("to");
+    const amt = params.get("amount");
+    if (from) setFromCurrency(from);
+    if (to) setToCurrency(to);
+    if (amt) setAmount(amt);
+  }, []);
 
   useEffect(() => {
     const obs = new IntersectionObserver(
@@ -517,6 +536,26 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
             >
               💬 Consultar esta cotización
             </a>
+            {hasResult && (
+              <button
+                onClick={copyShareLink}
+                style={{
+                  marginTop: 10,
+                  width: "100%",
+                  background: "transparent",
+                  border: "1px solid rgba(201,168,76,0.2)",
+                  borderRadius: 10,
+                  color: copied ? "#2ECC71" : "#8A8780",
+                  fontSize: 12,
+                  padding: "9px",
+                  cursor: "pointer",
+                  transition: "all 0.2s",
+                  fontFamily: "inherit",
+                }}
+              >
+                {copied ? "✓ Enlace copiado" : "🔗 Compartir cotización"}
+              </button>
+            )}
           </div>
         </div>
       </section>
