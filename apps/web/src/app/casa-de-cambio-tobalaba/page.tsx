@@ -48,7 +48,7 @@ export default async function CasaDeCambioTobalaba() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio cerca de Metro ", h1Accent: "Tobalaba", heroDesc: "A pocas cuadras del Metro Tobalaba, en Av. Pedro de Valdivia 020, Providencia. Compra y venta de divisas sin comisiones, 38 años de experiencia." }} />
     </>
   );
 }

@@ -48,7 +48,7 @@ export default async function VenderEurosProvidenciaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vende tus euros en ", h1Accent: "Providencia", heroDesc: "El mejor precio para vender euros en Providencia. Gamaex en Av. Pedro de Valdivia 020 — pago inmediato, sin comisiones, cotización justa EUR/CLP." }} />
     </>
   );
 }

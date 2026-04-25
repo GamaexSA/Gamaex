@@ -15,10 +15,17 @@ const wa = (msg?: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg ?? WA_MSG)}`;
 // ─────────────────────────────────────────────────────────────────────────────
 
+interface PageContext {
+  h1Before?: string;
+  h1Accent?: string;
+  heroDesc?: string;
+}
+
 interface Props {
   rates: PublicRate[];
   systemStatus: string;
   lastSyncAt: string;
+  pageContext?: PageContext;
 }
 
 const FAQ_ITEMS = [
@@ -56,7 +63,10 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) {
+export default function LandingPage({ rates, systemStatus, lastSyncAt, pageContext }: Props) {
+  const h1Before = pageContext?.h1Before ?? "Casa de cambio en ";
+  const h1Accent = pageContext?.h1Accent ?? "Providencia";
+  const heroDesc = pageContext?.heroDesc ?? "38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.";
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("CLP");
   const [amount, setAmount] = useState("1000");
@@ -350,8 +360,8 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
                 letterSpacing: "-0.03em",
               }}
             >
-              Casa de cambio en{" "}
-              <span style={{ color: "#C9A84C" }}>Providencia</span>
+              {h1Before}
+              <span style={{ color: "#C9A84C" }}>{h1Accent}</span>
             </h1>
             <p
               style={{
@@ -364,7 +374,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
                 letterSpacing: "0.01em",
               }}
             >
-              38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.
+              {heroDesc}
             </p>
             <p style={{ fontSize: 14, color: "#6A7A70", marginBottom: 36, maxWidth: 380, lineHeight: 1.6 }}>
               Precios transparentes, sin comisiones ocultas. El precio que ves es el precio final.

@@ -48,7 +48,7 @@ export default async function CasaDeCambioMetroLosLeonesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Los Leones", heroDesc: "A metros de la salida del Metro Los Leones, en Av. Pedro de Valdivia 020, Providencia. Compra y venta de dólares, euros, reales y +40 divisas sin comisiones." }} />
     </>
   );
 }

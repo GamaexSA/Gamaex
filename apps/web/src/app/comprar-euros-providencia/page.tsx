@@ -48,7 +48,7 @@ export default async function ComprarEurosProvidenciaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Compra euros en ", h1Accent: "Providencia", heroDesc: "El mejor precio para comprar euros en Providencia. Gamaex en Av. Pedro de Valdivia 020 — cotización EUR/CLP actualizada, sin comisiones, atención directa." }} />
     </>
   );
 }

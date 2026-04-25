@@ -48,7 +48,7 @@ export default async function ComprarDolaresProvidenciaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Compra dólares en ", h1Accent: "Providencia", heroDesc: "El mejor precio para comprar dólares en Providencia. Gamaex en Av. Pedro de Valdivia 020 — sin comisiones, tipo de cambio actualizado, atención directa." }} />
     </>
   );
 }

@@ -48,7 +48,7 @@ export default async function CuantoValeElDolarHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "¿Cuánto vale el ", h1Accent: "dólar hoy?", heroDesc: "Cotización USD/CLP actualizada diariamente en Gamaex. Consulta el precio del dólar y cambia tus divisas en Providencia sin comisiones." }} />
     </>
   );
 }

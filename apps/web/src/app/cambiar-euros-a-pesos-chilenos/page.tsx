@@ -48,7 +48,7 @@ export default async function CambiarEurosAPesosChilenosPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambiar euros a ", h1Accent: "pesos chilenos", heroDesc: "Cotización EUR/CLP actualizada diariamente. Cambia tus euros en Gamaex, Providencia — sin comisiones, pago inmediato, atención directa." }} />
     </>
   );
 }
