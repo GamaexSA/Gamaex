@@ -55,6 +55,29 @@ function JsonPreview({ data }: { data: unknown }) {
   );
 }
 
+function exportCSV(items: AuditItem[]) {
+  const headers = ["Fecha", "Acción", "Entidad", "ID", "Actor", "Antes", "Después"];
+  const rows = items.map((i) => [
+    fmtDate(i.created_at),
+    i.action,
+    i.entity,
+    i.entity_id,
+    i.actor_ref,
+    JSON.stringify(i.before ?? ""),
+    JSON.stringify(i.after ?? ""),
+  ]);
+  const csv = [headers, ...rows]
+    .map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+  const blob = new Blob(["﻿" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `gamaex-audit-${new Date().toISOString().slice(0, 10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 export default function AuditPage() {
   const [items, setItems] = useState<AuditItem[]>([]);
   const [total, setTotal] = useState(0);
@@ -104,11 +127,25 @@ export default function AuditPage() {
   return (
     <AdminShell>
       <div style={{ padding: 28 }}>
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>Auditoría</h1>
-          <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
-            Registro inmutable de todos los cambios — {total} eventos totales
-          </p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 24, flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>Auditoría</h1>
+            <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
+              Registro inmutable de todos los cambios — {total} eventos totales
+            </p>
+          </div>
+          {items.length > 0 && (
+            <button
+              onClick={() => exportCSV(items)}
+              style={{
+                background: "var(--bg2)", border: "1px solid var(--border)",
+                color: "var(--text-dim)", padding: "8px 16px", borderRadius: 8,
+                fontSize: 12, fontWeight: 500, cursor: "pointer",
+              }}
+            >
+              ↓ Exportar CSV
+            </button>
+          )}
         </div>
 
         {/* Filters */}
