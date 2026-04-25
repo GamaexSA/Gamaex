@@ -72,13 +72,21 @@ export default function CurrenciesPage() {
   const [toast, setToast] = useState("");
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
+  const [search, setSearch] = useState("");
 
   function toggleSort(key: SortKey) {
     if (sortKey === key) setSortDir((d) => d === "asc" ? "desc" : "asc");
     else { setSortKey(key); setSortDir("asc"); }
   }
 
-  const sorted = sortCurrencies(currencies, sortKey, sortDir);
+  const filtered = search
+    ? currencies.filter((c) =>
+        c.name.toLowerCase().includes(search.toLowerCase()) ||
+        c.code.toLowerCase().includes(search.toLowerCase()),
+      )
+    : currencies;
+
+  const sorted = sortCurrencies(filtered, sortKey, sortDir);
   const sortIcon = (key: SortKey) => sortKey === key ? (sortDir === "asc" ? " ↑" : " ↓") : "";
 
   const load = useCallback(() => {
@@ -175,11 +183,29 @@ export default function CurrenciesPage() {
   return (
     <AdminShell>
       <div style={{ padding: 28 }}>
-        <div style={{ marginBottom: 24 }}>
-          <h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>Monedas</h1>
-          <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
-            Gestión de tasas, márgenes y precios manuales
-          </p>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
+          <div>
+            <h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>Monedas</h1>
+            <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
+              Gestión de tasas, márgenes y precios manuales
+            </p>
+          </div>
+          <input
+            type="text"
+            placeholder="Buscar moneda o código…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            style={{
+              background: "var(--bg2)",
+              border: "1px solid var(--border)",
+              borderRadius: 8,
+              padding: "8px 14px",
+              color: "var(--text)",
+              fontSize: 13,
+              outline: "none",
+              width: 220,
+            }}
+          />
         </div>
 
         {/* Toast */}

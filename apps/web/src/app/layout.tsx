@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   authors: [{ name: "Gamaex Chile" }],
   creator: "Gamaex Chile",
   publisher: "Inversiones y Turismo Gamaex Chile S.A.",
+  verification: {
+    google: process.env["NEXT_PUBLIC_GSC_VERIFICATION"] ?? "",
+  },
   robots: {
     index: true,
     follow: true,
@@ -122,6 +125,27 @@ const localBusinessSchema = {
   },
 };
 
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Gamaex Chile",
+  url: "https://www.gamaex.cl",
+  description: "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de más de 40 divisas sin comisiones.",
+  publisher: {
+    "@type": "Organization",
+    name: "Inversiones y Turismo Gamaex Chile S.A.",
+    url: "https://www.gamaex.cl",
+  },
+  potentialAction: {
+    "@type": "SearchAction",
+    target: {
+      "@type": "EntryPoint",
+      urlTemplate: "https://www.gamaex.cl?q={search_term_string}",
+    },
+    "query-input": "required name=search_term_string",
+  },
+};
+
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
@@ -206,6 +230,10 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link rel="dns-prefetch" href="https://wa.me" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
