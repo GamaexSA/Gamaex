@@ -93,6 +93,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/precio-dolar-hoy-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/precio-euro-hoy-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",

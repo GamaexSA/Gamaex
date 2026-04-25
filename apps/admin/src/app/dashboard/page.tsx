@@ -128,6 +128,7 @@ export default function DashboardPage() {
               { label: "Auto", value: String(data.rates.filter(r => r.mode === "AUTO").length), sub: "modo automático" },
               { label: "Manual", value: String(data.rates.filter(r => r.mode === "MANUAL").length), sub: "modo manual" },
               { label: "Cache TTL", value: `${data.cache_ttl_seconds}s`, sub: "para web pública" },
+              { label: "Precio más alto", value: `$${data.rates.reduce((max, r) => r.sell > max ? r.sell : max, 0).toLocaleString("es-CL", { maximumFractionDigits: 0 })}`, sub: "venta máxima (CLP)" },
             ].map(({ label, value, sub }) => (
               <div key={label} style={{
                 background: "var(--bg2)",
