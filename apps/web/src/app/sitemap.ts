@@ -51,6 +51,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      url: "https://www.gamaex.cl/cambiar-reales-santiago",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",

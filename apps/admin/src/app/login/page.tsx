@@ -10,6 +10,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPw, setShowPw] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -88,25 +89,38 @@ export default function LoginPage() {
             <label style={{ display: "block", fontSize: 12, color: "var(--text-dim)", marginBottom: 6, letterSpacing: 0.5 }}>
               CONTRASEÑA
             </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              autoComplete="current-password"
-              placeholder="••••••••"
-              style={{
-                width: "100%",
-                background: "var(--bg3)",
-                border: "1px solid var(--border)",
-                borderRadius: 8,
-                padding: "12px 14px",
-                color: "var(--text)",
-                fontSize: 14,
-                outline: "none",
-                transition: "border-color 0.2s",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <input
+                type={showPw ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                autoComplete="current-password"
+                placeholder="••••••••"
+                style={{
+                  width: "100%",
+                  background: "var(--bg3)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 8,
+                  padding: "12px 44px 12px 14px",
+                  color: "var(--text)",
+                  fontSize: 14,
+                  outline: "none",
+                  transition: "border-color 0.2s",
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPw((v) => !v)}
+                style={{
+                  position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)",
+                  background: "none", border: "none", cursor: "pointer",
+                  fontSize: 14, color: "var(--text-dim)", padding: 0,
+                }}
+              >
+                {showPw ? "🙈" : "👁"}
+              </button>
+            </div>
           </div>
 
           {error && (

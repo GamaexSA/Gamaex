@@ -147,11 +147,13 @@ export default function UsersPage() {
         {toast && (
           <div style={{
             position: "fixed", top: 20, right: 20, zIndex: 1000,
-            background: "var(--bg2)", border: "1px solid var(--border)",
+            background: "var(--bg2)",
+            border: `1px solid ${toast.startsWith("Error") ? "rgba(231,76,60,0.4)" : "rgba(46,204,113,0.3)"}`,
             borderRadius: 10, padding: "12px 18px", fontSize: 13,
-            color: "var(--text)", boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
+            color: toast.startsWith("Error") ? "var(--red)" : "var(--green)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.4)",
           }}>
-            {toast}
+            {toast.startsWith("Error") ? "⚠ " : "✓ "}{toast}
           </div>
         )}
 
