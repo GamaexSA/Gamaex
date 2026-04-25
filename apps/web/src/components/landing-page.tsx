@@ -5,10 +5,7 @@ import type { PublicRate } from "@gamaex/types";
 import { track } from "./analytics";
 
 // ─── CONFIGURACIÓN WhatsApp ───────────────────────────────────────────────────
-// ⚠ PENDIENTE: reemplazar WA_NUMBER con el número real de WhatsApp Business.
-//   Formato: código país + número, sin + ni espacios (ej: "56912345678")
-//   El teléfono fijo NO funciona con WhatsApp — deben ser números distintos.
-const WA_NUMBER = "56999999999"; // ← reemplazar antes de publicar
+const WA_NUMBER = "56938782514";
 const FIXED_PHONE = "+56 2 2946 2670"; // teléfono fijo — solo llamadas
 const WA_MSG = "Hola, quiero consultar una cotización en Gamaex.";
 const wa = (msg?: string) =>
