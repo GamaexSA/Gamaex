@@ -381,6 +381,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/precio-euro-hoy-providencia",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/casas-de-cambio-providencia",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-divisas-online-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/casa-de-cambio-pedro-de-valdivia",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
       lastModified: new Date(),
       changeFrequency: "weekly",
