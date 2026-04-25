@@ -53,7 +53,7 @@ export default async function PrecioDolarHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del dólar ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del dólar hoy en Chile. Gamaex actualiza el USD/CLP diariamente. Cambia en Providencia sin comisiones." }} />
     </>
   );
 }

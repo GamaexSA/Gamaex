@@ -52,7 +52,7 @@ export default async function PrecioEuroHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del euro ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del euro hoy en Chile. Gamaex actualiza el EUR/CLP diariamente. Cambia en Providencia sin comisiones." }} />
     </>
   );
 }

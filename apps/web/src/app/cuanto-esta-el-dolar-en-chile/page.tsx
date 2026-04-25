@@ -49,7 +49,7 @@ export default async function CuantoEstaElDolarEnChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "¿Cuánto está el ", h1Accent: "dólar en Chile?", heroDesc: "Cotización del dólar en Chile actualizada hoy. Consulta el USD/CLP en Gamaex y cambia tus divisas en Providencia sin comisiones." }} />
     </>
   );
 }

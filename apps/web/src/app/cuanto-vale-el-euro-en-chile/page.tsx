@@ -49,7 +49,7 @@ export default async function CuantoValeElEuroEnChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "¿Cuánto vale el ", h1Accent: "euro en Chile?", heroDesc: "Cotización del euro en Chile actualizada hoy. Consulta el EUR/CLP en Gamaex y cambia tus euros en Providencia sin comisiones." }} />
     </>
   );
 }

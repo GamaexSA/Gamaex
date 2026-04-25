@@ -60,11 +60,7 @@ export default async function VenderDolaresSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vender dólares en ", h1Accent: "Santiago", heroDesc: "El mejor lugar para vender dólares en Santiago. Gamaex en Providencia — pago inmediato, sin comisiones." }} />
     </>
   );
 }

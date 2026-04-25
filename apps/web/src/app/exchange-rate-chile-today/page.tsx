@@ -48,7 +48,7 @@ export default async function ExchangeRateChileTodayPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Live exchange rate ", h1Accent: "Chile today", heroDesc: "Live USD/CLP, EUR/CLP and 40+ currency rates at Gamaex, Providencia. No fees, walk-in service, 38 years of experience." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function CambioDolarAustralianPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio dólar ", h1Accent: "australiano en Chile", heroDesc: "Compra y venta de dólar australiano (AUD) en Gamaex, Providencia. Cotización AUD/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

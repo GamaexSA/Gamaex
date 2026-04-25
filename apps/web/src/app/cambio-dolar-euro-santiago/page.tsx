@@ -48,7 +48,7 @@ export default async function CambioDolarEuroSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio dólar y euro en ", h1Accent: "Santiago", heroDesc: "USD/CLP y EUR/CLP actualizados en Gamaex, Providencia. Compra y venta de dólares y euros en Santiago sin comisiones." }} />
     </>
   );
 }

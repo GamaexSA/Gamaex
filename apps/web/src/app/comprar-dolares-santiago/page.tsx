@@ -59,11 +59,7 @@ export default async function ComprarDolaresSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar dólares en ", h1Accent: "Santiago", heroDesc: "El mejor lugar para comprar dólares en Santiago. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function VenderEurosSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vender euros en ", h1Accent: "Santiago", heroDesc: "Vende tus euros en Santiago al mejor precio. Gamaex en Providencia — pago inmediato, sin comisiones, cotización EUR/CLP justa." }} />
     </>
   );
 }

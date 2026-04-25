@@ -48,7 +48,7 @@ export default async function EfectivoMonedaExtranjeraChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Efectivo en ", h1Accent: "moneda extranjera", heroDesc: "Obtén efectivo en moneda extranjera en Chile. Gamaex en Providencia entrega USD, EUR, GBP y +40 divisas en efectivo, sin comisiones." }} />
     </>
   );
 }

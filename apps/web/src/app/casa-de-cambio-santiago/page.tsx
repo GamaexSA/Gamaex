@@ -59,11 +59,7 @@ export default async function CasaDeCambioSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La casa de cambio de ", h1Accent: "Santiago", heroDesc: "Gamaex, la referencia en cambio de divisas en Santiago. En Providencia desde hace 38 años — USD, EUR y +40 monedas sin comisiones." }} />
     </>
   );
 }

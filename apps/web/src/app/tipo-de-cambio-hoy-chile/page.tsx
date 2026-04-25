@@ -49,7 +49,7 @@ export default async function TipoDeCambioHoyChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Tipo de cambio ", h1Accent: "hoy en Chile", heroDesc: "Tipos de cambio actualizados hoy en Chile. USD, EUR, BRL y +40 divisas en Gamaex Providencia — sin comisiones." }} />
     </>
   );
 }

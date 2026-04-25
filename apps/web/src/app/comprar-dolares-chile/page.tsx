@@ -49,7 +49,7 @@ export default async function ComprarDolaresChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar dólares en ", h1Accent: "Chile", heroDesc: "Compra dólares en Chile al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, atención directa." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function CambioRealBrasilenoHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio real brasileño ", h1Accent: "hoy Chile", heroDesc: "Cotización BRL/CLP actualizada hoy. Cambia reales brasileños en Gamaex Providencia sin comisiones." }} />
     </>
   );
 }

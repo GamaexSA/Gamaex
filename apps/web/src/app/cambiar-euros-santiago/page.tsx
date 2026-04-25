@@ -60,11 +60,7 @@ export default async function CambiarEurosSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambiar euros en ", h1Accent: "Santiago", heroDesc: "Cambia euros en Santiago al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada diariamente, sin comisiones." }} />
     </>
   );
 }

@@ -48,7 +48,7 @@ export default async function CambioDivisasLasCondesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas · ", h1Accent: "Las Condes", heroDesc: "Cambio de divisas cercano a Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia — USD, EUR y +40 monedas sin comisiones." }} />
     </>
   );
 }

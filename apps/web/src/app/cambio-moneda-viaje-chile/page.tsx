@@ -48,7 +48,7 @@ export default async function CambioMonedaViajeChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Divisas para tu ", h1Accent: "viaje desde Chile", heroDesc: "Prepara las divisas para tu próximo viaje en Gamaex, Providencia. USD, EUR, BRL y +40 monedas al mejor precio, sin comisiones." }} />
     </>
   );
 }

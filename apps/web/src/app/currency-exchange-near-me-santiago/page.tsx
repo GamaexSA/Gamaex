@@ -51,7 +51,7 @@ export default async function CurrencyExchangeNearMePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Currency exchange ", h1Accent: "near you · Santiago", heroDesc: "The closest currency exchange in Santiago to you. Gamaex at Av. Pedro de Valdivia 020, Providencia — no fees, 40+ currencies." }} />
     </>
   );
 }

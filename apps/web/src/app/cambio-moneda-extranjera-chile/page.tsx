@@ -49,7 +49,7 @@ export default async function CambioMonedaExtranjeraChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de moneda ", h1Accent: "extranjera en Chile", heroDesc: "Más de 40 monedas extranjeras en Gamaex, Providencia. USD, EUR, GBP, BRL, JPY y más — sin comisiones, 38 años de experiencia." }} />
     </>
   );
 }

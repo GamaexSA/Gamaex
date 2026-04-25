@@ -49,7 +49,7 @@ export default async function CambioFrancoSuizoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio franco ", h1Accent: "suizo en Chile", heroDesc: "Compra y venta de franco suizo (CHF) en Gamaex, Providencia. Cotización CHF/CLP actualizada, sin comisiones, atención directa." }} />
     </>
   );
 }

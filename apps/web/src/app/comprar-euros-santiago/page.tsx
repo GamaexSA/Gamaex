@@ -49,7 +49,7 @@ export default async function ComprarEurosSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar euros en ", h1Accent: "Santiago", heroDesc: "Compra euros en Santiago al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

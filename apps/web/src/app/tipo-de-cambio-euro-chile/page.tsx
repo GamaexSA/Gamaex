@@ -48,7 +48,7 @@ export default async function TipoDeCambioEuroChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Tipo de cambio del ", h1Accent: "euro en Chile", heroDesc: "Tipo de cambio EUR/CLP actualizado hoy en Chile. Cambia tus euros en Gamaex Providencia sin comisiones." }} />
     </>
   );
 }

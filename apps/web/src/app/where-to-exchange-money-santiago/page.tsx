@@ -49,7 +49,7 @@ export default async function WhereToExchangeMoneySantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Where to exchange ", h1Accent: "money in Santiago", heroDesc: "The best place to exchange money in Santiago. Gamaex at Av. Pedro de Valdivia 020, Providencia — no fees, 40+ currencies, 38 years." }} />
     </>
   );
 }

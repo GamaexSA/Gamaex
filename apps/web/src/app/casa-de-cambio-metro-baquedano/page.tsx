@@ -48,7 +48,7 @@ export default async function CasaDeCambioMetroBaquedanoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Baquedano", heroDesc: "Casa de cambio cerca del Metro Baquedano. Gamaex en Av. Pedro de Valdivia 020, Providencia — divisas sin comisiones, 38 años." }} />
     </>
   );
 }

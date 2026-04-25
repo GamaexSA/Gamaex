@@ -49,7 +49,7 @@ export default async function CambioDolarPesoChilenoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio dólar · ", h1Accent: "peso chileno", heroDesc: "Cotización USD/CLP actualizada en Gamaex, Providencia. Compra y venta de dólares a pesos chilenos sin comisiones." }} />
     </>
   );
 }

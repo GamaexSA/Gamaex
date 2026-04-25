@@ -49,7 +49,7 @@ export default async function CotizacionDolarChileHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cotización dólar ", h1Accent: "Chile hoy", heroDesc: "Cotización del dólar en Chile actualizada hoy. Consulta el USD/CLP y cambia tus divisas en Gamaex Providencia sin comisiones." }} />
     </>
   );
 }

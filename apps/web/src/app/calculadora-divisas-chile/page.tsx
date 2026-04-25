@@ -52,7 +52,7 @@ export default async function CalculadoraDivisasChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Calculadora de ", h1Accent: "divisas en Chile", heroDesc: "Calcula el cambio de cualquier moneda con los precios del día en Gamaex. USD, EUR, BRL y +40 divisas. Sin comisiones, precios reales en Providencia." }} />
     </>
   );
 }

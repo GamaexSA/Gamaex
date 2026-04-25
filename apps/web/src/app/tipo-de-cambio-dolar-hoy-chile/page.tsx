@@ -49,7 +49,7 @@ export default async function TipoDeCambioDolarHoyChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Tipo de cambio dólar ", h1Accent: "hoy en Chile", heroDesc: "Tipo de cambio del dólar actualizado hoy en Chile. Cotización USD/CLP en Gamaex Providencia — sin comisiones." }} />
     </>
   );
 }

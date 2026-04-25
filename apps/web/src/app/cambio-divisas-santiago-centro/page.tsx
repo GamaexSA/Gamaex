@@ -48,7 +48,7 @@ export default async function CambioDivisasSantiagoCentroPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas en ", h1Accent: "Santiago", heroDesc: "Cambio de divisas en Santiago con más de 40 monedas. Gamaex en Providencia — la referencia de casas de cambio en la ciudad." }} />
     </>
   );
 }

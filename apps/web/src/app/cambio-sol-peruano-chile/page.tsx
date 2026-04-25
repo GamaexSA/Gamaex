@@ -48,7 +48,7 @@ export default async function CambioSolPeruanoChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio sol ", h1Accent: "peruano en Chile", heroDesc: "Compra y venta de soles peruanos (PEN) en Gamaex, Providencia. Cotización PEN/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

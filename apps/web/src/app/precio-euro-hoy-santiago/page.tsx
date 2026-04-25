@@ -49,7 +49,7 @@ export default async function PrecioEuroHoySantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del euro hoy en ", h1Accent: "Santiago", heroDesc: "Precio del euro en Santiago actualizado hoy. Consulta el EUR/CLP y cambia tus divisas en Gamaex Providencia sin comisiones." }} />
     </>
   );
 }

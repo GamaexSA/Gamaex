@@ -48,7 +48,7 @@ export default async function CasaDeCambioBarrioItaliaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · ", h1Accent: "Barrio Italia", heroDesc: "Casa de cambio cercana al Barrio Italia. Gamaex en Av. Pedro de Valdivia 020, Providencia — a minutos de Italia. Sin comisiones, 38 años." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function GamaexChileOpinionesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Opiniones sobre ", h1Accent: "Gamaex Chile", heroDesc: "Clientes reales opinan sobre Gamaex, la casa de cambio de referencia en Providencia. 38 años al servicio de personas y empresas." }} />
     </>
   );
 }

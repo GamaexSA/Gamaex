@@ -48,7 +48,7 @@ export default async function CambioCoronaNoruegaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio corona ", h1Accent: "noruega en Chile", heroDesc: "Compra y venta de corona noruega (NOK) en Gamaex, Providencia. Cotización NOK/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

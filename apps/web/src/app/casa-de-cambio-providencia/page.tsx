@@ -58,11 +58,7 @@ export default async function CasaDeCambioPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La mejor casa de cambio en ", h1Accent: "Providencia", heroDesc: "Gamaex en Av. Pedro de Valdivia 020 — referencia en cambio de divisas en Providencia por más de 38 años. Sin comisiones." }} />
     </>
   );
 }

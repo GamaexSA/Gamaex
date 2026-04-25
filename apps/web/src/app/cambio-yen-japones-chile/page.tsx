@@ -49,7 +49,7 @@ export default async function CambioYenJaponesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio yen ", h1Accent: "japonés en Chile", heroDesc: "Compra y venta de yen japonés (JPY) en Gamaex, Providencia. Cotización JPY/CLP actualizada, sin comisiones." }} />
     </>
   );
 }

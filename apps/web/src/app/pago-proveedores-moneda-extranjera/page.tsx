@@ -49,7 +49,7 @@ export default async function PagoProveedoresPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Pago a proveedores en ", h1Accent: "moneda extranjera", heroDesc: "Paga a tus proveedores en moneda extranjera con Gamaex. Condiciones especiales para empresas, transferencias internacionales y divisas." }} />
     </>
   );
 }

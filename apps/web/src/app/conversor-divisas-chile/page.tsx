@@ -49,7 +49,7 @@ export default async function ConversorDivisasChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Conversor de ", h1Accent: "divisas en Chile", heroDesc: "Convierte cualquier moneda con los precios reales de Gamaex. USD, EUR, BRL y +40 divisas. Calcula y cotiza directamente por WhatsApp." }} />
     </>
   );
 }

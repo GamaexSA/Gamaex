@@ -49,7 +49,7 @@ export default async function CotizacionEuroOnlinePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cotización euro ", h1Accent: "online", heroDesc: "Consulta la cotización del euro online en Gamaex. Precio EUR/CLP actualizado diariamente — cambia en Providencia sin comisiones." }} />
     </>
   );
 }

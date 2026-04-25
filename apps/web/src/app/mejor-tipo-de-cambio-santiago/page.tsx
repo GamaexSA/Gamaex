@@ -49,7 +49,7 @@ export default async function MejorTipoDeCambioSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "El mejor tipo de ", h1Accent: "cambio en Santiago", heroDesc: "Gamaex ofrece el mejor tipo de cambio en Santiago. Sin comisiones, precios actualizados y 38 años de trayectoria en Providencia." }} />
     </>
   );
 }

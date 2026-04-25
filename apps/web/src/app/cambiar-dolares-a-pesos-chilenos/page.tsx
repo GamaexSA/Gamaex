@@ -49,7 +49,7 @@ export default async function CambiarDolaresAPesosChilenosPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambiar dólares a ", h1Accent: "pesos chilenos", heroDesc: "Cambia tus dólares a pesos chilenos al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, pago inmediato." }} />
     </>
   );
 }

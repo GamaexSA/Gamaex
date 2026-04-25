@@ -60,11 +60,7 @@ export default async function TransferenciasInternacionalesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage
-        rates={data.rates}
-        systemStatus={data.system_status}
-        lastSyncAt={data.last_sync_at}
-      />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Transferencias ", h1Accent: "internacionales Chile", heroDesc: "Envío y recepción de fondos al exterior desde Chile. Gamaex en Providencia — asesoría personalizada, condiciones especiales para empresas." }} />
     </>
   );
 }
