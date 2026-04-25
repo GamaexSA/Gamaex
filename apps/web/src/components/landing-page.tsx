@@ -459,6 +459,38 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
               </span>
             </div>
 
+            {/* Popular pairs */}
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 14 }}>
+              {[
+                { from: "USD", to: "CLP", label: "USD→CLP" },
+                { from: "EUR", to: "CLP", label: "EUR→CLP" },
+                { from: "BRL", to: "CLP", label: "BRL→CLP" },
+                { from: "CLP", to: "USD", label: "CLP→USD" },
+              ].map((pair) => {
+                const active = fromCurrency === pair.from && toCurrency === pair.to;
+                return (
+                  <button
+                    key={pair.label}
+                    onClick={() => { setFromCurrency(pair.from); setToCurrency(pair.to); track.calcUsed(pair.from, pair.to); }}
+                    style={{
+                      background: active ? "rgba(201,168,76,0.15)" : "rgba(42,51,48,0.8)",
+                      border: `1px solid ${active ? "rgba(201,168,76,0.4)" : "rgba(42,51,48,1)"}`,
+                      color: active ? "#C9A84C" : "#8A8780",
+                      padding: "4px 10px",
+                      borderRadius: 20,
+                      fontSize: 11,
+                      fontWeight: 500,
+                      cursor: "pointer",
+                      transition: "all 0.15s",
+                      fontFamily: "'DM Mono', monospace",
+                    }}
+                  >
+                    {pair.label}
+                  </button>
+                );
+              })}
+            </div>
+
             {/* Tengo */}
             <div style={{ marginBottom: 10 }}>
               <label
