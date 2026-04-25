@@ -405,6 +405,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/comprar-dolares-sin-comision",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/cotizacion-dolar-euro-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/gamaex-providencia",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/comprar-yenes-japoneses-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
       url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
       lastModified: new Date(),
       changeFrequency: "weekly",
