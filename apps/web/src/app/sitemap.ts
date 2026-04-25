@@ -351,6 +351,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/efectivo-en-moneda-extranjera-chile",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/casa-de-cambio-metro-baquedano",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/casa-de-cambio-metro-santa-isabel",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
       url: "https://www.gamaex.cl/cuanto-esta-el-dolar-en-chile",
       lastModified: new Date(),
       changeFrequency: "daily",
