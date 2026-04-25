@@ -339,6 +339,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/pago-proveedores-moneda-extranjera",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-divisas-sin-comision",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",
