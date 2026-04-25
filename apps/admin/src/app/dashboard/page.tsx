@@ -33,16 +33,30 @@ function fmtDate(s: string) {
   return new Date(s).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "short" });
 }
 
+const REFRESH_INTERVAL = 60;
+
 export default function DashboardPage() {
   const [data, setData] = useState<PublicRatesResponse | null>(null);
   const [syncing, setSyncing] = useState(false);
   const [msg, setMsg] = useState("");
+  const [countdown, setCountdown] = useState(REFRESH_INTERVAL);
 
   const loadRates = useCallback(() => {
     api.getRates().then(setData).catch(console.error);
+    setCountdown(REFRESH_INTERVAL);
   }, []);
 
   useEffect(() => { loadRates(); }, [loadRates]);
+
+  useEffect(() => {
+    const tick = setInterval(() => {
+      setCountdown((c) => {
+        if (c <= 1) { loadRates(); return REFRESH_INTERVAL; }
+        return c - 1;
+      });
+    }, 1000);
+    return () => clearInterval(tick);
+  }, [loadRates]);
 
   async function handleForceSync() {
     setSyncing(true);
@@ -70,6 +84,9 @@ export default function DashboardPage() {
                 <StatusBadge status={data.system_status} />
                 <span style={{ fontSize: 12, color: "var(--text-dim)" }}>
                   Última sync: {fmtDate(data.last_sync_at)}
+                </span>
+                <span style={{ fontSize: 11, color: "var(--text-faint)" }}>
+                  · auto-refresh en {countdown}s
                 </span>
               </div>
             )}

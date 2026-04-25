@@ -27,6 +27,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/cambio-de-moneda-santiago",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",

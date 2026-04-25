@@ -56,7 +56,7 @@ const FAQ_ITEMS = [
   },
 ];
 
-export default function LandingPage({ rates, lastSyncAt }: Props) {
+export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) {
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("CLP");
   const [amount, setAmount] = useState("1000");
@@ -119,17 +119,17 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
   }
 
   function changeFrom(next: string) {
+    const newTo = next === toCurrency ? (next === "CLP" ? (rates[0]?.code ?? "USD") : "CLP") : toCurrency;
     setFromCurrency(next);
-    if (next === toCurrency) {
-      setToCurrency(next === "CLP" ? (rates[0]?.code ?? "USD") : "CLP");
-    }
+    if (next === toCurrency) setToCurrency(newTo);
+    track.calcUsed(next, newTo);
   }
 
   function changeTo(next: string) {
+    const newFrom = next === fromCurrency ? (next === "CLP" ? (rates[0]?.code ?? "USD") : "CLP") : fromCurrency;
     setToCurrency(next);
-    if (next === fromCurrency) {
-      setFromCurrency(next === "CLP" ? (rates[0]?.code ?? "USD") : "CLP");
-    }
+    if (next === fromCurrency) setFromCurrency(newFrom);
+    track.calcUsed(newFrom, next);
   }
 
   // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -610,11 +610,18 @@ export default function LandingPage({ rates, lastSyncAt }: Props) {
               Compra y venta en pesos chilenos (CLP)
             </p>
           </div>
-          {rates.length > 0 && lastSyncAt && (
-            <div style={{ fontSize: 11, color: "#6A6860", letterSpacing: "0.04em", paddingBottom: 2 }}>
-              Actualizado {new Date(lastSyncAt).toLocaleDateString("es-CL", { day: "numeric", month: "long" })}
-            </div>
-          )}
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+            {rates.length > 0 && lastSyncAt && (
+              <div style={{ fontSize: 11, color: "#6A6860", letterSpacing: "0.04em" }}>
+                Actualizado {new Date(lastSyncAt).toLocaleDateString("es-CL", { day: "numeric", month: "long" })}
+              </div>
+            )}
+            {systemStatus === "stale" && (
+              <div style={{ fontSize: 11, color: "#C0392B", background: "rgba(192,57,43,0.08)", border: "1px solid rgba(192,57,43,0.2)", borderRadius: 6, padding: "3px 10px" }}>
+                ⚠ Precios temporalmente no disponibles — consultar por WhatsApp
+              </div>
+            )}
+          </div>
         </div>
 
         <div

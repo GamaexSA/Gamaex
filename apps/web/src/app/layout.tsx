@@ -201,6 +201,11 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
+        <meta name="theme-color" content="#0A0F0D" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://wa.me" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

@@ -64,6 +64,14 @@ export default function CurrenciesPage() {
 
   useEffect(() => { load(); }, [load]);
 
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setEdit(null);
+    }
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
   function showToast(msg: string) {
     setToast(msg);
     setTimeout(() => setToast(""), 3000);
@@ -159,7 +167,7 @@ export default function CurrenciesPage() {
         <div style={{ background: "var(--bg2)", border: "1px solid var(--border)", borderRadius: 12, overflow: "hidden" }}>
           {/* Header */}
           <div style={{
-            display: "grid", gridTemplateColumns: "36px 1fr 90px 110px 110px 100px 90px 120px",
+            display: "grid", gridTemplateColumns: "36px 1fr 90px 120px 120px 100px 90px 120px",
             gap: 10, padding: "10px 16px",
             background: "var(--bg3)", borderBottom: "1px solid var(--border)",
           }}>
@@ -176,12 +184,16 @@ export default function CurrenciesPage() {
               const isManual = qc?.mode === "MANUAL";
               const hasAlert = qc?.price_alert_active;
 
+              const lastUpdated = qc?.last_synced_at
+                ? new Date(qc.last_synced_at).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" })
+                : null;
+
               return (
                 <div
                   key={c.id}
                   style={{
                     display: "grid",
-                    gridTemplateColumns: "36px 1fr 90px 110px 110px 100px 90px 120px",
+                    gridTemplateColumns: "36px 1fr 90px 120px 120px 100px 90px 120px",
                     gap: 10,
                     padding: "11px 16px",
                     borderBottom: "1px solid var(--border)",
@@ -205,13 +217,30 @@ export default function CurrenciesPage() {
                     {qc?.mode ?? "—"}
                   </span>
 
-                  <span className="font-mono" style={{ fontSize: 13, color: "var(--green)", fontWeight: 500 }}>
-                    ${fmtCLP(qc?.current_buy ?? null)}
-                  </span>
+                  <div>
+                    <div className="font-mono" style={{ fontSize: 13, color: "var(--green)", fontWeight: 500 }}>
+                      ${fmtCLP(qc?.current_buy ?? null)}
+                    </div>
+                    {!isManual && qc?.buy_margin != null && (
+                      <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>
+                        margen {qc.buy_margin >= 0 ? "+" : ""}{qc.buy_margin}
+                      </div>
+                    )}
+                    {lastUpdated && (
+                      <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 1 }}>{lastUpdated}</div>
+                    )}
+                  </div>
 
-                  <span className="font-mono" style={{ fontSize: 13, fontWeight: 500 }}>
-                    ${fmtCLP(qc?.current_sell ?? null)}
-                  </span>
+                  <div>
+                    <div className="font-mono" style={{ fontSize: 13, fontWeight: 500 }}>
+                      ${fmtCLP(qc?.current_sell ?? null)}
+                    </div>
+                    {!isManual && qc?.sell_margin != null && (
+                      <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>
+                        margen {qc.sell_margin >= 0 ? "+" : ""}{qc.sell_margin}
+                      </div>
+                    )}
+                  </div>
 
                   <span style={{ fontSize: 11 }}>
                     {hasAlert ? (
