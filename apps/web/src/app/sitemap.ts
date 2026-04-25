@@ -429,6 +429,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/cambio-de-dolar-hoy",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/tipo-de-cambio-de-hoy",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-de-euro-hoy",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/divisas-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
       url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
       lastModified: new Date(),
       changeFrequency: "weekly",
