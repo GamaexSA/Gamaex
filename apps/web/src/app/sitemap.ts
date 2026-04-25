@@ -327,6 +327,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/cambio-corona-noruega-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-yuan-chino-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",
