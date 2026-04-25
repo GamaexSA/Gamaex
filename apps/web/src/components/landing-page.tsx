@@ -86,6 +86,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
     const url = `${window.location.origin}?from=${fromCurrency}&to=${toCurrency}&amount=${amount}`;
     void navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
+      track.shareLink(fromCurrency, toCurrency);
       setTimeout(() => setCopied(false), 2000);
     });
   }
@@ -1135,7 +1136,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
               <div key={i} className="faq-item">
                 <button
                   className="faq-btn"
-                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  onClick={() => { setOpenFaq(openFaq === i ? null : i); if (openFaq !== i) track.faqOpen(item.q); }}
                   aria-expanded={openFaq === i}
                 >
                   <span>{item.q}</span>

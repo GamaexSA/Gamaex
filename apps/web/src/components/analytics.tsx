@@ -41,6 +41,10 @@ export const track = {
     trackEvent("calculator_used", "engagement", `${from}_${to}`),
   calcWaClick: (from: string, to: string, amount: number) =>
     trackEvent("whatsapp_calc_click", "conversion", `${from}_${to}`, Math.round(amount)),
+  faqOpen: (question: string) =>
+    trackEvent("faq_open", "engagement", question),
+  shareLink: (from: string, to: string) =>
+    trackEvent("share_link_copied", "engagement", `${from}_${to}`),
 };
 
 export default function Analytics() {
