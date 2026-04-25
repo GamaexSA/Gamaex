@@ -120,6 +120,33 @@ export default function DashboardPage() {
           </div>
         )}
 
+        {data && data.system_status !== "ok" && (
+          <div style={{
+            marginBottom: 20, padding: "12px 16px",
+            background: data.system_status === "stale" ? "rgba(231,76,60,0.08)" : "rgba(243,156,18,0.08)",
+            border: `1px solid ${data.system_status === "stale" ? "rgba(231,76,60,0.3)" : "rgba(243,156,18,0.3)"}`,
+            borderRadius: 10, fontSize: 13,
+            color: data.system_status === "stale" ? "var(--red)" : "var(--orange)",
+            display: "flex", alignItems: "center", gap: 10,
+          }}>
+            <span style={{ fontSize: 16 }}>{data.system_status === "stale" ? "⛔" : "⚠"}</span>
+            <div>
+              <strong>{data.system_status === "stale" ? "Precios desactualizados" : "Sistema degradado"}</strong>
+              {" — "}
+              {data.system_status === "stale"
+                ? "El último sync fue hace más de 15 minutos. Los precios en el sitio público pueden estar desactualizados."
+                : "Algunas monedas no pudieron sincronizarse correctamente."}
+              {" "}
+              <button
+                onClick={() => { void handleForceSync(); }}
+                style={{ background: "none", border: "none", cursor: "pointer", textDecoration: "underline", color: "inherit", fontSize: 13 }}
+              >
+                Forzar sync ahora
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Stats */}
         {data && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 16, marginBottom: 28 }}>
