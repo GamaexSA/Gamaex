@@ -327,6 +327,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      url: "https://www.gamaex.cl/cambiar-euros-a-pesos-chilenos",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/tipo-de-cambio-euro-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-peso-colombiano-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-sol-peruano-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.75,
+    },
+    {
       url: "https://www.gamaex.cl/cuanto-esta-el-dolar-en-chile",
       lastModified: new Date(),
       changeFrequency: "daily",
