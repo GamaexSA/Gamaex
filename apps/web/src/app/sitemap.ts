@@ -135,6 +135,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: "https://www.gamaex.cl/cambio-libra-esterlina-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-franco-suizo-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/gamaex-chile-opiniones",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
       url: "https://www.gamaex.cl#tasas",
       lastModified: new Date(),
       changeFrequency: "daily",
