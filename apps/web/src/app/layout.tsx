@@ -67,6 +67,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: "https://www.gamaex.cl",
+    languages: {
+      "es-CL": "https://www.gamaex.cl",
+      "en": "https://www.gamaex.cl/money-exchange-santiago",
+      "x-default": "https://www.gamaex.cl",
+    },
   },
 };
 
