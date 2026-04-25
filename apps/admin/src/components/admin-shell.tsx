@@ -5,6 +5,8 @@ import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { api, type AdminUser } from "@/lib/api";
 
+const WEB_URL = process.env["NEXT_PUBLIC_WEB_URL"] ?? "https://www.gamaex.cl";
+
 const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: "📊" },
   { href: "/currencies", label: "Monedas", icon: "💱" },
@@ -17,6 +19,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [user, setUser] = useState<AdminUser | null>(null);
   const [ready, setReady] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -38,6 +41,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
+      {/* Mobile overlay */}
+      {sidebarOpen && (
+        <div
+          onClick={() => setSidebarOpen(false)}
+          style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.6)", zIndex: 49 }}
+        />
+      )}
+
       {/* Sidebar */}
       <aside style={{
         width: 220,
@@ -47,7 +58,22 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         display: "flex",
         flexDirection: "column",
         padding: "20px 12px",
-      }}>
+        position: "fixed",
+        top: 0,
+        left: sidebarOpen ? 0 : -220,
+        bottom: 0,
+        zIndex: 50,
+        transition: "left 0.25s ease",
+      }}
+        className="admin-sidebar"
+      >
+        <style>{`
+          @media (min-width: 768px) {
+            .admin-sidebar { left: 0 !important; position: relative !important; }
+            .admin-hamburger { display: none !important; }
+            .admin-main { margin-left: 0 !important; }
+          }
+        `}</style>
         <div style={{ padding: "0 8px", marginBottom: 28 }}>
           <div style={{ fontSize: 17, fontWeight: 700, letterSpacing: 2, color: "var(--gold)" }}>GAMAEX</div>
           <div style={{ fontSize: 10, color: "var(--text-faint)", letterSpacing: 1, textTransform: "uppercase", marginTop: 2 }}>Panel de administración</div>
@@ -81,6 +107,19 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </nav>
 
         <div style={{ borderTop: "1px solid var(--border)", paddingTop: 14 }}>
+          <a
+            href={WEB_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: "flex", alignItems: "center", gap: 8,
+              padding: "8px 12px", borderRadius: 8,
+              fontSize: 12, color: "var(--text-dim)", textDecoration: "none",
+              marginBottom: 10, transition: "color 0.15s",
+            }}
+          >
+            🌐 Ver sitio público
+          </a>
           <div style={{ padding: "0 8px", marginBottom: 10 }}>
             <div style={{ fontSize: 12, fontWeight: 500, color: "var(--text)" }}>{user?.name}</div>
             <div style={{ fontSize: 11, color: "var(--text-faint)", marginTop: 2 }}>{user?.email}</div>
@@ -116,7 +155,28 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* Content */}
-      <main style={{ flex: 1, overflow: "auto", background: "var(--bg)" }}>
+      <main className="admin-main" style={{ flex: 1, overflow: "auto", background: "var(--bg)", marginLeft: 220 }}>
+        {/* Mobile top bar */}
+        <div
+          className="admin-hamburger"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 12,
+            padding: "12px 16px",
+            borderBottom: "1px solid var(--border)",
+            background: "var(--bg2)",
+          }}
+        >
+          <button
+            onClick={() => setSidebarOpen((v) => !v)}
+            style={{ background: "none", border: "none", color: "var(--text)", fontSize: 20, cursor: "pointer", padding: 0 }}
+            aria-label="Abrir menú"
+          >
+            ☰
+          </button>
+          <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: 2, color: "var(--gold)" }}>GAMAEX</span>
+        </div>
         {children}
       </main>
     </div>
