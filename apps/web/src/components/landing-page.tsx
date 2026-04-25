@@ -64,6 +64,23 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
   const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    function checkOpen() {
+      const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
+      const day = now.getDay(); // 0=Sun,1=Mon..6=Sat
+      const h = now.getHours();
+      const m = now.getMinutes();
+      const mins = h * 60 + m;
+      if (day >= 1 && day <= 5) setIsOpen(mins >= 540 && mins < 1050); // 9:00–17:30
+      else if (day === 6) setIsOpen(mins >= 540 && mins < 780);         // 9:00–13:00
+      else setIsOpen(false);
+    }
+    checkOpen();
+    const t = setInterval(checkOpen, 60_000);
+    return () => clearInterval(t);
+  }, []);
 
   function copyShareLink() {
     const url = `${window.location.origin}?from=${fromCurrency}&to=${toCurrency}&amount=${amount}`;
@@ -257,6 +274,17 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
           <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "0.18em", color: "#C9A84C" }}>GAMAEX</span>
           <span style={{ width: 1, height: 16, background: "rgba(201,168,76,0.25)" }} />
           <span style={{ fontSize: 10, color: "#8A8780", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 500 }}>Casa de cambio</span>
+          {isOpen !== null && (
+            <span style={{
+              fontSize: 10, fontWeight: 600, letterSpacing: "0.08em",
+              padding: "3px 10px", borderRadius: 20,
+              background: isOpen ? "rgba(46,204,113,0.1)" : "rgba(100,100,100,0.1)",
+              border: `1px solid ${isOpen ? "rgba(46,204,113,0.3)" : "rgba(100,100,100,0.2)"}`,
+              color: isOpen ? "#2ECC71" : "#6A6860",
+            }}>
+              {isOpen ? "● Abierto" : "○ Cerrado"}
+            </span>
+          )}
         </div>
         <div className="nav-links">
           <a href="#tasas" className="nav-link">Tasas</a>

@@ -16,6 +16,25 @@ function fmtDate(s: string) {
   return new Date(s).toLocaleString("es-CL", { dateStyle: "short", timeStyle: "medium" });
 }
 
+function actionColor(action: string): { bg: string; color: string; border: string } {
+  if (action.startsWith("FORCE_SYNC") || action === "CRON_AUTO") {
+    return { bg: "rgba(52,152,219,0.1)", color: "#3498DB", border: "rgba(52,152,219,0.3)" };
+  }
+  if (action.includes("MANUAL") || action.includes("SET_MANUAL") || action.includes("SWITCH_TO_MANUAL")) {
+    return { bg: "rgba(243,156,18,0.1)", color: "var(--orange)", border: "rgba(243,156,18,0.3)" };
+  }
+  if (action.includes("AUTO") || action.includes("UPDATE_MARGINS")) {
+    return { bg: "var(--green-dim)", color: "var(--green)", border: "rgba(46,204,113,0.3)" };
+  }
+  if (action.includes("CREATE") || action.includes("ADD")) {
+    return { bg: "rgba(155,89,182,0.1)", color: "#9B59B6", border: "rgba(155,89,182,0.3)" };
+  }
+  if (action.includes("DEACTIVATE") || action.includes("REVOKE") || action.includes("DELETE")) {
+    return { bg: "var(--red-dim)", color: "var(--red)", border: "rgba(231,76,60,0.3)" };
+  }
+  return { bg: "var(--gold-dim)", color: "var(--gold)", border: "rgba(201,168,76,0.25)" };
+}
+
 function JsonPreview({ data }: { data: unknown }) {
   if (data === null || data === undefined) return <span style={{ color: "var(--text-faint)" }}>—</span>;
   const str = JSON.stringify(data);
@@ -184,14 +203,18 @@ export default function AuditPage() {
                 <span className="font-mono" style={{ color: "var(--text-dim)", fontSize: 11 }}>
                   {fmtDate(item.created_at)}
                 </span>
-                <span style={{
-                  padding: "2px 8px", borderRadius: 20, fontSize: 11, fontWeight: 500,
-                  background: "var(--gold-dim)", color: "var(--gold)",
-                  border: "1px solid rgba(201,168,76,0.25)",
-                  display: "inline-block", whiteSpace: "nowrap",
-                }}>
-                  {item.action}
-                </span>
+                {(() => {
+                  const c = actionColor(item.action);
+                  return (
+                    <span style={{
+                      padding: "2px 8px", borderRadius: 20, fontSize: 11, fontWeight: 500,
+                      background: c.bg, color: c.color, border: `1px solid ${c.border}`,
+                      display: "inline-block", whiteSpace: "nowrap",
+                    }}>
+                      {item.action}
+                    </span>
+                  );
+                })()}
                 <div>
                   <div style={{ fontWeight: 500, fontSize: 12 }}>{item.entity}</div>
                   <div className="font-mono" style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>{item.entity_id.slice(0, 16)}…</div>
