@@ -351,6 +351,36 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/casa-de-cambio-metro-tobalaba",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/casa-de-cambio-metro-irarrazaval",
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: "https://www.gamaex.cl/comprar-libras-esterlinas-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/comprar-reales-brasilenios-chile",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.8,
+    },
+    {
+      url: "https://www.gamaex.cl/tipo-de-cambio-dolar-hoy-santiago",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
       url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
       lastModified: new Date(),
       changeFrequency: "weekly",
