@@ -123,6 +123,38 @@ const localBusinessSchema = {
     bestRating: "5",
     worstRating: "1",
   },
+  review: [
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Javier H. Wolnitzky" },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: "Solo un peso más caro por dólar, pero sin esperas. Además, aceptan dólares corrientes que no estén en circulación.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Ignacio Jorquera" },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: "Muy buena atención, rápida y clara. Me explicaron bien el tipo de cambio y el proceso fue ordenado. Recomendado si buscas una casa de cambio en Providencia.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Organization", name: "Invertaz Ltda" },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: "El mejor de Providencia.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Matias Schwarc" },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: "Rápido, el servicio espectacular, recomendable al 100%.",
+    },
+    {
+      "@type": "Review",
+      author: { "@type": "Person", name: "Alan S." },
+      reviewRating: { "@type": "Rating", ratingValue: "5", bestRating: "5" },
+      reviewBody: "La mejor de Providencia.",
+    },
+  ],
 };
 
 const websiteSchema = {
