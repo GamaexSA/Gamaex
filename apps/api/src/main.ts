@@ -28,13 +28,23 @@ async function bootstrap() {
     }),
   );
 
-  // CORS — solo dominios autorizados
+  const allowedOrigins = process.env["ALLOWED_ORIGINS"]
+    ? process.env["ALLOWED_ORIGINS"].split(",").map((o) => o.trim())
+    : ["http://localhost:3000", "http://localhost:3002"];
+
+  logger.log(`CORS origins: ${allowedOrigins.join(", ")}`);
+
   app.enableCors({
-    origin: process.env["ALLOWED_ORIGINS"]?.split(",") ?? [
-      "http://localhost:3000",
-      "http://localhost:3002",
-    ],
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS bloqueado: ${origin}`), false);
+      }
+    },
     credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   });
 
   // Render inyecta PORT automáticamente; API_PORT queda como fallback local
