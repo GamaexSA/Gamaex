@@ -52,7 +52,7 @@ export default async function PrecioEuroHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del euro ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del euro hoy en Chile. Gamaex actualiza el EUR/CLP diariamente. Cambia en Providencia sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del euro ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del euro hoy en Chile. Gamaex actualiza el EUR/CLP diariamente. Cambia en Providencia sin comisiones.", articleText: "El precio del euro hoy en Chile que publica Gamaex refleja la cotización EUR/CLP del mercado local. La tasa se actualiza diariamente y puede consultarse en esta página o directamente en el local de Providencia. Para operaciones en euros, se recomienda consultar disponibilidad por WhatsApp para montos superiores a 2.000 EUR." }} />
     </>
   );
 }

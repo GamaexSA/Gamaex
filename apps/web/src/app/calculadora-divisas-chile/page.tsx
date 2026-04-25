@@ -52,7 +52,7 @@ export default async function CalculadoraDivisasChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Calculadora de ", h1Accent: "divisas en Chile", heroDesc: "Calcula el cambio de cualquier moneda con los precios del día en Gamaex. USD, EUR, BRL y +40 divisas. Sin comisiones, precios reales en Providencia." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Calculadora de ", h1Accent: "divisas en Chile", heroDesc: "Calcula el cambio de cualquier moneda con los precios del día en Gamaex. USD, EUR, BRL y +40 divisas. Sin comisiones, precios reales en Providencia.", articleText: "La calculadora de divisas de Gamaex usa los precios reales del día para estimar el resultado de tu operación. Selecciona las monedas que deseas cambiar, ingresa el monto y verás el resultado aproximado. Para confirmar el precio y operar, consulta directamente por WhatsApp o visita el local en Av. Pedro de Valdivia 020, Providencia." }} />
     </>
   );
 }

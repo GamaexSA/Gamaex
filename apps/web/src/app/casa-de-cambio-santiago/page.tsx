@@ -59,7 +59,7 @@ export default async function CasaDeCambioSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La casa de cambio de ", h1Accent: "Santiago", heroDesc: "Gamaex, la referencia en cambio de divisas en Santiago. En Providencia desde hace 38 años — USD, EUR y +40 monedas sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La casa de cambio de ", h1Accent: "Santiago", heroDesc: "Gamaex, la referencia en cambio de divisas en Santiago. En Providencia desde hace 38 años — USD, EUR y +40 monedas sin comisiones.", articleText: "Gamaex es la casa de cambio más reconocida de Santiago, con presencia en Providencia desde 1987. Su local en Av. Pedro de Valdivia 020 es referencia para residentes y empresas de toda la ciudad que buscan cambiar divisas con transparencia y sin comisiones. Más de 40 monedas disponibles, incluyendo dólar americano, euro, real brasileño, libra esterlina, yen japonés y peso argentino." }} />
     </>
   );
 }

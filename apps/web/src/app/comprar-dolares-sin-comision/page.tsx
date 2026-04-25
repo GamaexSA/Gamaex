@@ -48,7 +48,7 @@ export default async function ComprarDolaresSinComisionPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Dólares sin ", h1Accent: "comisión ni cargos", heroDesc: "En Gamaex operamos con precios finales. Sin comisiones ocultas, sin cargos por operación. El precio que ves es el precio que pagas — 38 años de transparencia." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Dólares sin ", h1Accent: "comisión ni cargos", heroDesc: "En Gamaex operamos con precios finales. Sin comisiones ocultas, sin cargos por operación. El precio que ves es el precio que pagas — 38 años de transparencia.", articleText: "En Gamaex, comprar dólares sin comisión es la norma, no la excepción. A diferencia de bancos y servicios online que aplican spreads abusivos, Gamaex opera con precios finales transparentes. El precio publicado en la pantalla es el precio de la operación. Sin cargos adicionales, sin letra pequeña." }} />
     </>
   );
 }

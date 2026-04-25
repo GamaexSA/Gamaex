@@ -53,7 +53,7 @@ export default async function PrecioDolarHoyPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del dólar ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del dólar hoy en Chile. Gamaex actualiza el USD/CLP diariamente. Cambia en Providencia sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Precio del dólar ", h1Accent: "hoy en Chile", heroDesc: "Consulta el precio del dólar hoy en Chile. Gamaex actualiza el USD/CLP diariamente. Cambia en Providencia sin comisiones.", articleText: "El precio del dólar hoy en Chile lo actualiza Gamaex diariamente en su local de Providencia. La cotización USD/CLP refleja las condiciones del mercado interbancario chileno y se publica tanto para compra como para venta. Gamaex opera sin comisiones adicionales: el precio publicado es el precio de la operación." }} />
     </>
   );
 }

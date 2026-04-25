@@ -58,7 +58,7 @@ export default async function CasaDeCambioPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La mejor casa de cambio en ", h1Accent: "Providencia", heroDesc: "Gamaex en Av. Pedro de Valdivia 020 — referencia en cambio de divisas en Providencia por más de 38 años. Sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "La mejor casa de cambio en ", h1Accent: "Providencia", heroDesc: "Gamaex en Av. Pedro de Valdivia 020 — referencia en cambio de divisas en Providencia por más de 38 años. Sin comisiones.", articleText: "Gamaex es la casa de cambio de referencia en Providencia desde 1987. Ubicada en Av. Pedro de Valdivia 020, a pasos de la salida del Metro Pedro de Valdivia (Línea 1), opera de lunes a viernes de 9:00 a 17:30 y sábados de 9:00 a 13:00. Con más de 38 años de trayectoria, Gamaex ofrece compra y venta de más de 40 monedas extranjeras al mejor precio, sin comisiones ocultas. El precio que ves es el precio final de la operación." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function BestExchangeRateSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Best currency exchange in ", h1Accent: "Santiago", heroDesc: "Get the best USD, EUR and 40+ currency exchange rates in Santiago at Gamaex, Providencia. No fees, live rates, 38 years of experience." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Best currency exchange in ", h1Accent: "Santiago", heroDesc: "Get the best USD, EUR and 40+ currency exchange rates in Santiago at Gamaex, Providencia. No fees, live rates, 38 years of experience.", articleText: "Getting the best exchange rate in Santiago means avoiding bank fees and airport kiosks. Gamaex in Providencia has been providing competitive USD/CLP, EUR/CLP and 40+ currency rates since 1987. No commissions, no hidden charges — the published rate is the final rate of the transaction." }} />
     </>
   );
 }

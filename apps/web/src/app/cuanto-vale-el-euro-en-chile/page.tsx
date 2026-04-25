@@ -49,7 +49,7 @@ export default async function CuantoValeElEuroEnChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "¿Cuánto vale el ", h1Accent: "euro en Chile?", heroDesc: "Cotización del euro en Chile actualizada hoy. Consulta el EUR/CLP en Gamaex y cambia tus euros en Providencia sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "¿Cuánto vale el ", h1Accent: "euro en Chile?", heroDesc: "Cotización del euro en Chile actualizada hoy. Consulta el EUR/CLP en Gamaex y cambia tus euros en Providencia sin comisiones.", articleText: "El valor del euro en Chile varía diariamente según las condiciones del mercado cambiario internacional y local. Gamaex publica el precio EUR/CLP actualizado todos los días hábiles. La calculadora de esta página te permite estimar cuántos pesos chilenos recibirías por tus euros o cuántos euros obtendrías por una suma determinada en CLP." }} />
     </>
   );
 }

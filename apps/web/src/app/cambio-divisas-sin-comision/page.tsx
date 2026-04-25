@@ -49,7 +49,7 @@ export default async function CambioDivisasSinComisionPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas ", h1Accent: "sin comisión", heroDesc: "Cambia divisas sin comisiones en Gamaex, Providencia. El precio que ves es el precio final — sin cargos ocultos, sin sorpresas." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas ", h1Accent: "sin comisión", heroDesc: "Cambia divisas sin comisiones en Gamaex, Providencia. El precio que ves es el precio final — sin cargos ocultos, sin sorpresas.", articleText: "El modelo de Gamaex es sencillo: publicamos un precio para compra y otro para venta, y esos son los precios definitivos de la operación. No hay comisiones separadas, no hay cargos por tipo de billete, no hay diferencia por el monto. Lo que ves en la pantalla es lo que pagas — un compromiso que mantenemos desde 1987." }} />
     </>
   );
 }

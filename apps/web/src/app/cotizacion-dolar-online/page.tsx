@@ -51,7 +51,7 @@ export default async function CotizacionDolarOnlinePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cotización dólar ", h1Accent: "online", heroDesc: "Consulta la cotización del dólar online en Gamaex. Precio USD/CLP actualizado diariamente — cambia en Providencia sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cotización dólar ", h1Accent: "online", heroDesc: "Consulta la cotización del dólar online en Gamaex. Precio USD/CLP actualizado diariamente — cambia en Providencia sin comisiones.", articleText: "La cotización del dólar online en Gamaex se actualiza diariamente. Puedes usar la calculadora de esta página para estimar cuántos pesos chilenos recibirías por tus dólares, o cuántos dólares obtendrías por una cantidad determinada de CLP. Recuerda que el valor es referencial — el precio final lo confirma un ejecutivo en el local." }} />
     </>
   );
 }

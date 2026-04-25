@@ -49,7 +49,7 @@ export default async function CambioDivisasProvidenciaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas en ", h1Accent: "Providencia", heroDesc: "Cambio de divisas en Providencia con más de 40 monedas. Gamaex en Av. Pedro de Valdivia 020 — precios transparentes, sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de divisas en ", h1Accent: "Providencia", heroDesc: "Cambio de divisas en Providencia con más de 40 monedas. Gamaex en Av. Pedro de Valdivia 020 — precios transparentes, sin comisiones.", articleText: "Providencia concentra algunas de las mejores casas de cambio de Santiago, y Gamaex en Av. Pedro de Valdivia 020 es la referencia del sector. Con más de 38 años operando en el mismo local, es la opción elegida por quienes buscan transparencia, precios competitivos y atención directa sin intermediarios ni comisiones ocultas." }} />
     </>
   );
 }

@@ -58,7 +58,7 @@ export default async function CasaDeCambioLasCondesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · ", h1Accent: "Las Condes", heroDesc: "Casa de cambio cercana a Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia — USD, EUR y +40 divisas sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · ", h1Accent: "Las Condes", heroDesc: "Casa de cambio cercana a Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia — USD, EUR y +40 divisas sin comisiones.", articleText: "Aunque Gamaex se ubica en Providencia, es la casa de cambio más accesible para residentes y trabajadores de Las Condes. Su local en Av. Pedro de Valdivia 020 está en el límite entre ambas comunas y es fácilmente accesible en metro (estación Pedro de Valdivia) o en vehículo particular. Sin comisiones y con más de 40 monedas disponibles." }} />
     </>
   );
 }

@@ -60,7 +60,7 @@ export default async function CambioMonedaSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de moneda en ", h1Accent: "Santiago", heroDesc: "Cambio de moneda en Santiago con más de 40 divisas. Gamaex en Providencia — precios del día, sin comisiones, 38 años de trayectoria." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambio de moneda en ", h1Accent: "Santiago", heroDesc: "Cambio de moneda en Santiago con más de 40 divisas. Gamaex en Providencia — precios del día, sin comisiones, 38 años de trayectoria.", articleText: "Cambiar moneda en Santiago es más conveniente que nunca con Gamaex en Providencia. Su ubicación central, a pasos del Metro Pedro de Valdivia (Línea 1), hace que el local sea accesible desde cualquier punto de la ciudad en pocos minutos. Más de 40 divisas disponibles, precios del día publicados y sin comisiones." }} />
     </>
   );
 }

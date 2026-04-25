@@ -49,7 +49,7 @@ export default async function GamaexChileOpinionesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Opiniones sobre ", h1Accent: "Gamaex Chile", heroDesc: "Clientes reales opinan sobre Gamaex, la casa de cambio de referencia en Providencia. 38 años al servicio de personas y empresas." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Opiniones sobre ", h1Accent: "Gamaex Chile", heroDesc: "Clientes reales opinan sobre Gamaex, la casa de cambio de referencia en Providencia. 38 años al servicio de personas y empresas.", articleText: "Gamaex acumula décadas de opiniones positivas de clientes en Providencia y toda el área metropolitana de Santiago. Los clientes destacan la transparencia en los precios, la rapidez del servicio y la confianza que genera atender en el mismo local desde 1987. Puedes revisar las reseñas directamente en Google Maps buscando 'Gamaex Providencia'." }} />
     </>
   );
 }

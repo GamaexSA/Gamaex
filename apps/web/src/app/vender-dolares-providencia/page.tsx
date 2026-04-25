@@ -48,7 +48,7 @@ export default async function VenderDolaresProvidenciaPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vende tus dólares en ", h1Accent: "Providencia", heroDesc: "El mejor precio para vender dólares en Providencia. Gamaex en Av. Pedro de Valdivia 020 — pago inmediato, sin comisiones, tipo de cambio justo." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vende tus dólares en ", h1Accent: "Providencia", heroDesc: "El mejor precio para vender dólares en Providencia. Gamaex en Av. Pedro de Valdivia 020 — pago inmediato, sin comisiones, tipo de cambio justo.", articleText: "Para vender dólares en Providencia, Gamaex en Av. Pedro de Valdivia 020 ofrece la mejor cotización USD/CLP del sector. El proceso es directo: presentas tus billetes, se verifica su autenticidad y recibes pesos chilenos al precio del día. Sin comisiones, sin esperas. Para operaciones de mayor monto, consulta disponibilidad por WhatsApp antes de ir." }} />
     </>
   );
 }

@@ -19,6 +19,7 @@ interface PageContext {
   h1Before?: string;
   h1Accent?: string;
   heroDesc?: string;
+  articleText?: string;
 }
 
 interface Props {
@@ -941,6 +942,30 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           ))}
         </div>
       </section>
+
+      {/* ── Article ── */}
+      {pageContext?.articleText && (
+        <section
+          style={{
+            padding: "56px 28px 48px",
+            maxWidth: 760,
+            margin: "0 auto",
+            borderTop: "1px solid rgba(201,168,76,0.08)",
+          }}
+        >
+          <p
+            style={{
+              fontSize: 15,
+              color: "#8A9A8E",
+              lineHeight: 1.8,
+              fontWeight: 300,
+              letterSpacing: "0.01em",
+            }}
+          >
+            {pageContext.articleText}
+          </p>
+        </section>
+      )}
 
       {/* ── Video local ── */}
       <section

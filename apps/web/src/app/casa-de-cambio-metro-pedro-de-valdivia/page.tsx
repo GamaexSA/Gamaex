@@ -50,7 +50,7 @@ export default async function CasaDeCambioMetroPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Pedro de Valdivia", heroDesc: "A pasos de la salida del Metro Pedro de Valdivia. Gamaex en Av. Pedro de Valdivia 020, Providencia — divisas sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Pedro de Valdivia", heroDesc: "A pasos de la salida del Metro Pedro de Valdivia. Gamaex en Av. Pedro de Valdivia 020, Providencia — divisas sin comisiones.", articleText: "El local de Gamaex se encuentra literalmente a pasos de la salida del Metro Pedro de Valdivia en Providencia. Desde la estación, camina menos de un minuto por Av. Pedro de Valdivia hacia el número 020. Es el punto de referencia para cientos de clientes que aprovechan el trayecto en metro para cambiar sus divisas antes o después del trabajo." }} />
     </>
   );
 }

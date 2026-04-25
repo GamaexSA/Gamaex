@@ -49,7 +49,7 @@ export default async function WhereToExchangeMoneySantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Where to exchange ", h1Accent: "money in Santiago", heroDesc: "The best place to exchange money in Santiago. Gamaex at Av. Pedro de Valdivia 020, Providencia — no fees, 40+ currencies, 38 years." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Where to exchange ", h1Accent: "money in Santiago", heroDesc: "The best place to exchange money in Santiago. Gamaex at Av. Pedro de Valdivia 020, Providencia — no fees, 40+ currencies, 38 years.", articleText: "The best place to exchange money in Santiago is Gamaex at Av. Pedro de Valdivia 020, Providencia — just steps from Metro Pedro de Valdivia (Line 1). Open weekdays 9am–5:30pm and Saturdays 9am–1pm. Bring cash and leave with 40+ currencies at competitive rates, zero fees." }} />
     </>
   );
 }

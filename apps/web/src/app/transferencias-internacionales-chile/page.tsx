@@ -60,7 +60,7 @@ export default async function TransferenciasInternacionalesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Transferencias ", h1Accent: "internacionales Chile", heroDesc: "Envío y recepción de fondos al exterior desde Chile. Gamaex en Providencia — asesoría personalizada, condiciones especiales para empresas." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Transferencias ", h1Accent: "internacionales Chile", heroDesc: "Envío y recepción de fondos al exterior desde Chile. Gamaex en Providencia — asesoría personalizada, condiciones especiales para empresas.", articleText: "Gamaex ofrece el servicio de transferencias internacionales para personas y empresas en Chile que necesitan enviar o recibir fondos en moneda extranjera. El servicio incluye asesoría personalizada para cada operación, condiciones especiales para empresas con operaciones frecuentes y acompañamiento en el proceso de documentación requerido." }} />
     </>
   );
 }

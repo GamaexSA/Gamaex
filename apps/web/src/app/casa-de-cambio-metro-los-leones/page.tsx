@@ -48,7 +48,7 @@ export default async function CasaDeCambioMetroLosLeonesPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Los Leones", heroDesc: "A metros de la salida del Metro Los Leones, en Av. Pedro de Valdivia 020, Providencia. Compra y venta de dólares, euros, reales y +40 divisas sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Casa de cambio · Metro ", h1Accent: "Los Leones", heroDesc: "A metros de la salida del Metro Los Leones, en Av. Pedro de Valdivia 020, Providencia. Compra y venta de dólares, euros, reales y +40 divisas sin comisiones.", articleText: "La estación de Metro Los Leones (Línea 1) en Providencia está a corta distancia del local de Gamaex en Av. Pedro de Valdivia 020. Desde Los Leones, el recorrido a pie por Av. Pedro de Valdivia toma solo unos minutos. Ideal para quienes trabajan en la zona y necesitan cambiar dólares, euros o cualquier otra divisa durante el día." }} />
     </>
   );
 }

@@ -49,7 +49,7 @@ export default async function TipoDeCambioHoyChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Tipo de cambio ", h1Accent: "hoy en Chile", heroDesc: "Tipos de cambio actualizados hoy en Chile. USD, EUR, BRL y +40 divisas en Gamaex Providencia — sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Tipo de cambio ", h1Accent: "hoy en Chile", heroDesc: "Tipos de cambio actualizados hoy en Chile. USD, EUR, BRL y +40 divisas en Gamaex Providencia — sin comisiones.", articleText: "Gamaex actualiza el tipo de cambio de más de 40 divisas todos los días hábiles. Los precios USD/CLP, EUR/CLP, BRL/CLP y demás cotizaciones se publican a apertura y pueden ajustarse durante la jornada según las condiciones del mercado. Para confirmar el precio antes de ir, escribe por WhatsApp con el monto que deseas operar." }} />
     </>
   );
 }

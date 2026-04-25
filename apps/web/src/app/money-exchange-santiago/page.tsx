@@ -58,7 +58,7 @@ export default async function MoneyExchangePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Money exchange in ", h1Accent: "Santiago", heroDesc: "The best money exchange in Santiago. Gamaex at Av. Pedro de Valdivia 020, Providencia — 40+ currencies, no fees, 38 years of experience." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Money exchange in ", h1Accent: "Santiago", heroDesc: "The best money exchange in Santiago. Gamaex at Av. Pedro de Valdivia 020, Providencia — 40+ currencies, no fees, 38 years of experience.", articleText: "Gamaex is Santiago's most trusted currency exchange, operating since 1987 in Providencia. Located at Av. Pedro de Valdivia 020, steps from Metro Pedro de Valdivia (Line 1), Gamaex offers over 40 currencies with no hidden fees. Open Monday to Friday 9am–5:30pm and Saturday 9am–1pm." }} />
     </>
   );
 }
