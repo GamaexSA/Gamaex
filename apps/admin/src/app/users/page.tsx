@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { AdminShell } from "@/components/admin-shell";
 import { api, type AdminUser } from "@/lib/api";
 
@@ -53,6 +53,9 @@ export default function UsersPage() {
   const [toast, setToast] = useState("");
   const [resetModal, setResetModal] = useState<{ id: string; name: string } | null>(null);
   const [newPassword, setNewPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [showResetPw, setShowResetPw] = useState(false);
+  const handleSaveRef = useRef<() => void>(() => {});
 
   const load = useCallback(() => {
     setLoading(true);
@@ -63,6 +66,17 @@ export default function UsersPage() {
   }, []);
 
   useEffect(() => { load(); }, [load]);
+
+  useEffect(() => { handleSaveRef.current = handleSave; });
+
+  useEffect(() => {
+    function onKey(e: KeyboardEvent) {
+      if (e.key === "Escape") { setEdit(null); setResetModal(null); }
+      if ((e.metaKey || e.ctrlKey) && e.key === "Enter" && edit) { e.preventDefault(); handleSaveRef.current(); }
+    }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [edit]);
 
   function showToast(msg: string) {
     setToast(msg);
@@ -260,7 +274,21 @@ export default function UsersPage() {
             <Input label="Nombre" value={edit.name} onChange={(v) => setEdit((p) => p ? { ...p, name: v } : p)} placeholder="Eduardo" />
             <Input label="Email" value={edit.email} onChange={(v) => setEdit((p) => p ? { ...p, email: v } : p)} type="email" placeholder="eduardo@gamaex.cl" />
             {edit.user === null && (
-              <Input label="Contraseña" value={edit.password} onChange={(v) => setEdit((p) => p ? { ...p, password: v } : p)} type="password" placeholder="Mínimo 8 caracteres" />
+              <div style={{ marginBottom: 14 }}>
+                <label style={{ display: "block", fontSize: 11, color: "var(--text-dim)", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5 }}>Contraseña</label>
+                <div style={{ position: "relative" }}>
+                  <input
+                    type={showPw ? "text" : "password"}
+                    value={edit.password}
+                    placeholder="Mínimo 8 caracteres"
+                    onChange={(e) => setEdit((p) => p ? { ...p, password: e.target.value } : p)}
+                    style={{ width: "100%", background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 40px 10px 12px", color: "var(--text)", fontSize: 14, outline: "none" }}
+                  />
+                  <button onClick={() => setShowPw((v) => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: 16, color: "var(--text-dim)" }}>
+                    {showPw ? "🙈" : "👁"}
+                  </button>
+                </div>
+              </div>
             )}
 
             <div style={{ marginBottom: 20 }}>
@@ -300,6 +328,7 @@ export default function UsersPage() {
               }}
             >
               {saving ? "Guardando..." : (edit.user === null ? "Crear usuario" : "Guardar cambios")}
+              {!saving && <span style={{ fontSize: 10, opacity: 0.6, marginLeft: 8 }}>⌘↵</span>}
             </button>
           </div>
         </div>
@@ -316,7 +345,21 @@ export default function UsersPage() {
               <div style={{ fontSize: 15, fontWeight: 600 }}>Cambiar contraseña — {resetModal.name}</div>
               <button onClick={() => setResetModal(null)} style={{ background: "none", border: "none", color: "var(--text-dim)", fontSize: 20, cursor: "pointer" }}>×</button>
             </div>
-            <Input label="Nueva contraseña" value={newPassword} onChange={setNewPassword} type="password" placeholder="Mínimo 8 caracteres" />
+            <div style={{ marginBottom: 14 }}>
+              <label style={{ display: "block", fontSize: 11, color: "var(--text-dim)", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5 }}>Nueva contraseña</label>
+              <div style={{ position: "relative" }}>
+                <input
+                  type={showResetPw ? "text" : "password"}
+                  value={newPassword}
+                  placeholder="Mínimo 8 caracteres"
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  style={{ width: "100%", background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: 8, padding: "10px 40px 10px 12px", color: "var(--text)", fontSize: 14, outline: "none" }}
+                />
+                <button onClick={() => setShowResetPw((v) => !v)} style={{ position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", fontSize: 16, color: "var(--text-dim)" }}>
+                  {showResetPw ? "🙈" : "👁"}
+                </button>
+              </div>
+            </div>
             <button
               onClick={() => { void handleResetPassword(); }}
               disabled={saving || newPassword.length < 8}
