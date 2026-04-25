@@ -1,0 +1,55 @@
+import type { Metadata } from "next";
+import type { PublicRatesResponse } from "@gamaex/types";
+import LandingPage from "@/components/landing-page";
+
+const breadcrumb = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Inicio", item: "https://www.gamaex.cl" },
+    { "@type": "ListItem", position: 2, name: "Comprar Dólares Chile", item: "https://www.gamaex.cl/comprar-dolares-chile" },
+  ],
+});
+
+export const metadata: Metadata = {
+  title: "Comprar Dólares en Chile | USD/CLP — Gamaex Providencia",
+  description:
+    "¿Dónde comprar dólares en Chile? En Gamaex, Providencia, Santiago. Precio USD/CLP competitivo, sin comisiones. Atención directa con 38 años de experiencia.",
+  keywords: [
+    "comprar dolares chile",
+    "donde comprar dolares en chile",
+    "comprar dolares santiago providencia",
+    "precio dolar chile hoy",
+    "USD CLP compra",
+    "cambiar pesos a dolares chile",
+    "mejor precio dolar chile",
+  ],
+  alternates: {
+    canonical: "https://www.gamaex.cl/comprar-dolares-chile",
+  },
+  openGraph: {
+    title: "Comprar Dólares Chile | USD/CLP — Gamaex",
+    description: "Compra dólares en Gamaex Providencia. Precio justo, sin comisiones. 38 años de experiencia.",
+    url: "https://www.gamaex.cl/comprar-dolares-chile",
+  },
+};
+
+async function getRates(): Promise<PublicRatesResponse> {
+  const empty: PublicRatesResponse = { rates: [], system_status: "stale", last_sync_at: "", cache_ttl_seconds: 60 };
+  try {
+    const url = `${process.env["NEXT_PUBLIC_API_URL"] ?? "http://localhost:3001"}/api/rates/public`;
+    const res = await fetch(url, { next: { revalidate: 60 } });
+    if (!res.ok) return empty;
+    return res.json() as Promise<PublicRatesResponse>;
+  } catch { return empty; }
+}
+
+export default async function ComprarDolaresChilePage() {
+  const data = await getRates();
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} />
+    </>
+  );
+}
