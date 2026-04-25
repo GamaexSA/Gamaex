@@ -70,6 +70,7 @@ export default function CurrenciesPage() {
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState<string | null>(null);
   const [toast, setToast] = useState("");
+  const [lastLoaded, setLastLoaded] = useState<Date | null>(null);
   const [sortKey, setSortKey] = useState<SortKey>("name");
   const [sortDir, setSortDir] = useState<SortDir>("asc");
   const [search, setSearch] = useState("");
@@ -92,7 +93,7 @@ export default function CurrenciesPage() {
   const load = useCallback(() => {
     setLoading(true);
     api.getCurrencies()
-      .then(setCurrencies)
+      .then((data) => { setCurrencies(data); setLastLoaded(new Date()); })
       .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
@@ -191,10 +192,30 @@ export default function CurrenciesPage() {
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 20, flexWrap: "wrap", gap: 12 }}>
           <div>
             <h1 style={{ fontSize: 22, fontWeight: 600, marginBottom: 4 }}>Monedas</h1>
-            <p style={{ fontSize: 13, color: "var(--text-dim)" }}>
-              Gestión de tasas, márgenes y precios manuales
-            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <p style={{ fontSize: 13, color: "var(--text-dim)", margin: 0 }}>
+                Gestión de tasas, márgenes y precios manuales
+              </p>
+              {lastLoaded && (
+                <span style={{ fontSize: 11, color: "var(--text-faint)" }}>
+                  · cargado {lastLoaded.toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit", second: "2-digit" })}
+                </span>
+              )}
+            </div>
           </div>
+          <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+            <button
+              onClick={load}
+              disabled={loading}
+              style={{
+                background: "var(--bg2)", border: "1px solid var(--border)",
+                color: loading ? "var(--text-faint)" : "var(--text-dim)",
+                padding: "8px 14px", borderRadius: 8, fontSize: 13,
+                cursor: loading ? "not-allowed" : "pointer",
+              }}
+            >
+              ⟳ Recargar
+            </button>
           <input
             type="text"
             placeholder="Buscar moneda o código…"
@@ -211,6 +232,7 @@ export default function CurrenciesPage() {
               width: 220,
             }}
           />
+          </div>
         </div>
 
         {/* Toast */}
