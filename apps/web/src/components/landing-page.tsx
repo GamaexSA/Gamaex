@@ -383,6 +383,35 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt }: Props) 
                 📍 Cómo llegar
               </a>
             </div>
+            {/* Trust signals */}
+            <div style={{ display: "flex", gap: 10, flexWrap: "wrap", marginBottom: 36 }}>
+              {[
+                { icon: "🏛", label: "Regulado UAF" },
+                { icon: "✓", label: "Sin comisiones" },
+                { icon: "⏱", label: "38 años de trayectoria" },
+                { icon: "🔒", label: "Operaciones seguras" },
+              ].map(({ icon, label }) => (
+                <span
+                  key={label}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    fontSize: 11,
+                    fontWeight: 500,
+                    color: "#8A9A8E",
+                    background: "rgba(46,204,113,0.05)",
+                    border: "1px solid rgba(46,204,113,0.12)",
+                    borderRadius: 20,
+                    padding: "5px 12px",
+                    letterSpacing: "0.02em",
+                  }}
+                >
+                  <span style={{ fontSize: 12 }}>{icon}</span> {label}
+                </span>
+              ))}
+            </div>
+
             <div style={{ display: "flex", gap: 24, flexWrap: "wrap" }}>
               {[
                 ["Lun–Vie", "9:00 – 17:30"],
