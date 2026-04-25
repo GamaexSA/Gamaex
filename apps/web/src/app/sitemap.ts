@@ -483,6 +483,30 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.75,
     },
     {
+      url: "https://www.gamaex.cl/precio-del-dolar-hoy",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/precio-del-euro-hoy",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-de-dolares-en-providencia",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
+    },
+    {
+      url: "https://www.gamaex.cl/cambio-de-euros-en-providencia",
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.85,
+    },
+    {
       url: "https://www.gamaex.cl/cambio-moneda-viaje-chile",
       lastModified: new Date(),
       changeFrequency: "weekly",
