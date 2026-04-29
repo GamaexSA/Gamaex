@@ -292,8 +292,8 @@ export class PriceAlertsService {
   }
 
   private async sendWA(body: string) {
-    const token   = this.config.get("WHATSAPP_API_TOKEN");
-    const phoneId = this.config.get("WHATSAPP_PHONE_NUMBER_ID");
+    const token   = this.config.get("META_WHATSAPP_TOKEN");
+    const phoneId = this.config.get("META_PHONE_NUMBER_ID");
     const teamNum = this.config.get("WHATSAPP_TEAM_NUMBER");
     if (!token || !phoneId || !teamNum) return;
 
