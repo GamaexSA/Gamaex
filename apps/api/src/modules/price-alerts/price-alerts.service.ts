@@ -78,8 +78,6 @@ export class PriceAlertsService {
       },
     });
 
-    this.sendEmailNewAlert(alert).catch(() => {});
-
     return { id: alert.id };
   }
 
@@ -213,44 +211,6 @@ export class PriceAlertsService {
   }
 
   // ─── Emails ───────────────────────────────────────────────────────────────
-
-  private async sendEmailNewAlert(alert: {
-    name: string;
-    whatsapp: string;
-    currency_code: string;
-    operation: PriceAlertOperation;
-    target_price: number;
-    amount: number | null;
-    comment: string | null;
-    expires_at: Date;
-    price_buy_ref: number | null;
-    price_sell_ref: number | null;
-  }) {
-    const opLabel  = alert.operation === PriceAlertOperation.BUY ? "Comprar" : "Vender";
-    const refPrice = alert.operation === PriceAlertOperation.BUY
-      ? (alert.price_sell_ref ? `$${alert.price_sell_ref.toLocaleString("es-CL")} (venta actual)` : "—")
-      : (alert.price_buy_ref  ? `$${alert.price_buy_ref.toLocaleString("es-CL")} (compra actual)` : "—");
-
-    const rows = [
-      ["Cliente",        alert.name],
-      ["WhatsApp",       alert.whatsapp],
-      ["Moneda",         alert.currency_code],
-      ["Operación",      opLabel],
-      ["Precio objetivo", `$${alert.target_price.toLocaleString("es-CL")}`],
-      ["Precio actual",  refPrice],
-      ...(alert.amount  ? [["Monto aprox.",  alert.amount.toLocaleString("es-CL")]] : []),
-      ...(alert.comment ? [["Nota cliente",  alert.comment]]                        : []),
-      ["Expira",         alert.expires_at.toLocaleDateString("es-CL")],
-    ] as [string, string][];
-
-    await this.sendEmail({
-      subject: `🔔 Nueva alerta de precio — ${alert.currency_code} ${opLabel}`,
-      title:   "Nueva solicitud de aviso de precio",
-      intro:   `<b>${alert.name}</b> quiere que lo contacten cuando el ${alert.currency_code} llegue a su precio objetivo.`,
-      rows,
-      cta:     { label: "Ver en el panel", url: `${this.config.get("ADMIN_URL") ?? "https://admin.gamaex.cl"}/price-alerts` },
-    });
-  }
 
   private async sendEmailTriggered(triggered: TriggeredAlert[]) {
     const adminUrl = `${this.config.get("ADMIN_URL") ?? "https://admin.gamaex.cl"}/price-alerts`;
