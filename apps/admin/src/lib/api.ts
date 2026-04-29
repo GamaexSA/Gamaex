@@ -56,6 +56,38 @@ export interface PaginatedAudit {
   pages: number;
 }
 
+export type PriceAlertStatus = "PENDING" | "CONTACTED" | "CLOSED" | "EXPIRED";
+export type PriceAlertOperation = "BUY" | "SELL";
+
+export interface PriceAlertItem {
+  id: string;
+  name: string;
+  whatsapp: string;
+  currency_code: string;
+  operation: PriceAlertOperation;
+  target_price: number;
+  amount: number | null;
+  comment: string | null;
+  price_buy_ref: number | null;
+  price_sell_ref: number | null;
+  status: PriceAlertStatus;
+  status_note: string | null;
+  expires_at: string;
+  created_at: string;
+}
+
+export interface PaginatedAlerts {
+  items: PriceAlertItem[];
+  total: number;
+  page: number;
+  pages: number;
+}
+
+export interface AlertStats {
+  by_currency: { currency: string; count: number }[];
+  total_pending: number;
+}
+
 export interface PublicRate {
   code: string;
   name: string;
@@ -173,6 +205,21 @@ export const api = {
     request<AdminUser>(`/users/${id}/toggle`, { method: "PATCH" }),
   resetPassword: (id: string, password: string) =>
     request<{ ok: boolean }>(`/users/${id}/reset-password`, { method: "POST", body: JSON.stringify({ password }) }),
+
+  // Price Alerts
+  getAlerts: (page = 1, limit = 50, filters?: { status?: string; currency?: string; operation?: string }) => {
+    const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+    if (filters?.status)    params.set("status",    filters.status);
+    if (filters?.currency)  params.set("currency",  filters.currency);
+    if (filters?.operation) params.set("operation", filters.operation);
+    return request<PaginatedAlerts>(`/price-alerts?${params.toString()}`);
+  },
+  getAlertStats: () => request<AlertStats>("/price-alerts/stats"),
+  updateAlertStatus: (id: string, status: PriceAlertStatus, note?: string) =>
+    request<PriceAlertItem>(`/price-alerts/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status, note }),
+    }),
 
   // Audit
   getAuditLogs: (page = 1, limit = 50, filters?: { action?: string; entity?: string; actor?: string }) => {

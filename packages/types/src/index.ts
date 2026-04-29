@@ -183,6 +183,45 @@ export interface AiBusinessContext {
   services: string[];
 }
 
+// ─── Price Alerts ────────────────────────────────────────────────────────────
+
+export type PriceAlertStatus = "PENDING" | "CONTACTED" | "CLOSED" | "EXPIRED";
+export type PriceAlertOperation = "BUY" | "SELL";
+
+export interface CreatePriceAlertDto {
+  name: string;
+  whatsapp: string;
+  currency_code: string;
+  operation: PriceAlertOperation;
+  target_price: number;
+  amount?: number;
+  comment?: string;
+}
+
+export interface PriceAlertItem {
+  id: string;
+  name: string;
+  whatsapp: string;
+  currency_code: string;
+  operation: PriceAlertOperation;
+  target_price: number;
+  amount: number | null;
+  comment: string | null;
+  price_buy_ref: number | null;
+  price_sell_ref: number | null;
+  status: PriceAlertStatus;
+  status_note: string | null;
+  expires_at: string;
+  created_at: string;
+}
+
+export interface PriceAlertListResponse {
+  items: PriceAlertItem[];
+  total: number;
+  page: number;
+  pages: number;
+}
+
 // ─── Paginación genérica ─────────────────────────────────────────────────────
 
 export interface PaginatedResponse<T> {

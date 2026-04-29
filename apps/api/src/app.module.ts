@@ -10,6 +10,7 @@ import { AuditModule } from "./modules/audit/audit.module";
 import { WhatsAppModule } from "./modules/whatsapp/whatsapp.module";
 import { AiModule } from "./modules/ai/ai.module";
 import { UsersModule } from "./modules/users/users.module";
+import { PriceAlertsModule } from "./modules/price-alerts/price-alerts.module";
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UsersModule } from "./modules/users/users.module";
     WhatsAppModule,
     AiModule,
     UsersModule,
+    PriceAlertsModule,
   ],
 })
 export class AppModule {}

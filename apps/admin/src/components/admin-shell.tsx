@@ -10,6 +10,7 @@ const WEB_URL = process.env["NEXT_PUBLIC_WEB_URL"] ?? "https://www.gamaex.cl";
 const NAV = [
   { href: "/dashboard", label: "Dashboard", icon: "📊" },
   { href: "/currencies", label: "Monedas", icon: "💱" },
+  { href: "/price-alerts", label: "Alertas precio", icon: "🔔" },
   { href: "/users", label: "Usuarios", icon: "👥" },
   { href: "/audit", label: "Auditoría", icon: "📋" },
 ];

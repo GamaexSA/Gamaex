@@ -74,6 +74,51 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState<boolean | null>(null);
 
+  // ── Alerta de precio ─────────────────────────────────────────────────────────
+  const [alertName,       setAlertName]       = useState("");
+  const [alertWhatsapp,   setAlertWhatsapp]   = useState("");
+  const [alertCurrency,   setAlertCurrency]   = useState(rates[0]?.code ?? "USD");
+  const [alertOperation,  setAlertOperation]  = useState<"BUY" | "SELL">("BUY");
+  const [alertPrice,      setAlertPrice]      = useState("");
+  const [alertAmount,     setAlertAmount]     = useState("");
+  const [alertComment,    setAlertComment]    = useState("");
+  const [alertLoading,    setAlertLoading]    = useState(false);
+  const [alertSuccess,    setAlertSuccess]    = useState(false);
+  const [alertError,      setAlertError]      = useState("");
+
+  const alertRate = rates.find((r) => r.code === alertCurrency);
+
+  async function submitAlert(e: React.FormEvent) {
+    e.preventDefault();
+    setAlertError("");
+    setAlertLoading(true);
+    try {
+      const apiUrl = (process.env["NEXT_PUBLIC_API_URL"] ?? "http://localhost:3001");
+      const res = await fetch(`${apiUrl}/api/price-alerts`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name:          alertName.trim(),
+          whatsapp:      alertWhatsapp.trim(),
+          currency_code: alertCurrency,
+          operation:     alertOperation,
+          target_price:  parseFloat(alertPrice),
+          amount:        alertAmount ? parseFloat(alertAmount) : undefined,
+          comment:       alertComment.trim() || undefined,
+        }),
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({})) as { message?: string };
+        throw new Error(err.message ?? "Error al enviar la solicitud");
+      }
+      setAlertSuccess(true);
+    } catch (err: unknown) {
+      setAlertError(err instanceof Error ? err.message : "Error al enviar. Intenta nuevamente.");
+    } finally {
+      setAlertLoading(false);
+    }
+  }
+
   useEffect(() => {
     function checkOpen() {
       const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
@@ -297,6 +342,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         </div>
         <div className="nav-links">
           <a href="#tasas" className="nav-link">Tasas</a>
+          <a href="#alerta-precio" className="nav-link">Alerta de precio</a>
           <a href="#servicios" className="nav-link">Servicios</a>
           <a href="#local" className="nav-link">Nuestro local</a>
           <a href="#testimonios" className="nav-link">Opiniones</a>
@@ -837,6 +883,233 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         <p style={{ fontSize: 11, color: "#8A8780", marginTop: 12, textAlign: "center" }}>
           Cotización orientativa. Para confirmar precio y operar, consúltenos directamente.
         </p>
+      </section>
+
+      {/* ── Alerta de precio ── */}
+      <section
+        id="alerta-precio"
+        data-anim
+        className="section-pad"
+        style={{
+          padding: "72px 28px 80px",
+          maxWidth: 1100,
+          margin: "0 auto",
+          ...visStyle("alerta-precio"),
+        }}
+      >
+        <div style={{ maxWidth: 680, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 36 }}>
+            <div style={{ fontSize: 10, color: "#C9A84C", letterSpacing: "0.2em", textTransform: "uppercase", fontWeight: 600, marginBottom: 12 }}>
+              Precio objetivo
+            </div>
+            <h2 style={{ fontSize: 28, fontWeight: 700, marginBottom: 12, letterSpacing: "-0.025em" }}>
+              Avísame cuando llegue a mi precio
+            </h2>
+            <p style={{ fontSize: 15, color: "#8A8780", lineHeight: 1.7, fontWeight: 300, maxWidth: 520, margin: "0 auto" }}>
+              Si el valor actual no te conviene, déjanos tus datos y te contactamos por WhatsApp cuando el precio se acerque a tu objetivo.
+            </p>
+          </div>
+
+          {alertSuccess ? (
+            <div style={{
+              background: "rgba(46,204,113,0.06)",
+              border: "1px solid rgba(46,204,113,0.25)",
+              borderRadius: 18,
+              padding: "48px 32px",
+              textAlign: "center",
+            }}>
+              <div style={{ fontSize: 40, marginBottom: 16 }}>✓</div>
+              <h3 style={{ fontSize: 20, fontWeight: 600, color: "#2ECC71", marginBottom: 12 }}>Solicitud recibida</h3>
+              <p style={{ fontSize: 14, color: "#8A9A8E", lineHeight: 1.7, maxWidth: 420, margin: "0 auto 20px" }}>
+                Te contactaremos por WhatsApp cuando el precio se acerque a tu objetivo. Recuerda que esto no garantiza precio ni disponibilidad — la operación se confirma directamente con nuestro equipo.
+              </p>
+              <button
+                onClick={() => { setAlertSuccess(false); setAlertName(""); setAlertWhatsapp(""); setAlertPrice(""); setAlertAmount(""); setAlertComment(""); }}
+                style={{
+                  background: "transparent", border: "1px solid rgba(46,204,113,0.3)",
+                  color: "#2ECC71", padding: "10px 24px", borderRadius: 10,
+                  fontSize: 13, cursor: "pointer", fontFamily: "inherit",
+                }}
+              >
+                Crear otra alerta
+              </button>
+            </div>
+          ) : (
+            <form
+              onSubmit={(e) => { void submitAlert(e); }}
+              style={{
+                background: "rgba(17,25,22,0.92)",
+                border: "1px solid rgba(201,168,76,0.18)",
+                borderRadius: 18,
+                padding: "32px",
+                boxShadow: "0 0 0 1px rgba(201,168,76,0.06), 0 24px 64px rgba(0,0,0,0.4)",
+              }}
+            >
+              <div style={{ display: "grid", gap: 18 }}>
+                {/* Nombre + WhatsApp */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      Nombre *
+                    </label>
+                    <input
+                      className="conv-input"
+                      type="text"
+                      value={alertName}
+                      onChange={(e) => setAlertName(e.target.value)}
+                      placeholder="Tu nombre"
+                      required
+                      maxLength={80}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      WhatsApp *
+                    </label>
+                    <input
+                      className="conv-input"
+                      type="tel"
+                      value={alertWhatsapp}
+                      onChange={(e) => setAlertWhatsapp(e.target.value)}
+                      placeholder="+56 9 1234 5678"
+                      required
+                    />
+                  </div>
+                </div>
+
+                {/* Moneda + Operación */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      Moneda *
+                    </label>
+                    <select
+                      className="conv-select"
+                      value={alertCurrency}
+                      onChange={(e) => setAlertCurrency(e.target.value)}
+                      required
+                    >
+                      {rates.map((r) => (
+                        <option key={r.code} value={r.code}>
+                          {r.flag_emoji} {r.name} ({r.code})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      Quiero *
+                    </label>
+                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8, height: 48 }}>
+                      {(["BUY", "SELL"] as const).map((op) => (
+                        <button
+                          key={op}
+                          type="button"
+                          onClick={() => setAlertOperation(op)}
+                          style={{
+                            background: alertOperation === op ? "rgba(201,168,76,0.15)" : "var(--bg3)",
+                            border: `1px solid ${alertOperation === op ? "rgba(201,168,76,0.5)" : "var(--border)"}`,
+                            color: alertOperation === op ? "#C9A84C" : "#8A8780",
+                            borderRadius: 10, fontSize: 13, fontWeight: 500,
+                            cursor: "pointer", fontFamily: "inherit", transition: "all 0.15s",
+                          }}
+                        >
+                          {op === "BUY" ? "Comprar" : "Vender"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Precio objetivo */}
+                <div>
+                  <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                    Precio objetivo en CLP *
+                  </label>
+                  <input
+                    className="conv-input"
+                    type="number"
+                    value={alertPrice}
+                    onChange={(e) => setAlertPrice(e.target.value)}
+                    placeholder="Ej: 910"
+                    required
+                    min={1}
+                    step={1}
+                  />
+                  {alertRate && (
+                    <div style={{ fontSize: 11, color: "#6A6860", marginTop: 6 }}>
+                      Precio actual — Compramos: <span style={{ color: "#2ECC71" }}>${alertRate.buy.toLocaleString("es-CL")}</span>
+                      {" · "}Vendemos: <span style={{ color: "#E8E6E1" }}>${alertRate.sell.toLocaleString("es-CL")}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Monto + comentario */}
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1.5fr", gap: 14 }}>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      Monto aprox. <span style={{ fontSize: 10, textTransform: "none" }}>(opcional)</span>
+                    </label>
+                    <input
+                      className="conv-input"
+                      type="number"
+                      value={alertAmount}
+                      onChange={(e) => setAlertAmount(e.target.value)}
+                      placeholder="Ej: 1000"
+                      min={0}
+                      step={1}
+                    />
+                  </div>
+                  <div>
+                    <label style={{ fontSize: 11, color: "#8A8780", display: "block", marginBottom: 7, textTransform: "uppercase", letterSpacing: 0.8 }}>
+                      Comentario <span style={{ fontSize: 10, textTransform: "none" }}>(opcional)</span>
+                    </label>
+                    <input
+                      className="conv-input"
+                      type="text"
+                      value={alertComment}
+                      onChange={(e) => setAlertComment(e.target.value)}
+                      placeholder="¿Algo que quieras aclarar?"
+                      maxLength={200}
+                    />
+                  </div>
+                </div>
+
+                {/* Disclaimer */}
+                <p style={{
+                  fontSize: 11, color: "#5A6A60", lineHeight: 1.65,
+                  background: "rgba(42,51,48,0.5)", borderRadius: 8,
+                  padding: "10px 14px", border: "1px solid rgba(42,51,48,1)",
+                }}>
+                  Esta solicitud es solo referencial. Gamaex no garantiza precio, no bloquea tasa ni reserva moneda. El contacto depende de la disponibilidad y las condiciones del mercado al momento. La operación se confirma directamente con nuestro equipo.
+                </p>
+
+                {alertError && (
+                  <p style={{ fontSize: 13, color: "#E74C3C", background: "rgba(231,76,60,0.08)", border: "1px solid rgba(231,76,60,0.2)", borderRadius: 8, padding: "10px 14px" }}>
+                    {alertError}
+                  </p>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={alertLoading}
+                  className="cta-gold"
+                  style={{
+                    width: "100%",
+                    justifyContent: "center",
+                    opacity: alertLoading ? 0.7 : 1,
+                    cursor: alertLoading ? "not-allowed" : "pointer",
+                    fontSize: 15,
+                    padding: "14px",
+                    borderRadius: 12,
+                  }}
+                >
+                  {alertLoading ? "Enviando..." : "🔔 Quiero que me avisen"}
+                </button>
+              </div>
+            </form>
+          )}
+        </div>
       </section>
 
       {/* ── Servicios ── */}

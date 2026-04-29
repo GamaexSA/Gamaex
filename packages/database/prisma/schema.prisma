@@ -70,6 +70,18 @@ enum ApiKeyScope {
   WEBHOOK   // para integraciones externas futuras (POS, etc.)
 }
 
+enum PriceAlertStatus {
+  PENDING    // esperando que el precio llegue
+  CONTACTED  // equipo ya contactó al cliente
+  CLOSED     // operación cerrada o sin interés
+  EXPIRED    // pasaron 7 días sin contacto
+}
+
+enum PriceAlertOperation {
+  BUY   // cliente quiere comprar la divisa
+  SELL  // cliente quiere vender la divisa
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // CURRENCIES — catálogo maestro de monedas
 // Separado de la configuración para poder agregar monedas sin activarlas aún.
@@ -286,4 +298,38 @@ model SystemConfig {
   updated_at  DateTime @updatedAt
 
   @@map("system_configs")
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PRICE_ALERTS — solicitudes de aviso de precio de clientes
+//
+// El cliente deja sus datos y el precio objetivo. Gamaex los contacta
+// manualmente cuando el precio se acerca. No hay precio bloqueado ni reserva.
+// ─────────────────────────────────────────────────────────────────────────────
+
+model PriceAlert {
+  id             String              @id @default(cuid())
+  name           String
+  whatsapp       String              // E.164: "+56912345678"
+  currency_code  String              // "USD", "EUR", etc.
+  operation      PriceAlertOperation // BUY | SELL
+  target_price   Float               // precio objetivo en CLP
+  amount         Float?              // monto aproximado (referencial)
+  comment        String?             // nota libre del cliente (máx 200 chars)
+
+  // Precios vigentes al momento de crear la solicitud (contexto)
+  price_buy_ref  Float?
+  price_sell_ref Float?
+
+  status      PriceAlertStatus @default(PENDING)
+  status_note String?          // nota interna del operador
+
+  expires_at DateTime         // 7 días desde created_at
+  created_at DateTime         @default(now())
+  updated_at DateTime         @updatedAt
+
+  @@index([status, currency_code])
+  @@index([whatsapp])
+  @@index([expires_at])
+  @@map("price_alerts")
 }
