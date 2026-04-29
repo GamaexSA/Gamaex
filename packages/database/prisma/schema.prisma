@@ -324,9 +324,10 @@ model PriceAlert {
   status      PriceAlertStatus @default(PENDING)
   status_note String?          // nota interna del operador
 
-  expires_at DateTime         // 7 días desde created_at
-  created_at DateTime         @default(now())
-  updated_at DateTime         @updatedAt
+  expires_at       DateTime         // 7 días desde created_at
+  last_notified_at DateTime?        // última vez que se notificó al equipo por este alert
+  created_at       DateTime         @default(now())
+  updated_at       DateTime         @updatedAt
 
   @@index([status, currency_code])
   @@index([whatsapp])

@@ -6,8 +6,10 @@ import {
   NotFoundException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { Cron, CronExpression } from "@nestjs/schedule";
 import { PrismaClient, PriceAlertStatus, PriceAlertOperation } from "@gamaex/database";
 import { PRISMA_TOKEN } from "../database/database.module";
+import { RatesService } from "../rates/rates.service";
 
 interface CreateDto {
   name: string;
@@ -21,6 +23,20 @@ interface CreateDto {
   price_sell_ref?: number;
 }
 
+interface TriggeredAlert {
+  alert: {
+    id: string;
+    name: string;
+    whatsapp: string;
+    currency_code: string;
+    operation: PriceAlertOperation;
+    target_price: number;
+    amount: number | null;
+  };
+  current_price: number;
+  diff: number; // current_price - target_price
+}
+
 @Injectable()
 export class PriceAlertsService {
   private readonly logger = new Logger(PriceAlertsService.name);
@@ -28,7 +44,10 @@ export class PriceAlertsService {
   constructor(
     @Inject(PRISMA_TOKEN) private readonly db: PrismaClient,
     private readonly config: ConfigService,
+    private readonly rates: RatesService,
   ) {}
+
+  // ─── Crear alerta ─────────────────────────────────────────────────────────
 
   async create(dto: CreateDto): Promise<{ id: string }> {
     this.validate(dto);
@@ -58,10 +77,12 @@ export class PriceAlertsService {
       },
     });
 
-    this.notifyTeam(alert).catch(() => {});
+    this.notifyTeamNewAlert(alert).catch(() => {});
 
     return { id: alert.id };
   }
+
+  // ─── Listar / stats ───────────────────────────────────────────────────────
 
   async list(page = 1, limit = 50, filters: {
     status?: string;
@@ -94,7 +115,10 @@ export class PriceAlertsService {
       orderBy: { _count: { id: "desc" } },
     });
     const total_pending = pending.reduce((s, r) => s + r._count.id, 0);
-    return { by_currency: pending.map((r) => ({ currency: r.currency_code, count: r._count.id })), total_pending };
+    return {
+      by_currency: pending.map((r) => ({ currency: r.currency_code, count: r._count.id })),
+      total_pending,
+    };
   }
 
   async updateStatus(id: string, status: string, note?: string) {
@@ -120,28 +144,93 @@ export class PriceAlertsService {
     });
   }
 
-  // ─── Helpers ──────────────────────────────────────────────────────────────
+  // ─── Cron: verificar precios ──────────────────────────────────────────────
+  // Corre cada 5 minutos. Compara el precio actual de cada moneda con los
+  // objetivos de las alertas PENDING. Si alguna se activó, notifica al equipo.
+  // Re-notifica solo si pasaron más de 6h desde la última notificación del mismo alert.
 
-  private validate(dto: CreateDto) {
-    if (!dto.name?.trim()) throw new BadRequestException("El nombre es requerido");
-    if (!dto.whatsapp?.trim()) throw new BadRequestException("El WhatsApp es requerido");
-    if (!["BUY", "SELL"].includes(dto.operation)) throw new BadRequestException("Operación inválida");
-    if (!dto.currency_code?.trim()) throw new BadRequestException("La moneda es requerida");
-    if (!dto.target_price || dto.target_price <= 0) throw new BadRequestException("El precio objetivo debe ser mayor a 0");
+  @Cron(CronExpression.EVERY_5_MINUTES)
+  async checkPriceAlerts(): Promise<void> {
+    const now = new Date();
+    const cooldownCutoff = new Date(now.getTime() - 6 * 60 * 60 * 1000); // hace 6h
 
-    const normalized = this.normalizePhone(dto.whatsapp);
-    if (!/^\+\d{10,15}$/.test(normalized)) {
-      throw new BadRequestException("Formato de WhatsApp inválido. Ejemplo: +56 9 1234 5678");
+    const pending = await this.db.priceAlert.findMany({
+      where: {
+        status:     PriceAlertStatus.PENDING,
+        expires_at: { gt: now },
+        OR: [
+          { last_notified_at: null },
+          { last_notified_at: { lt: cooldownCutoff } },
+        ],
+      },
+    });
+
+    if (!pending.length) return;
+
+    let ratesData: { rates: { code: string; buy: number; sell: number }[] };
+    try {
+      ratesData = await this.rates.getPublicRates();
+    } catch {
+      this.logger.warn("checkPriceAlerts: no se pudo obtener tasas actuales");
+      return;
     }
+
+    const rateMap = new Map(ratesData.rates.map((r) => [r.code, r]));
+    const triggered: TriggeredAlert[] = [];
+
+    for (const alert of pending) {
+      const rate = rateMap.get(alert.currency_code);
+      if (!rate) continue;
+
+      // BUY: cliente quiere comprar → le preocupa el precio de venta de Gamaex
+      // La alerta se activa cuando el precio de venta baja hasta su objetivo
+      // SELL: cliente quiere vender → le preocupa el precio de compra de Gamaex
+      // La alerta se activa cuando el precio de compra sube hasta su objetivo
+      const currentPrice = alert.operation === PriceAlertOperation.BUY ? rate.sell : rate.buy;
+      const reached =
+        alert.operation === PriceAlertOperation.BUY
+          ? currentPrice <= alert.target_price
+          : currentPrice >= alert.target_price;
+
+      if (reached) {
+        triggered.push({
+          alert,
+          current_price: currentPrice,
+          diff: currentPrice - alert.target_price,
+        });
+      }
+    }
+
+    if (!triggered.length) return;
+
+    this.logger.log(`checkPriceAlerts: ${triggered.length} alerta(s) activada(s)`);
+
+    await this.notifyTeamTriggered(triggered);
+
+    await this.db.priceAlert.updateMany({
+      where: { id: { in: triggered.map((t) => t.alert.id) } },
+      data:  { last_notified_at: now },
+    });
   }
 
-  private normalizePhone(phone: string): string {
-    const digits = phone.replace(/\s/g, "");
-    if (!digits.startsWith("+")) return "+" + digits.replace(/\D/g, "");
-    return "+" + digits.slice(1).replace(/\D/g, "");
+  // ─── Cron: expirar alertas vencidas ──────────────────────────────────────
+  // Corre a medianoche. Marca como EXPIRED las alertas que pasaron su fecha.
+
+  @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
+  async expireOldAlerts(): Promise<void> {
+    const { count } = await this.db.priceAlert.updateMany({
+      where: {
+        status:     PriceAlertStatus.PENDING,
+        expires_at: { lt: new Date() },
+      },
+      data: { status: PriceAlertStatus.EXPIRED },
+    });
+    if (count > 0) this.logger.log(`expireOldAlerts: ${count} alerta(s) expirada(s)`);
   }
 
-  private async notifyTeam(alert: {
+  // ─── Notificaciones WhatsApp ──────────────────────────────────────────────
+
+  private async notifyTeamNewAlert(alert: {
     name: string;
     whatsapp: string;
     currency_code: string;
@@ -153,11 +242,6 @@ export class PriceAlertsService {
     price_buy_ref: number | null;
     price_sell_ref: number | null;
   }) {
-    const token    = this.config.get("WHATSAPP_API_TOKEN");
-    const phoneId  = this.config.get("WHATSAPP_PHONE_NUMBER_ID");
-    const teamNum  = this.config.get("WHATSAPP_TEAM_NUMBER");
-    if (!token || !phoneId || !teamNum) return;
-
     const opLabel  = alert.operation === PriceAlertOperation.BUY ? "COMPRAR" : "VENDER";
     const refPrice = alert.operation === PriceAlertOperation.BUY
       ? (alert.price_sell_ref ? `$${alert.price_sell_ref.toLocaleString("es-CL")} (venta actual)` : "—")
@@ -177,6 +261,42 @@ export class PriceAlertsService {
       `Expira: ${alert.expires_at.toLocaleDateString("es-CL")}`,
     ].filter(Boolean).join("\n");
 
+    await this.sendWA(lines);
+  }
+
+  private async notifyTeamTriggered(triggered: TriggeredAlert[]) {
+    const adminUrl = this.config.get("ADMIN_URL") ?? "panel.gamaex.cl/price-alerts";
+
+    const rows = triggered.map((t, i) => {
+      const opLabel = t.alert.operation === PriceAlertOperation.BUY ? "COMPRAR" : "VENDER";
+      const diffStr = t.diff === 0
+        ? "exacto"
+        : `${t.diff > 0 ? "+" : ""}${t.diff.toLocaleString("es-CL")} del objetivo`;
+      return [
+        `${i + 1}. *${t.alert.name}* · ${t.alert.currency_code} · ${opLabel}`,
+        `   Objetivo: $${t.alert.target_price.toLocaleString("es-CL")} · Actual: $${t.current_price.toLocaleString("es-CL")} (${diffStr})`,
+        `   📱 ${t.alert.whatsapp}`,
+        t.alert.amount ? `   💵 Monto aprox.: ${t.alert.amount.toLocaleString("es-CL")}` : null,
+      ].filter(Boolean).join("\n");
+    });
+
+    const msg = [
+      `🎯 *${triggered.length} alerta${triggered.length > 1 ? "s" : ""} activada${triggered.length > 1 ? "s" : ""} — Gamaex*`,
+      ``,
+      ...rows,
+      ``,
+      `👉 Gestionar: ${adminUrl}`,
+    ].join("\n");
+
+    await this.sendWA(msg);
+  }
+
+  private async sendWA(body: string) {
+    const token   = this.config.get("WHATSAPP_API_TOKEN");
+    const phoneId = this.config.get("WHATSAPP_PHONE_NUMBER_ID");
+    const teamNum = this.config.get("WHATSAPP_TEAM_NUMBER");
+    if (!token || !phoneId || !teamNum) return;
+
     try {
       const res = await fetch(
         `https://graph.facebook.com/v18.0/${phoneId}/messages`,
@@ -184,19 +304,40 @@ export class PriceAlertsService {
           method: "POST",
           headers: {
             "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json",
+            "Content-Type":  "application/json",
           },
           body: JSON.stringify({
             messaging_product: "whatsapp",
-            to: teamNum.replace(/\D/g, ""),
+            to:   teamNum.replace(/\D/g, ""),
             type: "text",
-            text: { body: lines },
+            text: { body },
           }),
         },
       );
-      if (!res.ok) this.logger.warn(`WA outbound error: ${res.status}`);
+      if (!res.ok) this.logger.warn(`WA outbound HTTP ${res.status}`);
     } catch (err) {
-      this.logger.warn("No se pudo notificar al equipo por WhatsApp:", err);
+      this.logger.warn("WA outbound falló:", err);
     }
+  }
+
+  // ─── Helpers ──────────────────────────────────────────────────────────────
+
+  private validate(dto: CreateDto) {
+    if (!dto.name?.trim())        throw new BadRequestException("El nombre es requerido");
+    if (!dto.whatsapp?.trim())    throw new BadRequestException("El WhatsApp es requerido");
+    if (!["BUY", "SELL"].includes(dto.operation)) throw new BadRequestException("Operación inválida");
+    if (!dto.currency_code?.trim()) throw new BadRequestException("La moneda es requerida");
+    if (!dto.target_price || dto.target_price <= 0) throw new BadRequestException("El precio objetivo debe ser mayor a 0");
+
+    const normalized = this.normalizePhone(dto.whatsapp);
+    if (!/^\+\d{10,15}$/.test(normalized)) {
+      throw new BadRequestException("Formato de WhatsApp inválido. Ejemplo: +56 9 1234 5678");
+    }
+  }
+
+  private normalizePhone(phone: string): string {
+    const digits = phone.replace(/\s/g, "");
+    if (!digits.startsWith("+")) return "+" + digits.replace(/\D/g, "");
+    return "+" + digits.slice(1).replace(/\D/g, "");
   }
 }
