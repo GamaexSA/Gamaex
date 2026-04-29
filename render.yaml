@@ -27,4 +27,4 @@ services:
       - key: TEAM_EMAIL
         value: "gamaex@gmail.com"
       - key: EMAIL_FROM
-        value: "alertas@gamaex.cl"
+        value: "Gamaex Alertas <onboarding@resend.dev>"
