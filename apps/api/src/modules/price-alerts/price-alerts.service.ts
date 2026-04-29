@@ -7,6 +7,7 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Cron, CronExpression } from "@nestjs/schedule";
+import { Resend } from "resend";
 import { PrismaClient, PriceAlertStatus, PriceAlertOperation } from "@gamaex/database";
 import { PRISMA_TOKEN } from "../database/database.module";
 import { RatesService } from "../rates/rates.service";
@@ -34,7 +35,7 @@ interface TriggeredAlert {
     amount: number | null;
   };
   current_price: number;
-  diff: number; // current_price - target_price
+  diff: number;
 }
 
 @Injectable()
@@ -77,7 +78,7 @@ export class PriceAlertsService {
       },
     });
 
-    this.notifyTeamNewAlert(alert).catch(() => {});
+    this.sendEmailNewAlert(alert).catch(() => {});
 
     return { id: alert.id };
   }
@@ -144,15 +145,12 @@ export class PriceAlertsService {
     });
   }
 
-  // ─── Cron: verificar precios ──────────────────────────────────────────────
-  // Corre cada 5 minutos. Compara el precio actual de cada moneda con los
-  // objetivos de las alertas PENDING. Si alguna se activó, notifica al equipo.
-  // Re-notifica solo si pasaron más de 6h desde la última notificación del mismo alert.
+  // ─── Cron: verificar precios cada 5 minutos ───────────────────────────────
 
   @Cron(CronExpression.EVERY_5_MINUTES)
   async checkPriceAlerts(): Promise<void> {
     const now = new Date();
-    const cooldownCutoff = new Date(now.getTime() - 6 * 60 * 60 * 1000); // hace 6h
+    const cooldownCutoff = new Date(now.getTime() - 6 * 60 * 60 * 1000);
 
     const pending = await this.db.priceAlert.findMany({
       where: {
@@ -171,7 +169,7 @@ export class PriceAlertsService {
     try {
       ratesData = await this.rates.getPublicRates();
     } catch {
-      this.logger.warn("checkPriceAlerts: no se pudo obtener tasas actuales");
+      this.logger.warn("checkPriceAlerts: no se pudo obtener tasas");
       return;
     }
 
@@ -182,10 +180,6 @@ export class PriceAlertsService {
       const rate = rateMap.get(alert.currency_code);
       if (!rate) continue;
 
-      // BUY: cliente quiere comprar → le preocupa el precio de venta de Gamaex
-      // La alerta se activa cuando el precio de venta baja hasta su objetivo
-      // SELL: cliente quiere vender → le preocupa el precio de compra de Gamaex
-      // La alerta se activa cuando el precio de compra sube hasta su objetivo
       const currentPrice = alert.operation === PriceAlertOperation.BUY ? rate.sell : rate.buy;
       const reached =
         alert.operation === PriceAlertOperation.BUY
@@ -193,44 +187,34 @@ export class PriceAlertsService {
           : currentPrice >= alert.target_price;
 
       if (reached) {
-        triggered.push({
-          alert,
-          current_price: currentPrice,
-          diff: currentPrice - alert.target_price,
-        });
+        triggered.push({ alert, current_price: currentPrice, diff: currentPrice - alert.target_price });
       }
     }
 
     if (!triggered.length) return;
 
     this.logger.log(`checkPriceAlerts: ${triggered.length} alerta(s) activada(s)`);
-
-    await this.notifyTeamTriggered(triggered);
-
+    await this.sendEmailTriggered(triggered);
     await this.db.priceAlert.updateMany({
       where: { id: { in: triggered.map((t) => t.alert.id) } },
       data:  { last_notified_at: now },
     });
   }
 
-  // ─── Cron: expirar alertas vencidas ──────────────────────────────────────
-  // Corre a medianoche. Marca como EXPIRED las alertas que pasaron su fecha.
+  // ─── Cron: expirar alertas vencidas a medianoche ──────────────────────────
 
   @Cron(CronExpression.EVERY_DAY_AT_MIDNIGHT)
   async expireOldAlerts(): Promise<void> {
     const { count } = await this.db.priceAlert.updateMany({
-      where: {
-        status:     PriceAlertStatus.PENDING,
-        expires_at: { lt: new Date() },
-      },
-      data: { status: PriceAlertStatus.EXPIRED },
+      where: { status: PriceAlertStatus.PENDING, expires_at: { lt: new Date() } },
+      data:  { status: PriceAlertStatus.EXPIRED },
     });
     if (count > 0) this.logger.log(`expireOldAlerts: ${count} alerta(s) expirada(s)`);
   }
 
-  // ─── Notificaciones WhatsApp ──────────────────────────────────────────────
+  // ─── Emails ───────────────────────────────────────────────────────────────
 
-  private async notifyTeamNewAlert(alert: {
+  private async sendEmailNewAlert(alert: {
     name: string;
     whatsapp: string;
     currency_code: string;
@@ -242,89 +226,187 @@ export class PriceAlertsService {
     price_buy_ref: number | null;
     price_sell_ref: number | null;
   }) {
-    const opLabel  = alert.operation === PriceAlertOperation.BUY ? "COMPRAR" : "VENDER";
+    const opLabel  = alert.operation === PriceAlertOperation.BUY ? "Comprar" : "Vender";
     const refPrice = alert.operation === PriceAlertOperation.BUY
       ? (alert.price_sell_ref ? `$${alert.price_sell_ref.toLocaleString("es-CL")} (venta actual)` : "—")
       : (alert.price_buy_ref  ? `$${alert.price_buy_ref.toLocaleString("es-CL")} (compra actual)` : "—");
 
-    const lines = [
-      `🔔 *Nueva Alerta de Precio — Gamaex*`,
-      ``,
-      `👤 ${alert.name}`,
-      `📱 ${alert.whatsapp}`,
-      `💱 ${alert.currency_code} · quiere *${opLabel}*`,
-      `🎯 Objetivo: $${alert.target_price.toLocaleString("es-CL")}`,
-      `📊 Precio actual: ${refPrice}`,
-      alert.amount  ? `💵 Monto aprox.: ${alert.amount.toLocaleString("es-CL")}` : null,
-      alert.comment ? `💬 Nota: ${alert.comment}` : null,
-      ``,
-      `Expira: ${alert.expires_at.toLocaleDateString("es-CL")}`,
-    ].filter(Boolean).join("\n");
+    const rows = [
+      ["Cliente",        alert.name],
+      ["WhatsApp",       alert.whatsapp],
+      ["Moneda",         alert.currency_code],
+      ["Operación",      opLabel],
+      ["Precio objetivo", `$${alert.target_price.toLocaleString("es-CL")}`],
+      ["Precio actual",  refPrice],
+      ...(alert.amount  ? [["Monto aprox.",  alert.amount.toLocaleString("es-CL")]] : []),
+      ...(alert.comment ? [["Nota cliente",  alert.comment]]                        : []),
+      ["Expira",         alert.expires_at.toLocaleDateString("es-CL")],
+    ] as [string, string][];
 
-    await this.sendWA(lines);
+    await this.sendEmail({
+      subject: `🔔 Nueva alerta de precio — ${alert.currency_code} ${opLabel}`,
+      title:   "Nueva solicitud de aviso de precio",
+      intro:   `<b>${alert.name}</b> quiere que lo contacten cuando el ${alert.currency_code} llegue a su precio objetivo.`,
+      rows,
+      cta:     { label: "Ver en el panel", url: `${this.config.get("ADMIN_URL") ?? "https://admin.gamaex.cl"}/price-alerts` },
+    });
   }
 
-  private async notifyTeamTriggered(triggered: TriggeredAlert[]) {
-    const adminUrl = this.config.get("ADMIN_URL") ?? "panel.gamaex.cl/price-alerts";
+  private async sendEmailTriggered(triggered: TriggeredAlert[]) {
+    const adminUrl = `${this.config.get("ADMIN_URL") ?? "https://admin.gamaex.cl"}/price-alerts`;
+    const count    = triggered.length;
 
-    const rows = triggered.map((t, i) => {
-      const opLabel = t.alert.operation === PriceAlertOperation.BUY ? "COMPRAR" : "VENDER";
+    const alertRows = triggered.map((t) => {
+      const op      = t.alert.operation === PriceAlertOperation.BUY ? "Comprar" : "Vender";
       const diffStr = t.diff === 0
         ? "exacto"
         : `${t.diff > 0 ? "+" : ""}${t.diff.toLocaleString("es-CL")} del objetivo`;
-      return [
-        `${i + 1}. *${t.alert.name}* · ${t.alert.currency_code} · ${opLabel}`,
-        `   Objetivo: $${t.alert.target_price.toLocaleString("es-CL")} · Actual: $${t.current_price.toLocaleString("es-CL")} (${diffStr})`,
-        `   📱 ${t.alert.whatsapp}`,
-        t.alert.amount ? `   💵 Monto aprox.: ${t.alert.amount.toLocaleString("es-CL")}` : null,
-      ].filter(Boolean).join("\n");
+
+      return `
+        <tr>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a;font-weight:600">${t.alert.name}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a">${t.alert.whatsapp}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a;font-weight:600">${t.alert.currency_code}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a">${op}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a;font-family:monospace">$${t.alert.target_price.toLocaleString("es-CL")}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a;font-family:monospace;color:#C9A84C">$${t.current_price.toLocaleString("es-CL")}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #1e2e2a;font-size:12px;color:#8A8780">${diffStr}</td>
+        </tr>`;
+    }).join("");
+
+    const html = this.wrapEmail(
+      `🎯 ${count} alerta${count > 1 ? "s" : ""} activada${count > 1 ? "s" : ""} — precio objetivo alcanzado`,
+      `<p style="color:#C8C6C0;margin:0 0 20px">
+        ${count > 1 ? `Estos ${count} clientes` : "Este cliente"} registró un precio objetivo que ya fue alcanzado.
+        Contactalos por WhatsApp para coordinar la operación.
+      </p>
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:13px">
+          <thead>
+            <tr style="background:#141e1b">
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Cliente</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">WhatsApp</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Moneda</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Op.</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Objetivo</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Actual</th>
+              <th style="padding:10px 12px;text-align:left;color:#8A8780;font-size:11px;text-transform:uppercase;letter-spacing:.05em">Diferencia</th>
+            </tr>
+          </thead>
+          <tbody style="color:#E8E6E1">${alertRows}</tbody>
+        </table>
+      </div>
+      <div style="margin-top:24px;text-align:center">
+        <a href="${adminUrl}" style="display:inline-block;background:#C9A84C;color:#0A0F0D;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px">
+          Gestionar alertas →
+        </a>
+      </div>`,
+    );
+
+    await this.sendEmail({
+      subject: `🎯 ${count} alerta${count > 1 ? "s" : ""} de precio activada${count > 1 ? "s" : ""} — Gamaex`,
+      html,
     });
-
-    const msg = [
-      `🎯 *${triggered.length} alerta${triggered.length > 1 ? "s" : ""} activada${triggered.length > 1 ? "s" : ""} — Gamaex*`,
-      ``,
-      ...rows,
-      ``,
-      `👉 Gestionar: ${adminUrl}`,
-    ].join("\n");
-
-    await this.sendWA(msg);
   }
 
-  private async sendWA(body: string) {
-    const token   = this.config.get("META_WHATSAPP_TOKEN");
-    const phoneId = this.config.get("META_PHONE_NUMBER_ID");
-    const teamNum = this.config.get("WHATSAPP_TEAM_NUMBER");
-    if (!token || !phoneId || !teamNum) return;
+  // ─── Email helpers ────────────────────────────────────────────────────────
+
+  private async sendEmail(opts: {
+    subject: string;
+    html?: string;
+    title?: string;
+    intro?: string;
+    rows?: [string, string][];
+    cta?: { label: string; url: string };
+  }) {
+    const apiKey = this.config.get("RESEND_API_KEY");
+    const to     = this.config.get("TEAM_EMAIL") ?? "gamaex@gmail.com";
+    const from   = this.config.get("EMAIL_FROM") ?? "alertas@gamaex.cl";
+
+    if (!apiKey) {
+      this.logger.warn("RESEND_API_KEY no configurado — email no enviado");
+      return;
+    }
+
+    let html = opts.html;
+
+    if (!html && opts.title) {
+      const rowsHtml = (opts.rows ?? []).map(([label, value]) => `
+        <tr>
+          <td style="padding:8px 0;color:#8A8780;font-size:13px;width:140px">${label}</td>
+          <td style="padding:8px 0;color:#E8E6E1;font-size:13px;font-weight:500">${value}</td>
+        </tr>`).join("");
+
+      const ctaHtml = opts.cta
+        ? `<div style="text-align:center;margin-top:28px">
+            <a href="${opts.cta.url}" style="display:inline-block;background:#C9A84C;color:#0A0F0D;padding:12px 28px;border-radius:10px;font-weight:700;text-decoration:none;font-size:14px">
+              ${opts.cta.label} →
+            </a>
+           </div>`
+        : "";
+
+      html = this.wrapEmail(
+        opts.title,
+        `${opts.intro ? `<p style="color:#C8C6C0;margin:0 0 20px">${opts.intro}</p>` : ""}
+         <table style="width:100%;border-collapse:collapse">${rowsHtml}</table>
+         ${ctaHtml}`,
+      );
+    }
 
     try {
-      const res = await fetch(
-        `https://graph.facebook.com/v18.0/${phoneId}/messages`,
-        {
-          method: "POST",
-          headers: {
-            "Authorization": `Bearer ${token}`,
-            "Content-Type":  "application/json",
-          },
-          body: JSON.stringify({
-            messaging_product: "whatsapp",
-            to:   teamNum.replace(/\D/g, ""),
-            type: "text",
-            text: { body },
-          }),
-        },
-      );
-      if (!res.ok) this.logger.warn(`WA outbound HTTP ${res.status}`);
+      const resend = new Resend(apiKey);
+      const { error } = await resend.emails.send({
+        from,
+        to,
+        subject: opts.subject,
+        html:    html ?? "",
+      });
+      if (error) this.logger.warn("Resend error:", error);
     } catch (err) {
-      this.logger.warn("WA outbound falló:", err);
+      this.logger.warn("Email falló:", err);
     }
+  }
+
+  private wrapEmail(title: string, body: string): string {
+    return `<!DOCTYPE html>
+<html lang="es">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#0A0F0D;font-family:'Helvetica Neue',Arial,sans-serif">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#0A0F0D;padding:32px 16px">
+    <tr><td align="center">
+      <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
+        <!-- Header -->
+        <tr>
+          <td style="background:#111916;border:1px solid #2A3330;border-radius:14px 14px 0 0;padding:24px 32px;border-bottom:1px solid rgba(201,168,76,0.25)">
+            <span style="font-size:20px;font-weight:700;letter-spacing:.15em;color:#C9A84C">GAMAEX</span>
+            <span style="font-size:11px;color:#6A6860;margin-left:12px;text-transform:uppercase;letter-spacing:.1em">Casa de cambio</span>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="background:#111916;border:1px solid #2A3330;border-top:none;padding:28px 32px">
+            <h2 style="margin:0 0 20px;font-size:18px;font-weight:600;color:#E8E6E1;letter-spacing:-.01em">${title}</h2>
+            ${body}
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="background:#0D1511;border:1px solid #2A3330;border-top:none;border-radius:0 0 14px 14px;padding:16px 32px;text-align:center">
+            <p style="margin:0;font-size:11px;color:#4A5350">Gamaex · Av. Pedro de Valdivia 020, Providencia · gamaex@gmail.com</p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>`;
   }
 
   // ─── Helpers ──────────────────────────────────────────────────────────────
 
   private validate(dto: CreateDto) {
-    if (!dto.name?.trim())        throw new BadRequestException("El nombre es requerido");
-    if (!dto.whatsapp?.trim())    throw new BadRequestException("El WhatsApp es requerido");
+    if (!dto.name?.trim())          throw new BadRequestException("El nombre es requerido");
+    if (!dto.whatsapp?.trim())      throw new BadRequestException("El WhatsApp es requerido");
     if (!["BUY", "SELL"].includes(dto.operation)) throw new BadRequestException("Operación inválida");
     if (!dto.currency_code?.trim()) throw new BadRequestException("La moneda es requerida");
     if (!dto.target_price || dto.target_price <= 0) throw new BadRequestException("El precio objetivo debe ser mayor a 0");

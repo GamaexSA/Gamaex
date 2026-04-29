@@ -22,9 +22,9 @@ services:
         sync: false
       - key: WHATSAPP_VERIFY_TOKEN
         sync: false
-      - key: META_WHATSAPP_TOKEN
+      - key: RESEND_API_KEY
         sync: false
-      - key: META_PHONE_NUMBER_ID
-        sync: false
-      - key: WHATSAPP_TEAM_NUMBER
-        value: "+56938782514"
+      - key: TEAM_EMAIL
+        value: "gamaex@gmail.com"
+      - key: EMAIL_FROM
+        value: "alertas@gamaex.cl"
