@@ -215,9 +215,9 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         html { scroll-behavior: smooth; }
 
         /* NAV */
-        .gx-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 72px; }
+        .gx-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 86px; }
         .gx-logo { display: flex; align-items: center; gap: 0.6rem; }
-        .gx-logo svg { height: 38px; width: auto; }
+        .gx-logo svg { height: 60px; width: auto; }
         .gx-nav-links { display: flex; gap: 2rem; list-style: none; }
         .gx-nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray); transition: color 0.2s; }
         .gx-nav-links a:hover { color: var(--dark); }
@@ -449,7 +449,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         /* FOOTER */
         .gx-footer { background: var(--dark); color: var(--white); padding: 4.5rem 6% 2rem; }
         .gx-footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3.5rem; margin-bottom: 3rem; }
-        .gx-footer-brand svg { height: 50px; margin-bottom: 1.3rem; }
+        .gx-footer-brand svg { height: 72px; margin-bottom: 1.3rem; }
         .gx-footer-brand p { font-size: 0.88rem; color: rgba(255,255,255,0.55); line-height: 1.7; max-width: 320px; }
         .gx-footer-col h5 { font-size: 0.76rem; font-weight: 700; color: rgba(255,255,255,0.55); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.2rem; }
         .gx-footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
