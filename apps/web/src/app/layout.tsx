@@ -104,7 +104,7 @@ const localBusinessSchema = {
       "@type": "OpeningHoursSpecification",
       dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
       opens: "09:00",
-      closes: "17:30",
+      closes: "17:00",
     },
     {
       "@type": "OpeningHoursSpecification",
@@ -208,7 +208,7 @@ const faqSchema = {
       name: "¿Cuáles son los horarios de atención?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Atendemos de lunes a viernes de 9:00 a 17:30 y los sábados de 9:00 a 13:00. Domingos y festivos cerrado.",
+        text: "Atendemos de lunes a viernes de 9:00 a 17:00 y los sábados de 9:00 a 13:00. Domingos y festivos cerrado.",
       },
     },
     {

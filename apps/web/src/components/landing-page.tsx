@@ -31,7 +31,7 @@ const FAQ_ITEMS = [
   { q: "¿Tienen comisiones adicionales?", a: "No. Operamos con precios finales. Sin comisiones ocultas, sin cargos extra. El precio que ves es el precio de la operación." },
   { q: "¿Puedo cotizar por WhatsApp antes de ir?", a: "Sí. Escríbenos con el monto y las monedas que quieres operar. Te confirmamos precio y disponibilidad al instante." },
   { q: "¿Qué monedas trabajan?", a: "Más de 40 monedas: dólar (USD), euro (EUR), real brasileño (BRL), libra esterlina (GBP), yen japonés (JPY), peso argentino (ARS), franco suizo (CHF) y muchas más." },
-  { q: "¿Cuáles son los horarios de atención?", a: "Lunes a viernes de 9:00 a 17:30 y sábados de 9:00 a 13:00. Domingos y festivos cerrado." },
+  { q: "¿Cuáles son los horarios de atención?", a: "Lunes a viernes de 9:00 a 17:00 y sábados de 9:00 a 13:00. Domingos y festivos cerrado." },
   { q: "¿Aceptan billetes en mal estado o fuera de circulación?", a: "Aceptamos dólares corrientes que no estén en circulación, sujeto a evaluación en el momento. Consúltanos por WhatsApp si tienes dudas sobre un billete específico." },
   { q: "¿Hacen transferencias internacionales?", a: "Sí. Ofrecemos transferencias internacionales y pago a proveedores en moneda extranjera. Tenemos condiciones especiales para empresas." },
   { q: "¿Cómo llego al local?", a: "Estamos en Av. Pedro de Valdivia 020, Providencia. A pasos de la salida del Metro Pedro de Valdivia (Línea 1). También cerca de Costanera Center." },
@@ -114,7 +114,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
       const now = new Date(new Date().toLocaleString("en-US", { timeZone: "America/Santiago" }));
       const day = now.getDay();
       const mins = now.getHours() * 60 + now.getMinutes();
-      if (day >= 1 && day <= 5) setIsOpen(mins >= 540 && mins < 1050);
+      if (day >= 1 && day <= 5) setIsOpen(mins >= 540 && mins < 1020);
       else if (day === 6) setIsOpen(mins >= 540 && mins < 780);
       else setIsOpen(false);
     }
@@ -1027,7 +1027,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
             <div className="gx-hours">
               <div className="gx-hour-card">
                 <div className="day">Lun – Vie</div>
-                <div className="time">9:00 — 17:30</div>
+                <div className="time">9:00 — 17:00</div>
               </div>
               <div className="gx-hour-card">
                 <div className="day">Sábado</div>
@@ -1112,7 +1112,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
               <li><a href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp +56 9 3878 2514</a></li>
               <li><a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`}>{FIXED_PHONE}</a></li>
               <li><a href="mailto:gamaex@gmail.com">gamaex@gmail.com</a></li>
-              <li><span className="staticline">Lun–Vie 9:00–17:30 · Sáb 9:00–13:00</span></li>
+              <li><span className="staticline">Lun–Vie 9:00–17:00 · Sáb 9:00–13:00</span></li>
             </ul>
           </div>
         </div>

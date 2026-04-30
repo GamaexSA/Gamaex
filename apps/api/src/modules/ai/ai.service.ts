@@ -20,7 +20,7 @@ export class AiService {
       metro: "Metro Pedro de Valdivia (Línea 1)",
       parking: "Estacionamiento subterráneo disponible para clientes",
       hours: {
-        lunes_viernes: "9:00 - 17:30",
+        lunes_viernes: "9:00 - 17:00",
         sabado: "9:00 - 13:00",
         domingo: "Cerrado",
       },

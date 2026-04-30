@@ -132,7 +132,7 @@ export default function OgImage() {
           {[
             ["📍", "Av. Pedro de Valdivia 020"],
             ["🚇", "Metro Pedro de Valdivia"],
-            ["🕐", "Lun–Vie 9:00–17:30"],
+            ["🕐", "Lun–Vie 9:00–17:00"],
           ].map(([icon, text]) => (
             <div
               key={text}
