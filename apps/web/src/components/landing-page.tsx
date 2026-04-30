@@ -325,7 +325,25 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <span style={{ fontSize: 20, fontWeight: 700, letterSpacing: "0.18em", color: "#C9A84C" }}>GAMAEX</span>
+          <a href="/" aria-label="Gamaex — Casa de cambio en Providencia" style={{ display: "flex", alignItems: "center", textDecoration: "none" }}>
+            <svg width="186" height="38" viewBox="0 0 186 38" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+              <defs>
+                <linearGradient id="navGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#E8C76E" />
+                  <stop offset="50%" stopColor="#C9A84C" />
+                  <stop offset="100%" stopColor="#9C7E2E" />
+                </linearGradient>
+              </defs>
+              {/* Monograma */}
+              <g transform="translate(19,19)">
+                <circle cx="0" cy="0" r="16" fill="none" stroke="url(#navGold)" strokeWidth="1.4" />
+                <circle cx="0" cy="0" r="13.5" fill="none" stroke="url(#navGold)" strokeWidth="0.6" opacity="0.45" />
+                <path d="M -6.2 -6.8 A 8.6 8.6 0 1 0 6.2 6.8 L 6.2 0 L 0 0" fill="none" stroke="url(#navGold)" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" />
+              </g>
+              {/* Wordmark */}
+              <text x="46" y="26" fontFamily="'Cormorant Garamond', 'Playfair Display', 'Times New Roman', serif" fontSize="22" fontWeight="500" letterSpacing="3.2" fill="url(#navGold)">GAMAEX</text>
+            </svg>
+          </a>
           <span style={{ width: 1, height: 16, background: "rgba(201,168,76,0.25)" }} />
           <span style={{ fontSize: 10, color: "#8A8780", letterSpacing: "0.12em", textTransform: "uppercase", fontWeight: 500 }}>Casa de cambio</span>
           {isOpen !== null && (
