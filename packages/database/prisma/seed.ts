@@ -16,6 +16,7 @@ const CURRENCIES = [
   { code: "UYU", name: "Peso Uruguayo",      flag_emoji: "🇺🇾", display_order: 10 },
   { code: "PEN", name: "Sol Peruano",        flag_emoji: "🇵🇪", display_order: 11 },
   { code: "AUD", name: "Dólar Australiano",  flag_emoji: "🇦🇺", display_order: 12 },
+  { code: "COP", name: "Peso Colombiano",    flag_emoji: "🇨🇴", display_order: 13 },
 ];
 
 // Márgenes iniciales — ajustar según política real de Gamaex
@@ -32,6 +33,7 @@ const DEFAULT_MARGINS: Record<string, { buy: number; sell: number }> = {
   UYU: { buy: -1,  sell: 2  },
   PEN: { buy: -3,  sell: 5  },
   AUD: { buy: -5,  sell: 8  },
+  COP: { buy: -1,  sell: 2  },
 };
 
 async function main() {
