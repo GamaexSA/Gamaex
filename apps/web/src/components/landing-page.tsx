@@ -848,28 +848,6 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         </div>
       </section>
 
-      {/* ── TESTIMONIALES ── */}
-      <section id="opiniones" className="gx-section">
-        <p className="gx-label">Opiniones reales</p>
-        <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
-        <p className="gx-subtitle">Reseñas verificadas en Google Maps · Calificación 5.0 ★</p>
-        <div className="gx-testimonials">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="gx-testimonial">
-              <div className="gx-stars">★ ★ ★ ★ ★</div>
-              <p className="gx-testimonial-text">&ldquo;{t.text}&rdquo;</p>
-              <div className="gx-testimonial-author">
-                <div className="gx-avatar">{t.initial}</div>
-                <div>
-                  <p>{t.name}</p>
-                  <span>{t.context}</span>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ── ALERTA DE PRECIO ── */}
       <section id="alerta-precio" className="gx-alert-section">
         <p className="gx-label">Avísame cuando llegue mi precio</p>
@@ -962,6 +940,28 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
               </form>
             )}
           </div>
+        </div>
+      </section>
+
+      {/* ── TESTIMONIALES ── */}
+      <section id="opiniones" className="gx-section">
+        <p className="gx-label">Opiniones reales</p>
+        <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
+        <p className="gx-subtitle">Reseñas verificadas en Google Maps · Calificación 5.0 ★</p>
+        <div className="gx-testimonials">
+          {TESTIMONIALS.map((t) => (
+            <div key={t.name} className="gx-testimonial">
+              <div className="gx-stars">★ ★ ★ ★ ★</div>
+              <p className="gx-testimonial-text">&ldquo;{t.text}&rdquo;</p>
+              <div className="gx-testimonial-author">
+                <div className="gx-avatar">{t.initial}</div>
+                <div>
+                  <p>{t.name}</p>
+                  <span>{t.context}</span>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </section>
 
