@@ -663,28 +663,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
-      url: "https://www.gamaex.cl#tasas",
+      url: "https://www.gamaex.cl/servicios",
       lastModified: new Date(),
-      changeFrequency: "daily",
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: "https://www.gamaex.cl/alerta-de-precio",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: "https://www.gamaex.cl#servicios",
+      url: "https://www.gamaex.cl/preguntas-frecuentes",
       lastModified: new Date(),
       changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: "https://www.gamaex.cl#faq",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: "https://www.gamaex.cl#ubicacion",
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
+      priority: 0.75,
     },
   ];
 }

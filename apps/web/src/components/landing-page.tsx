@@ -19,12 +19,28 @@ interface PageContext {
   articleText?: string;
 }
 
+export type LandingVariant = "full" | "home" | "servicios" | "alerta" | "faq";
+
 interface Props {
   rates: PublicRate[];
   systemStatus: string;
   lastSyncAt: string;
   pageContext?: PageContext;
+  variant?: LandingVariant;
 }
+
+const navHref = (variant: LandingVariant, target: string) => {
+  if (variant === "full") return `#${target}`;
+  switch (target) {
+    case "tasas": return "/#tasas";
+    case "opiniones": return "/#opiniones";
+    case "ubicacion": return "/#ubicacion";
+    case "servicios": return "/servicios";
+    case "alerta-precio": return "/alerta-de-precio";
+    case "faq": return "/preguntas-frecuentes";
+    default: return `#${target}`;
+  }
+};
 
 const FAQ_ITEMS = [
   { q: "¿Compran y venden dólares?", a: "Sí. Compramos y vendemos dólares americanos (USD) y más de 40 monedas. Los precios se publican diariamente y se confirman al momento de la operación." },
@@ -52,10 +68,27 @@ const TESTIMONIALS = [
   { name: "Matías Schwarc", initial: "MS", context: "Cliente desde 2019", text: "Rápido, el servicio espectacular, recomendable al 100%. La mejor de Providencia, sin lugar a dudas." },
 ];
 
-export default function LandingPage({ rates, systemStatus, lastSyncAt, pageContext }: Props) {
+export default function LandingPage({ rates, systemStatus, lastSyncAt, pageContext, variant = "full" }: Props) {
   const h1Before = pageContext?.h1Before ?? "Casa de cambio en ";
   const h1Accent = pageContext?.h1Accent ?? "Providencia";
   const heroDesc = pageContext?.heroDesc ?? "38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.";
+
+  const isFull = variant === "full";
+  const showHero      = isFull || variant === "home";
+  const showTicker    = isFull || variant === "home";
+  const showStats     = isFull || variant === "home";
+  const showPasos     = isFull || variant === "servicios";
+  const showDivisas   = isFull || variant === "servicios";
+  const showTasas     = isFull || variant === "home";
+  const showServicios = isFull || variant === "servicios";
+  const showZero      = isFull || variant === "servicios";
+  const showVs        = isFull || variant === "servicios";
+  const showVideo     = isFull || variant === "servicios";
+  const showAlerta    = isFull || variant === "alerta";
+  const showOpiniones = isFull || variant === "home";
+  const showFaq       = isFull || variant === "faq";
+  const showUbicacion = isFull || variant === "home";
+  const showPageHeader = !isFull && !showHero;
 
   const [fromCurrency, setFromCurrency] = useState("USD");
   const [toCurrency, setToCurrency] = useState("CLP");
@@ -289,6 +322,11 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         .gx-stat p { font-size: 0.88rem; color: var(--gray); margin-top: 0.5rem; font-weight: 500; }
 
         /* SECTIONS */
+        .gx-page-header { padding: 130px 6% 3rem; background: linear-gradient(180deg, var(--white) 0%, var(--light) 100%); text-align: center; }
+        .gx-page-header .gx-label { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.45rem 1rem; border-radius: 50px; background: rgba(201,168,76,0.15); color: var(--gold-deep); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.3px; margin-bottom: 1.2rem; }
+        .gx-page-header h1 { font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1.1; letter-spacing: -1.5px; color: var(--dark); }
+        .gx-page-header h1 em { font-style: normal; color: var(--gold-deep); }
+        .gx-page-header p { margin-top: 1.2rem; font-size: 1.05rem; color: var(--gray); line-height: 1.7; max-width: 640px; margin-left: auto; margin-right: auto; }
         .gx-section { padding: 5.5rem 6%; }
         .gx-section-light { background: var(--light); }
         .gx-section-dark { background: var(--dark); color: var(--white); }
@@ -512,12 +550,12 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </svg>
         </a>
         <ul className="gx-nav-links">
-          <li><a href="#tasas">Tasas</a></li>
-          <li><a href="#servicios">Servicios</a></li>
-          <li><a href="#alerta-precio">Alerta de precio</a></li>
-          <li><a href="#opiniones">Opiniones</a></li>
-          <li><a href="#faq">FAQ</a></li>
-          <li><a href="#ubicacion">Ubicación</a></li>
+          <li><a href={navHref(variant, "tasas")}>Tasas</a></li>
+          <li><a href={navHref(variant, "servicios")}>Servicios</a></li>
+          <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
+          <li><a href={navHref(variant, "opiniones")}>Opiniones</a></li>
+          <li><a href={navHref(variant, "faq")}>FAQ</a></li>
+          <li><a href={navHref(variant, "ubicacion")}>Ubicación</a></li>
         </ul>
         <div className="gx-nav-actions">
           {isOpen !== null && (
@@ -532,7 +570,29 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         </div>
       </nav>
 
+      {/* ── PAGE HEADER (variantes != home/full) ── */}
+      {showPageHeader && (
+        <section className="gx-page-header">
+          {variant === "servicios" && (<>
+            <span className="gx-label">⚡ Casa de cambio · Providencia</span>
+            <h1>Nuestros <em>servicios</em>.</h1>
+            <p>Más que cambio de divisas: 40+ monedas, transferencias internacionales, pago a proveedores y atención corporativa. 38 años haciéndolo presencial — sin apps, sin verificaciones eternas.</p>
+          </>)}
+          {variant === "alerta" && (<>
+            <span className="gx-label">🔔 Alerta de precio</span>
+            <h1>¿Esperando un <em>precio mejor</em>?</h1>
+            <p>Déjanos tu objetivo y te avisamos por WhatsApp cuando el mercado se acerque. Sin costo, sin compromiso de operar.</p>
+          </>)}
+          {variant === "faq" && (<>
+            <span className="gx-label">❓ Preguntas frecuentes</span>
+            <h1>Lo que más nos <em>preguntan</em>.</h1>
+            <p>Respuestas a las dudas más comunes sobre cambio de divisas, horarios, billetes aceptados y operaciones en Gamaex.</p>
+          </>)}
+        </section>
+      )}
+
       {/* ── HERO ── */}
+      {showHero && (
       <section className="gx-hero">
         <div className="gx-hero-left">
           <span className="gx-hero-tag">⚡ Casa de cambio · Providencia</span>
@@ -633,9 +693,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           <p className="gx-secure-note">🔒 Cotización referencial · Sin comisiones · Atención inmediata</p>
         </div>
       </section>
+      )}
 
       {/* ── TICKER ── */}
-      {rates.length > 0 && (
+      {showTicker && rates.length > 0 && (
         <div className="gx-ticker" aria-hidden="true">
           <div className="gx-ticker-track">
             {[...rates, ...rates].map((r, i) => (
@@ -654,14 +715,17 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
       )}
 
       {/* ── STATS ── */}
+      {showStats && (
       <div className="gx-stats">
         <div className="gx-stat"><h3>38<span>+</span></h3><p>Años de trayectoria</p></div>
         <div className="gx-stat"><h3>40<span>+</span></h3><p>Divisas disponibles</p></div>
         <div className="gx-stat"><h3>0<span>%</span></h3><p>Comisiones ocultas</p></div>
         <div className="gx-stat"><h3>5<span>min</span></h3><p>Operación promedio</p></div>
       </div>
+      )}
 
       {/* ── 3 PASOS ── */}
+      {showPasos && (
       <section className="gx-section">
         <p className="gx-label">Cómo funciona</p>
         <h2 className="gx-title">Cambiar divisas en Gamaex,<br />en 3 simples pasos</h2>
@@ -687,8 +751,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </div>
         </div>
       </section>
+      )}
 
       {/* ── 40+ DIVISAS ── */}
+      {showDivisas && (
       <section className="gx-section gx-section-light">
         <p className="gx-label">Más de 40 monedas</p>
         <h2 className="gx-title">Todas las divisas<br />que necesites — y más</h2>
@@ -703,8 +769,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         </div>
         <p className="gx-currencies-cta">¿No ves la moneda que buscas? <a href={wa("Hola, ¿trabajan ")} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("currencies-grid")}>Pregúntanos por WhatsApp →</a></p>
       </section>
+      )}
 
       {/* ── TASAS ── */}
+      {showTasas && (
       <section id="tasas" className="gx-section">
         <div className="gx-rates-meta">
           <div>
@@ -767,8 +835,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         </div>
         <p className="gx-rates-foot">Cotización orientativa. Para confirmar precio y operar, consúltenos directamente.</p>
       </section>
+      )}
 
       {/* ── SERVICIOS ── */}
+      {showServicios && (
       <section id="servicios" className="gx-section gx-section-light">
         <p className="gx-label">Qué hacemos</p>
         <h2 className="gx-title">Todo lo que necesitas<br />en un solo lugar</h2>
@@ -796,16 +866,20 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </div>
         </div>
       </section>
+      )}
 
       {/* ── 0% ── */}
+      {showZero && (
       <section className="gx-zero">
         <p className="gx-label">Tarifas transparentes</p>
         <div className="big">0<span>%</span></div>
         <h3>Cero comisiones. Cero letra chica.</h3>
         <p>El precio que ves es el precio que pagas. Sin recargos, sin spreads escondidos, sin sorpresas al final. La forma honesta de cambiar divisas — como debe ser.</p>
       </section>
+      )}
 
       {/* ── PRESENCIAL VS APPS ── */}
+      {showVs && (
       <section className="gx-section">
         <p className="gx-label">Presencial vs Apps</p>
         <h2 className="gx-title">¿Cansado de descargar apps<br />para cambiar plata?</h2>
@@ -837,8 +911,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </div>
         </div>
       </section>
+      )}
 
       {/* ── VIDEO LOCAL ── */}
+      {showVideo && (
       <section id="local" className="gx-section gx-section-light" style={{ paddingTop: "3rem", paddingBottom: "3rem" }}>
         <p className="gx-label">Casa de cambio · Providencia</p>
         <h2 className="gx-title">Conoce nuestro local</h2>
@@ -847,8 +923,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           <video src="/local.mp4" autoPlay muted loop playsInline preload="metadata" />
         </div>
       </section>
+      )}
 
       {/* ── ALERTA DE PRECIO ── */}
+      {showAlerta && (
       <section id="alerta-precio" className="gx-alert-section">
         <p className="gx-label">Avísame cuando llegue mi precio</p>
         <h2 className="gx-title">¿No te conviene la tasa de hoy?<br />Te llamamos cuando suba o baje.</h2>
@@ -942,8 +1020,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </div>
         </div>
       </section>
+      )}
 
       {/* ── TESTIMONIALES ── */}
+      {showOpiniones && (
       <section id="opiniones" className="gx-section">
         <p className="gx-label">Opiniones reales</p>
         <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
@@ -964,8 +1044,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           ))}
         </div>
       </section>
+      )}
 
       {/* ── FAQ ── */}
+      {showFaq && (
       <section id="faq" className="gx-section">
         <p className="gx-label">Preguntas frecuentes</p>
         <h2 className="gx-title">Lo que más nos preguntan</h2>
@@ -991,6 +1073,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </a>
         </div>
       </section>
+      )}
 
       {/* ── ARTICLE (opcional) ── */}
       {pageContext?.articleText && (
@@ -1000,6 +1083,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
       )}
 
       {/* ── UBICACIÓN ── */}
+      {showUbicacion && (
       <section id="ubicacion" className="gx-section gx-section-light">
         <p className="gx-label">Ven a vernos</p>
         <h2 className="gx-title">Av. Pedro de Valdivia 020,<br />Providencia</h2>
@@ -1069,6 +1153,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           </div>
         </div>
       </section>
+      )}
 
       {/* ── FOOTER ── */}
       <footer className="gx-footer">
@@ -1090,20 +1175,20 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           <div className="gx-footer-col">
             <h5>Servicios</h5>
             <ul>
-              <li><a href="#servicios">Cambio de divisas</a></li>
-              <li><a href="#servicios">Transferencias</a></li>
-              <li><a href="#servicios">Pago a proveedores</a></li>
-              <li><a href="#servicios">Atención corporativa</a></li>
+              <li><a href={navHref(variant, "servicios")}>Cambio de divisas</a></li>
+              <li><a href={navHref(variant, "servicios")}>Transferencias</a></li>
+              <li><a href={navHref(variant, "servicios")}>Pago a proveedores</a></li>
+              <li><a href={navHref(variant, "servicios")}>Atención corporativa</a></li>
             </ul>
           </div>
           <div className="gx-footer-col">
             <h5>Información</h5>
             <ul>
-              <li><a href="#tasas">Tasas de hoy</a></li>
-              <li><a href="#alerta-precio">Alerta de precio</a></li>
-              <li><a href="#opiniones">Opiniones</a></li>
-              <li><a href="#faq">FAQ</a></li>
-              <li><a href="#ubicacion">Cómo llegar</a></li>
+              <li><a href={navHref(variant, "tasas")}>Tasas de hoy</a></li>
+              <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
+              <li><a href={navHref(variant, "opiniones")}>Opiniones</a></li>
+              <li><a href={navHref(variant, "faq")}>FAQ</a></li>
+              <li><a href={navHref(variant, "ubicacion")}>Cómo llegar</a></li>
             </ul>
           </div>
           <div className="gx-footer-col">
