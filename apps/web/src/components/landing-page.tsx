@@ -416,6 +416,9 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
 
         /* ALERTA */
         .gx-alert-section { background: linear-gradient(135deg, var(--dark) 0%, #1A2330 100%); color: var(--white); padding: 5.5rem 6%; }
+        .gx-alert-section .gx-label { color: var(--gold); }
+        .gx-alert-section .gx-title { color: var(--white); }
+        .gx-alert-section .gx-subtitle { color: rgba(255,255,255,0.7); }
         .gx-alert-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; margin-top: 3rem; align-items: start; }
         .gx-alert-info h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.2rem; line-height: 1.3; }
         .gx-alert-step { display: flex; gap: 1rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
