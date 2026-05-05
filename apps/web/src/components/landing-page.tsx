@@ -88,6 +88,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
   const showOpiniones = isFull || variant === "home";
   const showFaq       = isFull || variant === "faq";
   const showUbicacion = isFull || variant === "home";
+  const showNosotros  = isFull || variant === "home";
   const showPageHeader = !isFull && !showHero;
 
   const [fromCurrency, setFromCurrency] = useState("USD");
@@ -1116,6 +1117,54 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         <section className="gx-article">
           <p>{pageContext.articleText}</p>
         </section>
+      )}
+
+      {/* ── NOSOTROS / SERVICIOS / CONFIANZA ── */}
+      {showNosotros && (
+      <section id="nosotros" className="gx-section">
+        <p className="gx-label">Quiénes somos</p>
+        <h2 className="gx-title">Una casa de cambio chilena con trayectoria</h2>
+        <div className="gx-article">
+          <p>
+            Gamaex es una casa de cambio chilena con casa matriz en Av. Pedro de Valdivia 020, Providencia, Santiago. Somos una empresa familiar fundada por Eduardo Schwarc, con más de tres décadas de operación continua en el mercado cambiario nacional. Nuestro equipo es profesional y estable: el integrante más antiguo acumula 38 años de experiencia en el rubro, y esa experiencia se traduce en cada operación que realizamos.
+          </p>
+          <p>
+            A lo largo de los años hemos construido una cartera estable de clientes habituales — personas naturales, viajeros frecuentes, empresas y profesionales — que regresan a Gamaex porque encuentran lo que toda casa de cambio seria debe ofrecer: precios claros, atención personalizada, billetes verificados y operaciones impecables. Muchos de ellos llevan años eligiéndonos como su casa de cambio de confianza.
+          </p>
+          <p>
+            Lo que nos distingue es ser una casa de cambio <strong>presencial con trayectoria real</strong>, no una aplicación digital ni un intermediario online. Cuando vienes a Gamaex, hablas con personas con experiencia, ves los billetes, recibes tu cambio en mano y operas con la tranquilidad de tratar con una empresa establecida físicamente en Providencia, registrada y supervisada por las autoridades chilenas correspondientes.
+          </p>
+        </div>
+
+        <h3 className="gx-title" style={{ marginTop: "3rem", fontSize: "1.6rem" }}>Nuestros servicios</h3>
+        <div className="gx-article">
+          <p>
+            <strong>Cambio de divisas físicas.</strong> Compra y venta presencial de más de 40 monedas: dólar americano (USD), euro (EUR), libra esterlina (GBP), real brasileño (BRL), peso argentino (ARS), franco suizo (CHF), yen japonés (JPY), dólar canadiense (CAD), dólar australiano (AUD), peso mexicano (MXN), sol peruano (PEN), peso colombiano (COP), peso uruguayo (UYU), yuan chino (CNY) y muchas más. Las tasas se actualizan diariamente y operamos con precios finales, sin comisiones adicionales ni cargos ocultos.
+          </p>
+          <p>
+            <strong>Transferencias y giros internacionales.</strong> Somos socios estratégicos aprobados de Western Union para giros internacionales. Realizamos envíos al extranjero con cobertura global, tiempos de entrega claros y trazabilidad completa de cada operación. Es la forma rápida y segura de mandar dinero fuera de Chile.
+          </p>
+          <p>
+            <strong>Pagos a proveedores locales e internacionales.</strong> Trabajamos con personas naturales y con empresas de todos los tamaños. Ofrecemos servicio de pago a proveedores en Chile y en el extranjero — ideal para importadores, exportadores, agencias y empresas con operaciones cross-border que necesitan un partner cambiario confiable y con tasas competitivas.
+          </p>
+          <p>
+            <strong>Tasa preferencial para montos mayores.</strong> Las operaciones desde USD 5.000 acceden a una tasa preferencial. Si manejas volúmenes recurrentes o vas a hacer una operación grande, contáctanos antes por WhatsApp para coordinar la mejor cotización del día y asegurar la disponibilidad de los billetes que necesitas.
+          </p>
+        </div>
+
+        <h3 className="gx-title" style={{ marginTop: "3rem", fontSize: "1.6rem" }}>Confianza y regulación</h3>
+        <div className="gx-article">
+          <p>
+            Gamaex está debidamente registrada y supervisada por las autoridades chilenas. Operamos inscritos ante la Superintendencia y ante la <strong>Unidad de Análisis Financiero (UAF)</strong>, cumpliendo con todas las normativas vigentes de prevención de lavado de activos y financiamiento del terrorismo aplicables al sector cambiario.
+          </p>
+          <p>
+            Esta regulación no es solo un trámite: es la garantía de que cada operación que realizas en Gamaex cumple con los estándares legales y de transparencia que el sistema financiero chileno exige a las casas de cambio formales. Es lo que distingue a una empresa establecida de los cambistas informales que operan sin supervisión.
+          </p>
+          <p>
+            Nuestra base de clientes incluye particulares que cambian dólares con regularidad, viajeros que necesitan moneda extranjera para sus viajes, empresas que pagan a proveedores en el exterior, profesionales que operan con cuentas en moneda extranjera y turistas que visitan Chile. Para todos ellos, Gamaex es sinónimo de servicio intachable, atención cercana y precios justos. Te esperamos en nuestra casa matriz de Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia.
+          </p>
+        </div>
+      </section>
       )}
 
       {/* ── UBICACIÓN ── */}
