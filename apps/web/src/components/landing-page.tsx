@@ -373,6 +373,13 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         .gx-rates-empty { padding: 3rem 1.5rem; text-align: center; color: var(--gray); font-size: 0.95rem; }
         .gx-rates-empty a { color: var(--gold-deep); font-weight: 700; }
         .gx-rates-foot { font-size: 0.82rem; color: var(--gray); margin-top: 1rem; text-align: center; }
+        .gx-rates-bigamount { margin-top: 1.5rem; padding: 1.1rem 1.4rem; background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(232,199,110,0.08) 100%); border: 1px solid rgba(201,168,76,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .gx-rates-bigamount .left { display: flex; align-items: center; gap: 0.85rem; }
+        .gx-rates-bigamount .icon { font-size: 1.6rem; }
+        .gx-rates-bigamount strong { font-size: 0.98rem; color: var(--dark); display: block; margin-bottom: 0.15rem; font-weight: 700; }
+        .gx-rates-bigamount span { font-size: 0.85rem; color: var(--gray); }
+        .gx-rates-bigamount a { font-size: 0.88rem; font-weight: 700; color: var(--gold-deep); padding: 0.55rem 1.1rem; border: 1.5px solid var(--gold); border-radius: 10px; transition: all 0.2s; white-space: nowrap; }
+        .gx-rates-bigamount a:hover { background: var(--gold); color: var(--dark); }
 
         /* SERVICES */
         .gx-services { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 3rem; }
@@ -844,6 +851,23 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
               </tbody>
             </table>
           )}
+        </div>
+        <div className="gx-rates-bigamount">
+          <div className="left">
+            <span className="icon">💼</span>
+            <div>
+              <strong>Consulte precio por montos mayores</strong>
+              <span>Para operaciones de mayor volumen aplicamos tasa preferencial.</span>
+            </div>
+          </div>
+          <a
+            href={wa("Hola, quiero consultar precio por un monto mayor.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => track.whatsappClick("rates-bigamount")}
+          >
+            💬 Consultar
+          </a>
         </div>
         <p className="gx-rates-foot">Cotización orientativa. Para confirmar precio y operar, consúltenos directamente.</p>
       </section>
