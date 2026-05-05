@@ -366,6 +366,8 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         .gx-rates-table tr.clickable { cursor: pointer; transition: background 0.15s; }
         .gx-rates-table tr.clickable:hover td { background: var(--light); }
         .gx-rate-flag { font-size: 1.4rem; vertical-align: middle; margin-right: 0.5rem; }
+        .gx-coin-img { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; vertical-align: middle; margin-right: 0.5rem; box-shadow: 0 1px 4px rgba(201,168,76,0.35); display: inline-block; }
+        .gx-coin-img-sm { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; vertical-align: middle; }
         .gx-rate-buy { color: #059669; font-weight: 700; }
         .gx-rate-sell { color: var(--red); font-weight: 700; }
         .gx-rates-empty { padding: 3rem 1.5rem; text-align: center; color: var(--gray); font-size: 0.95rem; }
@@ -704,7 +706,12 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           <div className="gx-ticker-track">
             {[...rates, ...rates].map((r, i) => (
               <div key={`tk-${i}`} className="gx-ticker-item">
-                <span>{r.flag_emoji} {r.code}</span>
+                <span>
+                  {r.code === "ORO"
+                    ? <img src="/oro-coin.png" alt="" className="gx-coin-img-sm" />
+                    : r.flag_emoji}
+                  {" "}{r.code}
+                </span>
                 <strong>${r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}</strong>
               </div>
             ))}
@@ -821,7 +828,9 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
                     }}
                   >
                     <td>
-                      <span className="gx-rate-flag">{r.flag_emoji}</span>
+                      {r.code === "ORO"
+                        ? <img src="/oro-coin.png" alt="Onza de oro" className="gx-coin-img" />
+                        : <span className="gx-rate-flag">{r.flag_emoji}</span>}
                       <strong>{r.name}</strong> <span style={{ color: "var(--gray)", fontSize: "0.85rem" }}>· {r.code}</span>
                     </td>
                     <td className="gx-rate-buy" style={{ textAlign: "right" }}>
