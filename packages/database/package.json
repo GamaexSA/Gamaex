@@ -13,7 +13,8 @@
     "db:seed": "tsx prisma/seed.ts",
     "db:reset": "prisma migrate reset",
     "db:add-admins": "tsx prisma/add-admins.ts",
-    "db:add-cop": "tsx prisma/add-cop.ts"
+    "db:add-cop": "tsx prisma/add-cop.ts",
+    "db:add-oro": "tsx prisma/add-oro.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",
