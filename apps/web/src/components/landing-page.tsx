@@ -7,6 +7,7 @@ import { track } from "./analytics";
 // ─── CONFIGURACIÓN WhatsApp ───────────────────────────────────────────────────
 const WA_NUMBER = "56938782514";
 const FIXED_PHONE = "+56 2 2946 2670";
+const FIXED_PHONE_2 = "+56 2 2789 4391";
 const WA_MSG = "Hola, quiero consultar una cotización en Gamaex.";
 const wa = (msg?: string) =>
   `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg ?? WA_MSG)}`;
@@ -38,6 +39,7 @@ const navHref = (variant: LandingVariant, target: string) => {
     case "servicios": return "/servicios";
     case "alerta-precio": return "/alerta-de-precio";
     case "faq": return "/preguntas-frecuentes";
+    case "nosotros": return "/nosotros";
     default: return `#${target}`;
   }
 };
@@ -564,8 +566,8 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         <ul className="gx-nav-links">
           <li><a href={navHref(variant, "tasas")}>Tasas</a></li>
           <li><a href={navHref(variant, "servicios")}>Servicios</a></li>
+          <li><a href={navHref(variant, "nosotros")}>Nosotros</a></li>
           <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
-          <li><a href={navHref(variant, "opiniones")}>Opiniones</a></li>
           <li><a href={navHref(variant, "faq")}>FAQ</a></li>
           <li><a href={navHref(variant, "ubicacion")}>Ubicación</a></li>
         </ul>
@@ -1137,7 +1139,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
             </div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">📞</div>
-              <div><strong>Teléfono</strong><span>{FIXED_PHONE}</span></div>
+              <div><strong>Teléfono</strong><span>{FIXED_PHONE} · {FIXED_PHONE_2}</span></div>
             </div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">💬</div>
@@ -1221,6 +1223,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
             <h5>Información</h5>
             <ul>
               <li><a href={navHref(variant, "tasas")}>Tasas de hoy</a></li>
+              <li><a href={navHref(variant, "nosotros")}>Quiénes somos</a></li>
               <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
               <li><a href={navHref(variant, "opiniones")}>Opiniones</a></li>
               <li><a href={navHref(variant, "faq")}>FAQ</a></li>
@@ -1232,6 +1235,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
             <ul>
               <li><a href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp +56 9 3878 2514</a></li>
               <li><a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`}>{FIXED_PHONE}</a></li>
+              <li><a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`}>{FIXED_PHONE_2}</a></li>
               <li><a href="mailto:gamaex@gmail.com">gamaex@gmail.com</a></li>
               <li><span className="staticline">Lun–Vie 9:00–17:00 · Sáb 9:00–13:00</span></li>
             </ul>

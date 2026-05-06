@@ -1,5 +1,6 @@
 const WA_NUMBER = "56938782514";
 const FIXED_PHONE = "+56 2 2946 2670";
+const FIXED_PHONE_2 = "+56 2 2789 4391";
 const WA_MSG = "Hola, quiero consultar una cotización en Gamaex.";
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MSG)}`;
 const MAPS_LINK = "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago,+Chile";
@@ -44,7 +45,7 @@ export default function NosotrosPage() {
           <span className="ns-label">Quiénes somos</span>
           <h1>Una casa de cambio chilena <em>con trayectoria real</em>.</h1>
           <p className="ns-hero-desc">
-            Empresa familiar fundada por Eduardo Schwarc. Más de tres décadas operando en el mercado cambiario chileno desde nuestra casa matriz en Providencia. Atención presencial, billetes verificados, sin comisiones ocultas.
+            Empresa familiar con más de tres décadas operando en el mercado cambiario chileno desde nuestra casa matriz en Av. Pedro de Valdivia 020, Providencia. Atención presencial, billetes verificados, sin comisiones ocultas.
           </p>
           <div className="ns-hero-ctas">
             <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold">💬 Cotizar por WhatsApp</a>
@@ -87,14 +88,14 @@ export default function NosotrosPage() {
               Hemos prestado servicios intachables durante décadas. Nuestros clientes vuelven porque saben que en Gamaex encuentran precios claros, atención cercana y operaciones impecables.
             </p>
             <div className="ns-quote-author">
-              <strong>Eduardo Schwarc</strong>
-              <span>Fundador · Gamaex Chile</span>
+              <strong>El equipo de Gamaex</strong>
+              <span>Casa de cambio · Providencia</span>
             </div>
           </div>
 
           <div className="ns-historia-text">
             <p>
-              Gamaex es una <strong>casa de cambio chilena</strong> con casa matriz en Av. Pedro de Valdivia 020, Providencia, Santiago. Somos una empresa familiar fundada por Eduardo Schwarc, con más de tres décadas de operación continua en el mercado cambiario nacional.
+              Gamaex es una <strong>casa de cambio chilena</strong> con casa matriz en Av. Pedro de Valdivia 020, Providencia, Santiago. Somos una empresa familiar con más de tres décadas de operación continua en el mercado cambiario nacional.
             </p>
             <p>
               Nuestro equipo es profesional y estable: el integrante más antiguo acumula <strong>38 años de experiencia</strong> en el rubro, y esa experiencia se traduce en cada operación que realizamos. Conocemos los billetes, conocemos el mercado, y conocemos a nuestros clientes.
@@ -201,7 +202,8 @@ export default function NosotrosPage() {
         <div className="ns-cta-row">
           <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold">💬 Cotizar por WhatsApp</a>
           <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline">📍 Ver en Maps</a>
-          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline">📞 Llamar</a>
+          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline">📞 {FIXED_PHONE}</a>
+          <a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} className="ns-btn-outline">📞 {FIXED_PHONE_2}</a>
         </div>
         <div className="ns-hours">
           <span><strong>Lun – Vie</strong> 9:00 — 17:00</span>
