@@ -10,21 +10,38 @@ export default function AppleIcon() {
         style={{
           width: "100%",
           height: "100%",
+          background: "#0F1419",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#0F1419",
-          color: "#FFFFFF",
-          fontFamily: "Georgia, serif",
-          fontSize: 130,
-          fontWeight: 500,
-          letterSpacing: "-0.04em",
           borderRadius: 36,
-          lineHeight: 1,
-          paddingBottom: 10,
         }}
       >
-        G
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 100 100"
+          width="150"
+          height="150"
+        >
+          <defs>
+            <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#E8C76E" />
+              <stop offset="50%" stopColor="#C9A84C" />
+              <stop offset="100%" stopColor="#9C7E2E" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(50,50)">
+            <circle cx="0" cy="0" r="34" fill="none" stroke="url(#goldGrad)" strokeWidth="2" />
+            <path
+              d="M -16 -18 A 22 22 0 1 0 16 18 L 16 0 L 0 0"
+              fill="none"
+              stroke="url(#goldGrad)"
+              strokeWidth="5.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </g>
+        </svg>
       </div>
     ),
     { ...size },
