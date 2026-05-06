@@ -9,6 +9,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: "https://www.gamaex.cl/nosotros",
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
       url: "https://www.gamaex.cl/cambiar-dolares-providencia",
       lastModified: new Date(),
       changeFrequency: "weekly",
