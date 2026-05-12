@@ -1065,7 +1065,18 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
       <section id="opiniones" className="gx-section">
         <p className="gx-label">Opiniones reales</p>
         <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
-        <p className="gx-subtitle">Reseñas verificadas en Google Maps · Calificación 5.0 ★</p>
+        <p className="gx-subtitle">
+          Reseñas verificadas en{" "}
+          <a
+            href="https://www.google.com/maps/place/?q=place_id:ChIJWTo0fmbPYpYR4XOn4uAxnIU"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "inherit", textDecoration: "underline" }}
+          >
+            Google Maps
+          </a>{" "}
+          · 4,1 ★ con 18 opiniones
+        </p>
         <div className="gx-testimonials">
           {TESTIMONIALS.map((t) => (
             <div key={t.name} className="gx-testimonial">
