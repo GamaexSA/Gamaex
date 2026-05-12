@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Barrio Italia | Gamaex — Divisas en Santiago",
+  title: "Casa de cambio cerca de Barrio Italia — Gamaex Providencia",
   description:
     "Casa de cambio cercana a Barrio Italia. Gamaex está en Providencia, a pocos minutos de Barrio Italia. Compra y venta de divisas, 38 años de experiencia.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-barrio-italia",
   },
   openGraph: {
-    title: "Casa de Cambio Barrio Italia | Gamaex Providencia",
+    title: "Casa de cambio cerca de Barrio Italia — Gamaex Providencia",
     description: "Cambio de divisas cercano a Barrio Italia. Gamaex en Providencia, 38 años de experiencia.",
     url: "https://www.gamaex.cl/casa-de-cambio-barrio-italia",
   },

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Cerca de Vitacura | Gamaex — Providencia, Santiago",
+  title: "Casa de cambio cerca de Vitacura — Gamaex Providencia",
   description:
     "La opción más conveniente para cambiar divisas cerca de Vitacura es Gamaex en Providencia. +40 monedas, 38 años de trayectoria, precios transparentes. A minutos en Metro Línea 1.",
   keywords: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-vitacura",
   },
   openGraph: {
-    title: "Casa de Cambio Cerca de Vitacura | Gamaex Chile",
+    title: "Casa de cambio cerca de Vitacura — Gamaex Providencia",
     description:
       "La casa de cambio más cercana a Vitacura — Gamaex en Providencia. +40 divisas, 38 años.",
     url: "https://www.gamaex.cl/casa-de-cambio-vitacura",

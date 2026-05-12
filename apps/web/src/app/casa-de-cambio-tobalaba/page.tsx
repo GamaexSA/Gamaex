@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Tobalaba | Gamaex — Divisas en Providencia",
+  title: "Casa de cambio cerca de Tobalaba — Gamaex Providencia",
   description:
     "Casa de cambio cerca de Metro Tobalaba. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas cuadras de Tobalaba. Sin comisiones, 38 años de experiencia.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-tobalaba",
   },
   openGraph: {
-    title: "Casa de Cambio Tobalaba | Gamaex Providencia",
+    title: "Casa de cambio cerca de Tobalaba — Gamaex Providencia",
     description: "Cambio de divisas cerca de Metro Tobalaba. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-tobalaba",
   },

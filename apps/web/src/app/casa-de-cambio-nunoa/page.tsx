@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Cerca de Ñuñoa | Gamaex — Providencia, Santiago",
+  title: "Casa de cambio cerca de Ñuñoa — Gamaex Providencia",
   description:
     "Cambia divisas cerca de Ñuñoa en Gamaex, Providencia. 38 años de experiencia, más de 40 monedas, precios finales sin comisiones. Acceso fácil por Metro Línea 1.",
   keywords: [
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-nunoa",
   },
   openGraph: {
-    title: "Casa de Cambio Cerca de Ñuñoa | Gamaex Chile",
+    title: "Casa de cambio cerca de Ñuñoa — Gamaex Providencia",
     description:
       "Casa de cambio en Providencia, cerca de Ñuñoa. +40 divisas, sin comisiones, 38 años de trayectoria.",
     url: "https://www.gamaex.cl/casa-de-cambio-nunoa",

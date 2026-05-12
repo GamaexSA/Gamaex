@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio El Bosque | Gamaex — Divisas en Providencia",
+  title: "Casa de cambio cerca de Av. El Bosque — Gamaex Providencia",
   description:
-    "Casa de cambio cercana a El Bosque, Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia. Más de 40 divisas, sin comisiones, 38 años de experiencia.",
+    "Cambio de divisas cerca de Av. El Bosque (Las Condes). Gamaex está en Av. Pedro de Valdivia 020, Providencia — no tenemos sucursal en El Bosque, atendemos en Providencia. Más de 40 divisas, sin comisiones, 38 años de experiencia.",
   keywords: [
     "casa de cambio el bosque",
     "cambio divisas el bosque santiago",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-el-bosque",
   },
   openGraph: {
-    title: "Casa de Cambio El Bosque | Gamaex Providencia",
+    title: "Casa de cambio cerca de Av. El Bosque — Gamaex Providencia",
     description: "Cambio de divisas cercano a El Bosque. Gamaex en Providencia, 38 años.",
     url: "https://www.gamaex.cl/casa-de-cambio-el-bosque",
   },

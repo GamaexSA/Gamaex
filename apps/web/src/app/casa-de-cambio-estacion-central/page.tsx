@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Estación Central | Gamaex — Divisas Santiago",
+  title: "Casa de cambio cerca de Estación Central — Gamaex Providencia",
   description:
     "Casa de cambio accesible desde Estación Central. Gamaex en Av. Pedro de Valdivia 020, Providencia — conectado por Metro Línea 1. Sin comisiones, 38 años.",
   keywords: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-estacion-central",
   },
   openGraph: {
-    title: "Casa de Cambio Estación Central | Gamaex",
+    title: "Casa de cambio cerca de Estación Central — Gamaex Providencia",
     description: "Cambio de divisas accesible desde Estación Central. Gamaex en Providencia.",
     url: "https://www.gamaex.cl/casa-de-cambio-estacion-central",
   },

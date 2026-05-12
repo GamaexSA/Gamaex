@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Miraflores | Gamaex — Divisas en Providencia",
+  title: "Casa de cambio cerca de Miraflores — Gamaex Providencia",
   description:
     "Casa de cambio cercana a Miraflores, Providencia. Gamaex en Av. Pedro de Valdivia 020, a pocos pasos de Miraflores. Compra y venta de más de 40 divisas, 38 años de experiencia.",
   keywords: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-miraflores",
   },
   openGraph: {
-    title: "Casa de Cambio Miraflores | Gamaex Providencia",
+    title: "Casa de cambio cerca de Miraflores — Gamaex Providencia",
     description: "Cambio de divisas en Miraflores, Providencia. Gamaex, 38 años de experiencia.",
     url: "https://www.gamaex.cl/casa-de-cambio-miraflores",
   },

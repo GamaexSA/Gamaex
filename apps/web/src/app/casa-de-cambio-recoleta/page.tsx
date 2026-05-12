@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Recoleta | Gamaex — Divisas en Providencia",
+  title: "Casa de cambio cerca de Recoleta — Gamaex Providencia",
   description:
     "Casa de cambio cercana a Recoleta. Gamaex en Av. Pedro de Valdivia 020, Providencia — accesible desde Recoleta en Metro (Línea 1). Sin comisiones, 38 años.",
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-recoleta",
   },
   openGraph: {
-    title: "Casa de Cambio Recoleta | Gamaex Providencia",
+    title: "Casa de cambio cerca de Recoleta — Gamaex Providencia",
     description: "Cambio de divisas accesible desde Recoleta. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-recoleta",
   },

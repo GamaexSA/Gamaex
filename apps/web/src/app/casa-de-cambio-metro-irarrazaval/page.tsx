@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Metro Irarrázaval | Gamaex Providencia",
+  title: "Casa de cambio cerca de Metro Irarrázaval — Gamaex Providencia",
   description:
     "Casa de cambio cerca del Metro Irarrázaval. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas cuadras de Irarrázaval. Sin comisiones, 38 años de trayectoria.",
   keywords: [
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-metro-irarrazaval",
   },
   openGraph: {
-    title: "Casa de Cambio Metro Irarrázaval | Gamaex Providencia",
+    title: "Casa de cambio cerca de Metro Irarrázaval — Gamaex Providencia",
     description: "Cambio de divisas cerca del Metro Irarrázaval. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-metro-irarrazaval",
   },

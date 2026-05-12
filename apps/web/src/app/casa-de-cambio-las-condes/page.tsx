@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Cerca de Las Condes | Gamaex Chile — Providencia",
+  title: "Casa de cambio cerca de Las Condes — Gamaex Providencia",
   description:
     "Gamaex en Providencia: la casa de cambio más cercana a Las Condes. +40 divisas, 38 años de trayectoria, precios finales sin comisiones. A minutos en Metro Línea 1.",
   keywords: [
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-las-condes",
   },
   openGraph: {
-    title: "Casa de Cambio Cerca de Las Condes | Gamaex — Providencia",
+    title: "Casa de cambio cerca de Las Condes — Gamaex Providencia",
     description:
       "La casa de cambio más cercana a Las Condes está en Gamaex, Providencia. +40 divisas, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-las-condes",
