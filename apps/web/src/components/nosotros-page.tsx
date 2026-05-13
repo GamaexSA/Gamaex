@@ -1,17 +1,23 @@
+"use client";
+
+import { useState } from "react";
+import { track } from "./analytics";
+
 const WA_NUMBER = "56938782514";
 const FIXED_PHONE = "+56 2 2946 2670";
 const FIXED_PHONE_2 = "+56 2 2789 4391";
 const WA_MSG = "Hola, quiero consultar una cotización en Gamaex.";
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MSG)}`;
-const MAPS_LINK = "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago,+Chile";
+const MAPS_LINK = "https://www.google.com/maps/place/?q=place_id:ChIJWTo0fmbPYpYR4XOn4uAxnIU";
 
 export default function NosotrosPage() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main className="ns-root">
       {/* ── NAV ── */}
       <nav className="ns-nav">
         <a href="/" className="ns-brand">
-          <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" aria-label="Gamaex">
+          <svg viewBox="0 33 800 214" xmlns="http://www.w3.org/2000/svg" aria-label="Gamaex">
             <defs>
               <linearGradient id="nsLogoGold" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#E8C76E" />
@@ -26,8 +32,7 @@ export default function NosotrosPage() {
               <path d="M -7 -100 L 0 -107 L 7 -100" fill="none" stroke="url(#nsLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M -7 100 L 0 107 L 7 100" fill="none" stroke="url(#nsLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </g>
-            <text x="280" y="155" fontFamily="'Cormorant Garamond', serif" fontSize="78" fontWeight="500" letterSpacing="14" fill="url(#nsLogoGold)">GAMAEX</text>
-            <text x="280" y="195" fontFamily="'Inter', sans-serif" fontSize="16" fontWeight="400" letterSpacing="6" fill="#C9A84C">CASA DE CAMBIO · DESDE 1988</text>
+            <text x="280" y="170" fontFamily="'Cormorant Garamond', serif" fontSize="92" fontWeight="500" letterSpacing="14" fill="url(#nsLogoGold)">GAMAEX</text>
           </svg>
         </a>
         <div className="ns-nav-links">
@@ -36,8 +41,41 @@ export default function NosotrosPage() {
           <a href="/preguntas-frecuentes">FAQ</a>
           <a href="/#ubicacion">Ubicación</a>
         </div>
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-cta-dark">💬 Cotizar</a>
+        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-cta-dark ns-cta-desktop" onClick={() => track.whatsappClick("nosotros-nav")}>💬 Cotizar</a>
+        <button
+          type="button"
+          className={`ns-burger ${menuOpen ? "open" : ""}`}
+          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((v) => !v)}
+        >
+          <span /><span /><span />
+        </button>
       </nav>
+
+      {/* ── MOBILE DRAWER ── */}
+      <div
+        className={`ns-mobile-overlay ${menuOpen ? "open" : ""}`}
+        onClick={() => setMenuOpen(false)}
+        aria-hidden={!menuOpen}
+      />
+      <aside
+        className={`ns-mobile-drawer ${menuOpen ? "open" : ""}`}
+        aria-hidden={!menuOpen}
+      >
+        <ul className="ns-mobile-links">
+          <li><a href="/" onClick={() => setMenuOpen(false)}>Inicio</a></li>
+          <li><a href="/servicios" onClick={() => setMenuOpen(false)}>Servicios</a></li>
+          <li><a href="/preguntas-frecuentes" onClick={() => setMenuOpen(false)}>FAQ</a></li>
+          <li><a href="/#ubicacion" onClick={() => setMenuOpen(false)}>Ubicación</a></li>
+        </ul>
+        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-mobile-cta" onClick={() => { track.whatsappClick("nosotros-mobile-menu"); setMenuOpen(false); }}>
+          💬 Cotizar por WhatsApp
+        </a>
+        <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-mobile-cta-outline" onClick={() => { track.phoneClick(); setMenuOpen(false); }}>
+          📞 Llamar al local
+        </a>
+      </aside>
 
       {/* ── HERO ── */}
       <section className="ns-hero">
@@ -48,8 +86,8 @@ export default function NosotrosPage() {
             Empresa familiar con más de tres décadas operando en el mercado cambiario chileno desde nuestra casa matriz en Av. Pedro de Valdivia 020, Providencia. Atención presencial, billetes verificados, sin comisiones ocultas.
           </p>
           <div className="ns-hero-ctas">
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold">💬 Cotizar por WhatsApp</a>
-            <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline">📍 Cómo llegar</a>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-hero")}>💬 Cotizar por WhatsApp</a>
+            <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>📍 Cómo llegar</a>
           </div>
         </div>
       </section>
@@ -200,10 +238,10 @@ export default function NosotrosPage() {
         <h2>Te esperamos en <em>Providencia</em>.</h2>
         <p>Av. Pedro de Valdivia 020 · A pasos del Metro Pedro de Valdivia (Línea 1)</p>
         <div className="ns-cta-row">
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold">💬 Cotizar por WhatsApp</a>
-          <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline">📍 Ver en Maps</a>
-          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline">📞 {FIXED_PHONE}</a>
-          <a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} className="ns-btn-outline">📞 {FIXED_PHONE_2}</a>
+          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-cta")}>💬 Cotizar por WhatsApp</a>
+          <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>📍 Ver en Maps</a>
+          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>📞 {FIXED_PHONE}</a>
+          <a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>📞 {FIXED_PHONE_2}</a>
         </div>
         <div className="ns-hours">
           <span><strong>Lun – Vie</strong> 9:00 — 17:00</span>
@@ -481,9 +519,39 @@ export default function NosotrosPage() {
         .ns-footer-links a:hover { color: var(--ns-gold-light); }
 
         /* RESPONSIVE */
+        /* HAMBURGER + DRAWER */
+        .ns-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 10px; background: transparent; border: none; cursor: pointer; border-radius: 10px; margin-left: auto; }
+        .ns-burger:hover { background: rgba(15,20,25,0.06); }
+        .ns-burger span { display: block; width: 22px; height: 2px; background: var(--ns-dark); border-radius: 2px; transition: transform 0.25s ease, opacity 0.2s ease; }
+        .ns-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .ns-burger.open span:nth-child(2) { opacity: 0; }
+        .ns-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .ns-mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(15,20,25,0.55); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 99; }
+        .ns-mobile-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .ns-mobile-drawer {
+          display: none; position: fixed; top: 0; right: 0; bottom: 0; width: min(82vw, 360px);
+          background: white; padding: 100px 1.75rem 2rem; flex-direction: column; gap: 1rem;
+          box-shadow: -8px 0 28px rgba(15,20,25,0.18); transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 100; overflow-y: auto;
+        }
+        .ns-mobile-drawer.open { transform: translateX(0); }
+        .ns-mobile-links { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+        .ns-mobile-links a { display: block; padding: 0.95rem 0.25rem; font-size: 1.05rem; font-weight: 500; color: var(--ns-dark); border-bottom: 1px solid var(--ns-border); transition: color 0.2s, padding-left 0.2s; }
+        .ns-mobile-links a:hover, .ns-mobile-links a:active { color: var(--ns-gold-deep); padding-left: 0.5rem; }
+        .ns-mobile-links li:last-child a { border-bottom: none; }
+        .ns-mobile-cta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem 1.25rem; background: var(--ns-gold); color: var(--ns-dark); border-radius: 12px; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(201,168,76,0.3); transition: transform 0.15s; }
+        .ns-mobile-cta:active { transform: scale(0.98); }
+        .ns-mobile-cta-outline { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.95rem 1.25rem; background: white; color: var(--ns-dark); border: 1.5px solid var(--ns-border); border-radius: 12px; font-size: 0.95rem; font-weight: 600; }
+
         @media (max-width: 900px) {
           .ns-nav { padding: 1rem 5%; }
           .ns-nav-links { display: none; }
+          .ns-cta-desktop { display: none; }
+          .ns-burger { display: flex; }
+          .ns-mobile-overlay { display: block; }
+          .ns-mobile-drawer { display: flex; }
           .ns-stats { grid-template-columns: repeat(2, 1fr); }
           .ns-stat:nth-child(2) { border-right: none; }
           .ns-stat:nth-child(1), .ns-stat:nth-child(2) { border-bottom: 1px solid var(--ns-border); }

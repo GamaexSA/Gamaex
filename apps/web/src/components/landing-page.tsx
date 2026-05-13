@@ -64,13 +64,23 @@ const CURRENCY_GRID = [
   { flag: "🇿🇦", code: "ZAR" }, { flag: "🇹🇼", code: "TWD" }, { flag: "🇮🇳", code: "INR" }, { flag: "🇹🇭", code: "THB" },
 ];
 
+const RATE_PRIORITY = ["USD", "EUR", "ARS", "BRL", "PEN", "COP", "UYU"];
+
 const TESTIMONIALS = [
   { name: "Javier H. Wolnitzky", initial: "JW", context: "Cambia USD mensualmente", text: "Solo un peso más caro por dólar, pero sin esperas. Además, aceptan dólares corrientes que no estén en circulación." },
   { name: "Ignacio Jorquera", initial: "IJ", context: "Vino por turismo a Chile", text: "Muy buena atención, rápida y clara. Me explicaron bien el tipo de cambio y el proceso fue ordenado. Recomendado si buscas casa de cambio en Providencia." },
   { name: "Matías Schwarc", initial: "MS", context: "Cliente desde 2019", text: "Rápido, el servicio espectacular, recomendable al 100%. La mejor de Providencia, sin lugar a dudas." },
 ];
 
-export default function LandingPage({ rates, systemStatus, lastSyncAt, pageContext, variant = "full" }: Props) {
+export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt, pageContext, variant = "full" }: Props) {
+  const rates = [...rawRates].sort((a, b) => {
+    const ai = RATE_PRIORITY.indexOf(a.code);
+    const bi = RATE_PRIORITY.indexOf(b.code);
+    if (ai === -1 && bi === -1) return 0;
+    if (ai === -1) return 1;
+    if (bi === -1) return -1;
+    return ai - bi;
+  });
   const h1Before = pageContext?.h1Before ?? "Casa de cambio en ";
   const h1Accent = pageContext?.h1Accent ?? "Providencia";
   const heroDesc = pageContext?.heroDesc ?? "38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.";
@@ -98,6 +108,8 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState<boolean | null>(null);
+  const [lastSyncFmt, setLastSyncFmt] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Alerta de precio
   const [alertName, setAlertName] = useState("");
@@ -228,14 +240,16 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
     track.calcUsed(newFrom, next);
   }
 
-  const lastSyncFmt = lastSyncAt
-    ? new Date(lastSyncAt).toLocaleString("es-CL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "America/Santiago" })
-    : "";
+  useEffect(() => {
+    if (!lastSyncAt) { setLastSyncFmt(""); return; }
+    setLastSyncFmt(
+      new Date(lastSyncAt).toLocaleString("es-CL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "America/Santiago" }),
+    );
+  }, [lastSyncAt]);
 
   return (
     <div className="gx-root">
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@500;600&display=swap');
+      <style dangerouslySetInnerHTML={{ __html: `
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
           --gold-light: #E8C76E; --gold: #C9A84C; --gold-deep: #9C7E2E; --gold-darker: #75591F;
@@ -513,9 +527,43 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
         .gx-wa-float { position: fixed; bottom: 28px; right: 28px; width: 60px; height: 60px; border-radius: 50%; background: var(--green-wa); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; box-shadow: 0 8px 24px rgba(37,211,102,0.45); z-index: 99; transition: all 0.2s; }
         .gx-wa-float:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(37,211,102,0.55); }
 
+        /* HAMBURGER + MOBILE DRAWER */
+        .gx-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 10px; background: transparent; border: none; cursor: pointer; border-radius: 10px; }
+        .gx-burger:hover { background: rgba(15,20,25,0.06); }
+        .gx-burger span { display: block; width: 22px; height: 2px; background: var(--dark); border-radius: 2px; transition: transform 0.25s ease, opacity 0.2s ease; }
+        .gx-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .gx-burger.open span:nth-child(2) { opacity: 0; }
+        .gx-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .gx-mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(15,20,25,0.55); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 99; }
+        .gx-mobile-overlay.open { opacity: 1; pointer-events: auto; }
+
+        .gx-mobile-drawer {
+          display: none; position: fixed; top: 0; right: 0; bottom: 0; width: min(82vw, 360px);
+          background: var(--white); padding: 100px 1.75rem 2rem; flex-direction: column; gap: 1rem;
+          box-shadow: -8px 0 28px rgba(15,20,25,0.18); transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+          z-index: 100; overflow-y: auto;
+        }
+        .gx-mobile-drawer.open { transform: translateX(0); }
+        .gx-mobile-links { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
+        .gx-mobile-links a { display: block; padding: 0.95rem 0.25rem; font-size: 1.05rem; font-weight: 500; color: var(--dark); border-bottom: 1px solid var(--border); transition: color 0.2s, padding-left 0.2s; }
+        .gx-mobile-links a:hover, .gx-mobile-links a:active { color: var(--gold-deep); padding-left: 0.5rem; }
+        .gx-mobile-links li:last-child a { border-bottom: none; }
+        .gx-mobile-cta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem 1.25rem; background: var(--gold); color: var(--dark); border-radius: 12px; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(201,168,76,0.3); transition: transform 0.15s; }
+        .gx-mobile-cta:active { transform: scale(0.98); }
+        .gx-mobile-cta-outline { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.95rem 1.25rem; background: white; color: var(--dark); border: 1.5px solid var(--border); border-radius: 12px; font-size: 0.95rem; font-weight: 600; transition: background 0.15s; }
+        .gx-mobile-cta-outline:active { background: var(--light); }
+
         /* RESPONSIVE */
         @media (max-width: 968px) {
           .gx-nav-links { display: none; }
+          .gx-burger { display: flex; }
+          .gx-mobile-overlay { display: block; }
+          .gx-mobile-drawer { display: flex; }
+          .gx-cta-desktop { display: none; }
+          .gx-status { font-size: 0.72rem; padding: 0.28rem 0.6rem; }
+          .gx-nav { padding: 0 4%; height: 70px; }
+          .gx-logo svg { height: 50px; }
           .gx-hero { grid-template-columns: 1fr; padding: 100px 6% 3rem; gap: 2.5rem; }
           .gx-stats { grid-template-columns: repeat(2, 1fr); }
           .gx-steps, .gx-services, .gx-testimonials, .gx-vs, .gx-loc-grid, .gx-alert-grid { grid-template-columns: 1fr; }
@@ -535,7 +583,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           .gx-footer-grid { grid-template-columns: 1fr; }
           .gx-footer-bottom { flex-direction: column; }
         }
-      `}</style>
+      ` }} />
 
       {/* ── SVG GRADIENTS ── */}
       <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
@@ -551,7 +599,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
       {/* ── NAV ── */}
       <nav className="gx-nav">
         <a href="/" className="gx-logo" aria-label="Gamaex — Casa de cambio">
-          <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg">
+          <svg viewBox="0 33 800 214" xmlns="http://www.w3.org/2000/svg">
             <g transform="translate(140,140)">
               <circle cx="0" cy="0" r="100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="4" />
               <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gxLogoGold)" strokeWidth="1" opacity="0.5" />
@@ -559,8 +607,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
               <path d="M -7 -100 L 0 -107 L 7 -100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
               <path d="M -7 100 L 0 107 L 7 100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
             </g>
-            <text x="280" y="155" fontFamily="'Cormorant Garamond', serif" fontSize="78" fontWeight="500" letterSpacing="14" fill="url(#gxLogoGold)">GAMAEX</text>
-            <text x="280" y="195" fontFamily="'Inter', sans-serif" fontSize="16" fontWeight="400" letterSpacing="6" fill="#9C7E2E">CASA DE CAMBIO · DESDE 1988</text>
+            <text x="280" y="170" fontFamily="'Cormorant Garamond', serif" fontSize="92" fontWeight="500" letterSpacing="14" fill="url(#gxLogoGold)">GAMAEX</text>
           </svg>
         </a>
         <ul className="gx-nav-links">
@@ -578,11 +625,62 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
               {isOpen ? "Abierto ahora" : "Cerrado"}
             </span>
           )}
-          <a href={wa()} target="_blank" rel="noopener noreferrer" className="gx-cta-dark" onClick={() => track.whatsappClick("nav")}>
+          <a href={wa()} target="_blank" rel="noopener noreferrer" className="gx-cta-dark gx-cta-desktop" onClick={() => track.whatsappClick("nav")}>
             💬 Cotizar
           </a>
+          <button
+            type="button"
+            className={`gx-burger ${mobileMenuOpen ? "open" : ""}`}
+            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-expanded={mobileMenuOpen}
+            onClick={() => setMobileMenuOpen((v) => !v)}
+          >
+            <span /><span /><span />
+          </button>
         </div>
       </nav>
+
+      {/* ── MOBILE DRAWER ── */}
+      <div
+        className={`gx-mobile-overlay ${mobileMenuOpen ? "open" : ""}`}
+        onClick={() => setMobileMenuOpen(false)}
+        aria-hidden={!mobileMenuOpen}
+      />
+      <aside
+        className={`gx-mobile-drawer ${mobileMenuOpen ? "open" : ""}`}
+        aria-hidden={!mobileMenuOpen}
+      >
+        {isOpen !== null && (
+          <span className={`gx-status ${isOpen ? "open" : "closed"}`} style={{ alignSelf: "flex-start", marginBottom: "1rem" }}>
+            <span className="dot" />
+            {isOpen ? "Abierto ahora" : "Cerrado"}
+          </span>
+        )}
+        <ul className="gx-mobile-links">
+          <li><a href={navHref(variant, "tasas")} onClick={() => setMobileMenuOpen(false)}>Tasas</a></li>
+          <li><a href={navHref(variant, "servicios")} onClick={() => setMobileMenuOpen(false)}>Servicios</a></li>
+          <li><a href={navHref(variant, "nosotros")} onClick={() => setMobileMenuOpen(false)}>Nosotros</a></li>
+          <li><a href={navHref(variant, "alerta-precio")} onClick={() => setMobileMenuOpen(false)}>Alerta de precio</a></li>
+          <li><a href={navHref(variant, "faq")} onClick={() => setMobileMenuOpen(false)}>FAQ</a></li>
+          <li><a href={navHref(variant, "ubicacion")} onClick={() => setMobileMenuOpen(false)}>Ubicación</a></li>
+        </ul>
+        <a
+          href={wa()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="gx-mobile-cta"
+          onClick={() => { track.whatsappClick("mobile-menu"); setMobileMenuOpen(false); }}
+        >
+          💬 Cotizar por WhatsApp
+        </a>
+        <a
+          href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`}
+          className="gx-mobile-cta-outline"
+          onClick={() => { track.phoneClick(); setMobileMenuOpen(false); }}
+        >
+          📞 Llamar al local
+        </a>
+      </aside>
 
       {/* ── PAGE HEADER (variantes != home/full) ── */}
       {showPageHeader && (
@@ -721,7 +819,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
                     : r.flag_emoji}
                   {" "}{r.code}
                 </span>
-                <strong>${r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}</strong>
+                <strong>{r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}</strong>
               </div>
             ))}
             {lastSyncFmt && (
@@ -813,15 +911,15 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           {rates.length === 0 ? (
             <div className="gx-rates-empty">
               Cotizaciones no disponibles en este momento.{" "}
-              <a href={wa()} target="_blank" rel="noopener noreferrer">Consultar por WhatsApp →</a>
+              <a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("rates-empty")}>Consultar por WhatsApp →</a>
             </div>
           ) : (
             <table className="gx-rates-table">
               <thead>
                 <tr>
-                  <th>Divisa</th>
-                  <th style={{ textAlign: "right" }}>Compramos (CLP)</th>
-                  <th style={{ textAlign: "right" }}>Vendemos (CLP)</th>
+                  <th>Divisa · Currency</th>
+                  <th style={{ textAlign: "right" }}>Compramos · We buy</th>
+                  <th style={{ textAlign: "right" }}>Vendemos · We sell</th>
                 </tr>
               </thead>
               <tbody>
@@ -843,10 +941,10 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
                       <strong>{r.name}</strong> <span style={{ color: "var(--gray)", fontSize: "0.85rem" }}>· {r.code}</span>
                     </td>
                     <td className="gx-rate-buy" style={{ textAlign: "right" }}>
-                      ${r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}
+                      {r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}
                     </td>
                     <td className="gx-rate-sell" style={{ textAlign: "right" }}>
-                      ${r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell < 1 ? r.decimal_places : 0, maximumFractionDigits: r.sell < 1 ? r.decimal_places : 0 })}
+                      {r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell < 1 ? r.decimal_places : 0, maximumFractionDigits: r.sell < 1 ? r.decimal_places : 0 })}
                     </td>
                   </tr>
                 ))}
@@ -1174,7 +1272,7 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
 
             <div className="gx-loc-cta">
               <a
-                href="https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago,+Chile"
+                href="https://www.google.com/maps/place/?q=place_id:ChIJWTo0fmbPYpYR4XOn4uAxnIU"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => track.mapsClick()}
@@ -1244,9 +1342,9 @@ export default function LandingPage({ rates, systemStatus, lastSyncAt, pageConte
           <div className="gx-footer-col">
             <h5>Contacto</h5>
             <ul>
-              <li><a href={wa()} target="_blank" rel="noopener noreferrer">WhatsApp +56 9 3878 2514</a></li>
-              <li><a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`}>{FIXED_PHONE}</a></li>
-              <li><a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`}>{FIXED_PHONE_2}</a></li>
+              <li><a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("footer")}>WhatsApp +56 9 3878 2514</a></li>
+              <li><a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} onClick={() => track.phoneClick()}>{FIXED_PHONE}</a></li>
+              <li><a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} onClick={() => track.phoneClick()}>{FIXED_PHONE_2}</a></li>
               <li><a href="mailto:gamaex@gmail.com">gamaex@gmail.com</a></li>
               <li><span className="staticline">Lun–Vie 9:00–17:00 · Sáb 9:00–13:00</span></li>
             </ul>
