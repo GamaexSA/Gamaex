@@ -17,6 +17,7 @@ const GADS_LABELS = {
   whatsappCalc: process.env["NEXT_PUBLIC_GADS_LABEL_WHATSAPP_CALC"],
   phone: process.env["NEXT_PUBLIC_GADS_LABEL_PHONE"],
   maps: process.env["NEXT_PUBLIC_GADS_LABEL_MAPS"],
+  contact: process.env["NEXT_PUBLIC_GADS_LABEL_CONTACT"],
 } as const;
 
 declare global {
@@ -75,6 +76,10 @@ export const track = {
     trackEvent("whatsapp_calc_click", "conversion", `${from}_${to}`, rounded);
     trackAdsConversion(GADS_LABELS.whatsappCalc, rounded);
   },
+  priceAlertSubmit: (currency: string, operation: string) => {
+    trackEvent("price_alert_submit", "conversion", `${operation}_${currency}`);
+    trackAdsConversion(GADS_LABELS.contact);
+  },
   faqOpen: (question: string) =>
     trackEvent("faq_open", "engagement", question),
   shareLink: (from: string, to: string) =>
@@ -92,8 +97,10 @@ export default function Analytics() {
     document.head.appendChild(script);
 
     window.dataLayer = window.dataLayer ?? [];
-    window.gtag = function (...args: unknown[]) {
-      window.dataLayer!.push(args);
+    window.gtag = function gtag() {
+      // Debe usar `arguments` (no spread) para que gtag.js procese cada hit.
+      // eslint-disable-next-line prefer-rest-params
+      window.dataLayer!.push(arguments);
     };
     window.gtag("js", new Date());
 

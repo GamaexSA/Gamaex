@@ -149,6 +149,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         throw new Error(err.message ?? "Error al enviar la solicitud");
       }
       setAlertSuccess(true);
+      track.priceAlertSubmit(alertCurrency, alertOperation);
     } catch (err: unknown) {
       setAlertError(err instanceof Error ? err.message : "Error al enviar. Intenta nuevamente.");
     } finally {
