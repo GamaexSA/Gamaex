@@ -23,9 +23,10 @@ function StatusBadge({ status }: { status: "ok" | "degraded" | "stale" | string 
   );
 }
 
-function fmtCLP(n: number | null) {
+function fmtCLP(n: number | null, decimals = 2) {
   if (n === null) return "—";
-  return n.toLocaleString("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const d = Math.max(0, Math.min(4, Math.trunc(decimals)));
+  return n.toLocaleString("es-CL", { minimumFractionDigits: d, maximumFractionDigits: d });
 }
 
 function fmtDate(s: string) {
@@ -217,10 +218,10 @@ export default function DashboardPage() {
                   {r.mode}
                 </span>
                 <span className="font-mono" style={{ fontSize: 13, color: "var(--green)", fontWeight: 500 }}>
-                  ${fmtCLP(r.buy)}
+                  ${fmtCLP(r.buy, r.decimal_places)}
                 </span>
                 <span className="font-mono" style={{ fontSize: 13, fontWeight: 500 }}>
-                  ${fmtCLP(r.sell)}
+                  ${fmtCLP(r.sell, r.decimal_places)}
                 </span>
                 <span style={{ fontSize: 11, color: "var(--text-dim)" }}>
                   {r.last_updated ? new Date(r.last_updated).toLocaleTimeString("es-CL", { hour: "2-digit", minute: "2-digit" }) : "—"}

@@ -13,11 +13,13 @@ interface EditState {
   sellMargin: string;
   manualBuy: string;
   manualSell: string;
+  decimals: string;
 }
 
-function fmtCLP(n: number | null) {
+function fmtCLP(n: number | null, decimals = 2) {
   if (n === null) return "—";
-  return n.toLocaleString("es-CL", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const d = Math.max(0, Math.min(4, Math.trunc(decimals)));
+  return n.toLocaleString("es-CL", { minimumFractionDigits: d, maximumFractionDigits: d });
 }
 
 function Input({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
@@ -25,11 +27,11 @@ function Input({ label, value, onChange, placeholder }: { label: string; value: 
     <div style={{ marginBottom: 14 }}>
       <label style={{ display: "block", fontSize: 11, color: "var(--text-dim)", letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5 }}>{label}</label>
       <input
-        type="number"
-        step="0.01"
+        type="text"
+        inputMode="decimal"
         value={value}
         placeholder={placeholder}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value.replace(",", "."))}
         style={{
           width: "100%",
           background: "var(--bg3)",
@@ -131,6 +133,7 @@ export default function CurrenciesPage() {
       sellMargin: String(c.quote_config?.sell_margin ?? 0),
       manualBuy: String(c.quote_config?.manual_buy ?? c.quote_config?.current_buy ?? ""),
       manualSell: String(c.quote_config?.manual_sell ?? c.quote_config?.current_sell ?? ""),
+      decimals: String(c.decimal_places ?? 2),
     });
   }
 
@@ -139,6 +142,14 @@ export default function CurrenciesPage() {
     setSaving(true);
     try {
       const code = edit.currency.code;
+      const newDecimals = Math.trunc(Number(edit.decimals));
+      if (!Number.isFinite(newDecimals) || newDecimals < 0 || newDecimals > 4) {
+        showToast("Error: decimales debe ser un entero entre 0 y 4");
+        return;
+      }
+      if (newDecimals !== edit.currency.decimal_places) {
+        await api.updateDecimals(code, newDecimals);
+      }
       if (edit.mode === "margins") {
         await api.updateMargins(code, parseFloat(edit.buyMargin), parseFloat(edit.sellMargin));
       } else {
@@ -325,7 +336,7 @@ export default function CurrenciesPage() {
 
                   <div>
                     <div className="font-mono" style={{ fontSize: 13, color: "var(--green)", fontWeight: 500 }}>
-                      ${fmtCLP(qc?.current_buy ?? null)}
+                      ${fmtCLP(qc?.current_buy ?? null, c.decimal_places)}
                     </div>
                     {!isManual && qc?.buy_margin != null && (
                       <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>
@@ -339,7 +350,7 @@ export default function CurrenciesPage() {
 
                   <div>
                     <div className="font-mono" style={{ fontSize: 13, fontWeight: 500 }}>
-                      ${fmtCLP(qc?.current_sell ?? null)}
+                      ${fmtCLP(qc?.current_sell ?? null, c.decimal_places)}
                     </div>
                     {!isManual && qc?.sell_margin != null && (
                       <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 2 }}>
@@ -424,7 +435,7 @@ export default function CurrenciesPage() {
                   {edit.currency.flag_emoji} {edit.currency.name} ({edit.currency.code})
                 </div>
                 <div style={{ fontSize: 12, color: "var(--text-dim)", marginTop: 2 }}>
-                  Base actual: ${fmtCLP(edit.currency.quote_config?.last_base_price ?? null)}
+                  Base actual: ${fmtCLP(edit.currency.quote_config?.last_base_price ?? null, edit.currency.decimal_places)}
                 </div>
               </div>
               <button
@@ -473,6 +484,40 @@ export default function CurrenciesPage() {
                 <Input label="Precio venta (CLP)" value={edit.manualSell} onChange={(v) => setEdit((p) => p ? { ...p, manualSell: v } : p)} placeholder="952" />
               </>
             )}
+
+            <div style={{
+              marginTop: 6, marginBottom: 14, padding: "10px 12px",
+              background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: 8,
+            }}>
+              <label style={{
+                display: "block", fontSize: 11, color: "var(--text-dim)",
+                letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5,
+              }}>
+                Decimales mostrados (0–4)
+              </label>
+              <input
+                type="number"
+                min={0}
+                max={4}
+                step={1}
+                value={edit.decimals}
+                onChange={(e) => setEdit((p) => p ? { ...p, decimals: e.target.value } : p)}
+                style={{
+                  width: "100%",
+                  background: "var(--bg2)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 6,
+                  padding: "8px 10px",
+                  color: "var(--text)",
+                  fontSize: 14,
+                  outline: "none",
+                  fontFamily: "var(--font-mono, 'DM Mono', monospace)",
+                }}
+              />
+              <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 6, lineHeight: 1.4 }}>
+                Cantidad de decimales del precio. Cambiarlo recalcula los precios actuales según el nuevo redondeo.
+              </div>
+            </div>
 
             {edit.currency.quote_config?.mode === "MANUAL" && edit.mode === "margins" && (
               <button

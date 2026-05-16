@@ -32,6 +32,7 @@ export interface Currency {
   code: string;
   name: string;
   flag_emoji: string;
+  decimal_places: number;
   is_active: boolean;
   display_order: number;
   quote_config: QuoteConfig | null;
@@ -94,6 +95,7 @@ export interface PublicRate {
   flag_emoji: string;
   buy: number;
   sell: number;
+  decimal_places: number;
   mode: string;
   last_updated: string;
 }
@@ -192,6 +194,11 @@ export const api = {
     request("/currencies/" + code + "/switch-auto", { method: "PATCH" }),
   toggleActive: (code: string) =>
     request("/currencies/" + code + "/toggle", { method: "PATCH" }),
+  updateDecimals: (code: string, decimal_places: number) =>
+    request<{ ok: boolean; decimal_places: number; recalculated: boolean }>(
+      "/currencies/" + code + "/decimals",
+      { method: "PATCH", body: JSON.stringify({ decimal_places }) },
+    ),
   forceSync: (code: string) =>
     request<{ updated: number; skipped: number }>("/currencies/" + code + "/force-sync", { method: "POST" }),
 

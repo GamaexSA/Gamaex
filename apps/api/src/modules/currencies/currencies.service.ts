@@ -40,6 +40,7 @@ export class CurrenciesService {
       const result = this.rates.calculatePrices(
         { ...config, buy_margin: dto.buy_margin, sell_margin: dto.sell_margin },
         config.last_base_price,
+        currency.decimal_places,
       );
       currentBuy = result.buy;
       currentSell = result.sell;
@@ -100,6 +101,10 @@ export class CurrenciesService {
     const config = currency.quote_config;
     if (!config) throw new BadRequestException("Moneda sin configuración de precios");
 
+    const d = Math.max(0, Math.min(8, Math.trunc(currency.decimal_places)));
+    const manualBuy  = parseFloat(dto.manual_buy.toFixed(d));
+    const manualSell = parseFloat(dto.manual_sell.toFixed(d));
+
     const before = {
       mode: config.mode,
       manual_buy: config.manual_buy,
@@ -113,10 +118,10 @@ export class CurrenciesService {
         where: { id: config.id },
         data: {
           mode: QuoteMode.MANUAL,
-          manual_buy: dto.manual_buy,
-          manual_sell: dto.manual_sell,
-          current_buy: dto.manual_buy,
-          current_sell: dto.manual_sell,
+          manual_buy: manualBuy,
+          manual_sell: manualSell,
+          current_buy: manualBuy,
+          current_sell: manualSell,
           last_synced_at: new Date(),
           last_synced_by: actorRef,
         },
@@ -125,8 +130,8 @@ export class CurrenciesService {
         data: {
           currency_id: currency.id,
           base_price: config.last_base_price ?? 0,
-          buy_price: dto.manual_buy,
-          sell_price: dto.manual_sell,
+          buy_price: manualBuy,
+          sell_price: manualSell,
           buy_margin: config.buy_margin,
           sell_margin: config.sell_margin,
           mode: QuoteMode.MANUAL,
@@ -141,12 +146,77 @@ export class CurrenciesService {
           action: AuditAction.SET_MANUAL_PRICES,
           actor_ref: actorRef,
           before,
-          after: { ...dto, mode: "MANUAL" },
+          after: { manual_buy: manualBuy, manual_sell: manualSell, mode: "MANUAL" },
         },
       }),
     ]);
 
     return { ok: true };
+  }
+
+  async updateDecimalPlaces(
+    code: string,
+    dto: { decimal_places: number },
+    actorRef: string,
+  ) {
+    const currency = await this.getByCode(code);
+    const n = Math.trunc(dto.decimal_places);
+    if (!Number.isFinite(n) || n < 0 || n > 4) {
+      throw new BadRequestException("decimal_places debe ser un entero entre 0 y 4");
+    }
+    if (n === currency.decimal_places) {
+      return { ok: true, decimal_places: n, recalculated: false };
+    }
+
+    const before = { decimal_places: currency.decimal_places };
+    const config = currency.quote_config;
+
+    let currentBuy = config?.current_buy ?? null;
+    let currentSell = config?.current_sell ?? null;
+    let recalculated = false;
+
+    if (config) {
+      if (config.mode === QuoteMode.AUTO && config.last_base_price) {
+        const result = this.rates.calculatePrices(config, config.last_base_price, n);
+        currentBuy = result.buy;
+        currentSell = result.sell;
+        recalculated = true;
+      } else if (config.mode === QuoteMode.MANUAL && config.manual_buy != null && config.manual_sell != null) {
+        currentBuy = parseFloat(config.manual_buy.toFixed(n));
+        currentSell = parseFloat(config.manual_sell.toFixed(n));
+        recalculated = true;
+      }
+    }
+
+    const updateConfigOp =
+      config && recalculated
+        ? [
+            this.db.quoteConfig.update({
+              where: { id: config.id },
+              data: { current_buy: currentBuy, current_sell: currentSell },
+            }),
+          ]
+        : [];
+
+    await this.db.$transaction([
+      this.db.currency.update({
+        where: { id: currency.id },
+        data: { decimal_places: n },
+      }),
+      ...updateConfigOp,
+      this.db.auditLog.create({
+        data: {
+          entity: "currency",
+          entity_id: currency.id,
+          action: AuditAction.UPDATE_CURRENCY,
+          actor_ref: actorRef,
+          before,
+          after: { decimal_places: n },
+        },
+      }),
+    ]);
+
+    return { ok: true, decimal_places: n, recalculated };
   }
 
   async switchToAuto(code: string, actorRef: string) {
@@ -163,6 +233,7 @@ export class CurrenciesService {
       const result = this.rates.calculatePrices(
         { ...config, mode: QuoteMode.AUTO, manual_buy: null, manual_sell: null },
         config.last_base_price,
+        currency.decimal_places,
       );
       currentBuy = result.buy;
       currentSell = result.sell;

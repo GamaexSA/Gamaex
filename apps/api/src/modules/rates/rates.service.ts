@@ -66,7 +66,7 @@ export class RatesService {
           }
         }
 
-        const { buy, sell } = this.calculatePrices(config, base);
+        const { buy, sell } = this.calculatePrices(config, base, currency.decimal_places);
 
         await this.db.$transaction([
           this.db.quoteConfig.update({
@@ -110,17 +110,22 @@ export class RatesService {
   calculatePrices(
     config: { mode: QuoteMode; buy_margin: number; sell_margin: number; manual_buy: number | null; manual_sell: number | null },
     basePrice: number,
+    decimalPlaces = 2,
   ): { buy: number; sell: number } {
+    const d = Math.max(0, Math.min(8, Math.trunc(decimalPlaces)));
     if (config.mode === QuoteMode.MANUAL) {
       if (config.manual_buy === null || config.manual_sell === null) {
         throw new Error("Modo MANUAL activo pero sin precios manuales definidos");
       }
-      return { buy: config.manual_buy, sell: config.manual_sell };
+      return {
+        buy:  parseFloat(config.manual_buy.toFixed(d)),
+        sell: parseFloat(config.manual_sell.toFixed(d)),
+      };
     }
 
     return {
-      buy:  parseFloat((basePrice + config.buy_margin).toFixed(2)),
-      sell: parseFloat((basePrice + config.sell_margin).toFixed(2)),
+      buy:  parseFloat((basePrice + config.buy_margin).toFixed(d)),
+      sell: parseFloat((basePrice + config.sell_margin).toFixed(d)),
     };
   }
 
@@ -199,7 +204,7 @@ export class RatesService {
       const base = baseRates[currency.code];
       if (base === undefined) { skipped++; continue; }
 
-      const { buy, sell } = this.calculatePrices(config, base);
+      const { buy, sell } = this.calculatePrices(config, base, currency.decimal_places);
 
       await this.db.$transaction([
         this.db.quoteConfig.update({

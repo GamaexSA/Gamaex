@@ -47,6 +47,15 @@ export class CurrenciesController {
     return this.svc.toggleActive(code, `user:${email}`);
   }
 
+  @Patch(":code/decimals")
+  updateDecimals(
+    @Param("code") code: string,
+    @Body() dto: { decimal_places: number },
+    @CurrentUser("email") email: string,
+  ) {
+    return this.svc.updateDecimalPlaces(code, dto, `user:${email}`);
+  }
+
   @Post(":code/force-sync")
   forceSync(
     @Param("code") code: string,
