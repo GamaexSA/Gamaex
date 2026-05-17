@@ -4,7 +4,8 @@ import Analytics from "@/components/analytics";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gamaex.cl"),
   title: {
-    default: "Casa de Cambio en Providencia | Gamaex Chile — 38 años de trayectoria",
+    default:
+      "Casa de Cambio en Providencia | Gamaex Chile — Cotiza online tu cambio de dólares y euros",
     template: "%s | Gamaex Chile",
   },
   description:
@@ -23,6 +24,9 @@ export const metadata: Metadata = {
     "casa de cambio metro pedro de valdivia",
     "gamaex chile",
     "cambio de moneda santiago centro",
+    "cambio de dolar santiago",
+    "comprar dolares chile",
+    "cambio euro providencia",
   ],
   authors: [{ name: "Gamaex Chile" }],
   creator: "Gamaex Chile",
@@ -51,7 +55,7 @@ export const metadata: Metadata = {
       "Compra y venta de dólares, euros, reales y más de 40 divisas. 38 años de trayectoria en Providencia, a pasos del Metro Pedro de Valdivia. Precios finales, sin comisiones ocultas.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
         alt: "Gamaex Chile — Casa de cambio en Providencia, Santiago",
@@ -63,7 +67,7 @@ export const metadata: Metadata = {
     title: "Casa de Cambio en Providencia | Gamaex Chile",
     description:
       "38 años de trayectoria. Compra y venta de divisas a pasos del Metro Pedro de Valdivia.",
-    images: ["/og-image.jpg"],
+    images: ["/opengraph-image"],
   },
   alternates: {
     canonical: "https://www.gamaex.cl",
@@ -85,6 +89,22 @@ const localBusinessSchema = {
   url: "https://www.gamaex.cl",
   telephone: "+56229462670",
   email: "gamaex@gmail.com",
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      telephone: "+56229462670",
+      contactType: "customer service",
+      areaServed: "CL",
+      availableLanguage: ["Spanish", "English"],
+    },
+    {
+      "@type": "ContactPoint",
+      telephone: "+56938782514",
+      contactType: "customer service",
+      areaServed: "CL",
+      availableLanguage: ["Spanish", "English"],
+    },
+  ],
   foundingDate: "1987",
   address: {
     "@type": "PostalAddress",
@@ -116,7 +136,7 @@ const localBusinessSchema = {
   currenciesAccepted: "CLP, USD, EUR, BRL, ARS, GBP, JPY, CHF, CAD, AUD",
   paymentAccepted: "Cash",
   priceRange: "$$",
-  image: "https://www.gamaex.cl/og-image.jpg",
+  image: "https://www.gamaex.cl/opengraph-image",
   hasMap:
     "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
   publicAccess: true,
@@ -230,7 +250,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Cormorant+Garamond:wght@500;600&display=swap"
         />
         <link rel="dns-prefetch" href="https://wa.me" />
         <script
