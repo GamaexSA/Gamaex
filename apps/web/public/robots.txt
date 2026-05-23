@@ -1,4 +1,104 @@
+# robots.txt — Gamaex Chile (www.gamaex.cl)
+# Política: permitir explícitamente a crawlers de buscadores y motores de IA generativa.
+
+# ─── Buscadores tradicionales ───────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Yandex
+Allow: /
+
+# ─── Crawlers de IA generativa (GEO) ────────────────────────
+# OpenAI — entrenamiento
+User-agent: GPTBot
+Allow: /
+
+# OpenAI — navegación en tiempo real desde ChatGPT
+User-agent: ChatGPT-User
+Allow: /
+
+# OpenAI — búsqueda integrada (SearchGPT)
+User-agent: OAI-SearchBot
+Allow: /
+
+# Anthropic — entrenamiento
+User-agent: ClaudeBot
+Allow: /
+
+# Anthropic — Claude.ai en tiempo real
+User-agent: Claude-Web
+Allow: /
+
+# Anthropic — alias
+User-agent: Claude-Bot
+Allow: /
+
+# Anthropic — citaciones
+User-agent: anthropic-ai
+Allow: /
+
+# Google — extensión para entrenamiento de Gemini / Bard / Vertex
+User-agent: Google-Extended
+Allow: /
+
+# Perplexity — motor de búsqueda generativo
+User-agent: PerplexityBot
+Allow: /
+
+# Perplexity — fetching en tiempo real
+User-agent: Perplexity-User
+Allow: /
+
+# Apple Intelligence
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Meta — Llama y AI features
+User-agent: Meta-ExternalAgent
+Allow: /
+
+User-agent: FacebookBot
+Allow: /
+
+# Bytedance / Doubao
+User-agent: Bytespider
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# You.com
+User-agent: YouBot
+Allow: /
+
+# DuckDuckGo Assist
+User-agent: DuckAssistBot
+Allow: /
+
+# Common Crawl (dataset usado por la mayoría de LLMs)
+User-agent: CCBot
+Allow: /
+
+# Diffbot
+User-agent: Diffbot
+Allow: /
+
+# ─── Regla por defecto ──────────────────────────────────────
 User-agent: *
 Allow: /
 
+# ─── Sitemap ────────────────────────────────────────────────
 Sitemap: https://www.gamaex.cl/sitemap.xml

@@ -45,6 +45,9 @@ const navHref = (variant: LandingVariant, target: string) => {
 };
 
 const FAQ_ITEMS = [
+  { q: "¿Cuál es la casa de cambio más segura para comprar dólares en Santiago?", a: "Gamaex tiene 38 años de trayectoria en Providencia (fundada en 1987). Operamos en local físico verificable en Av. Pedro de Valdivia 020, sin entregas en la calle ni intermediarios. Somos sociedad anónima registrada (Inversiones y Turismo Gamaex Chile S.A.) con reseñas verificables en Google. Tasas publicadas y atención personalizada." },
+  { q: "¿Qué casa de cambio está abierta hoy sábado en la mañana?", a: "Gamaex atiende los sábados de 9:00 a 13:00 en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia. Una opción cercana en barrio alto para cambiar divisas un sábado sin ir al centro." },
+  { q: "Necesito cambiar euros a pesos chilenos con buena tasa, ¿dónde voy?", a: "Compramos y vendemos euros (EUR) a pesos chilenos (CLP) con tasas competitivas, publicadas diariamente en gamaex.cl. Sin comisiones ocultas. Para montos altos conviene confirmar la tasa por WhatsApp antes de venir." },
   { q: "¿Compran y venden dólares?", a: "Sí. Compramos y vendemos dólares americanos (USD) y más de 40 monedas. Los precios se publican diariamente y se confirman al momento de la operación." },
   { q: "¿Tienen comisiones adicionales?", a: "No. Operamos con precios finales. Sin comisiones ocultas, sin cargos extra. El precio que ves es el precio de la operación." },
   { q: "¿Puedo cotizar por WhatsApp antes de ir?", a: "Sí. Escríbenos con el monto y las monedas que quieres operar. Te confirmamos precio y disponibilidad al instante." },
@@ -98,7 +101,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
   const showVideo     = isFull || variant === "servicios";
   const showAlerta    = isFull || variant === "alerta";
   const showOpiniones = isFull || variant === "home";
-  const showFaq       = isFull || variant === "faq";
+  const showFaq       = isFull || variant === "faq" || variant === "home";
   const showUbicacion = isFull || variant === "home";
   const showPageHeader = !isFull && !showHero;
 
@@ -475,15 +478,20 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-success p { color: var(--gray); margin-bottom: 1.2rem; line-height: 1.65; font-size: 0.95rem; }
         .gx-success-btn { background: transparent; border: 1.5px solid #059669; color: #059669; padding: 0.7rem 1.4rem; border-radius: 10px; font-size: 0.88rem; cursor: pointer; font-family: inherit; }
 
-        /* FAQ */
+        /* FAQ — minimalista */
         .gx-faq-list { max-width: 820px; margin: 3rem auto 0; }
-        .gx-faq-item { border-bottom: 1px solid var(--border); }
-        .gx-faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 1.4rem 0; font-size: 1.02rem; font-weight: 600; color: var(--dark); display: flex; justify-content: space-between; align-items: center; text-align: left; font-family: inherit; gap: 1rem; }
-        .gx-faq-icon { width: 28px; height: 28px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; font-size: 1rem; color: var(--dark); }
-        .gx-faq-item.open .gx-faq-icon { background: var(--gold); color: var(--dark); transform: rotate(45deg); }
-        .gx-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s ease; }
-        .gx-faq-item.open .gx-faq-a { max-height: 320px; padding-bottom: 1.4rem; }
-        .gx-faq-a p { color: var(--gray); line-height: 1.65; font-size: 0.95rem; }
+        .gx-faq-item { border-bottom: 1px solid rgba(15, 20, 25, 0.06); }
+        .gx-faq-item:first-child { border-top: 1px solid rgba(15, 20, 25, 0.06); }
+        .gx-faq-q { width: 100%; background: none; border: none; cursor: pointer; padding: 1.5rem 0; font-size: 1.02rem; font-weight: 500; color: var(--dark); display: flex; justify-content: space-between; align-items: center; text-align: left; font-family: inherit; gap: 1.5rem; letter-spacing: -0.01em; transition: opacity 0.2s; }
+        .gx-faq-q:hover { opacity: 0.7; }
+        .gx-faq-icon { position: relative; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; transition: transform 0.25s ease; flex-shrink: 0; color: var(--gray-light); font-size: 0; }
+        .gx-faq-icon::before, .gx-faq-icon::after { content: ''; position: absolute; background-color: currentColor; width: 12px; height: 1px; transition: transform 0.25s ease; }
+        .gx-faq-icon::after { transform: rotate(90deg); }
+        .gx-faq-item.open .gx-faq-icon { color: var(--dark); }
+        .gx-faq-item.open .gx-faq-icon::after { transform: rotate(0deg); }
+        .gx-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
+        .gx-faq-item.open .gx-faq-a { max-height: 600px; padding-bottom: 1.5rem; }
+        .gx-faq-a p { color: var(--gray); line-height: 1.7; font-size: 0.95rem; max-width: 720px; }
         .gx-faq-cta { text-align: center; margin-top: 2.5rem; }
         .gx-faq-cta p { color: var(--gray); margin-bottom: 1rem; font-size: 0.95rem; }
 

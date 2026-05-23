@@ -81,11 +81,14 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": "CurrencyExchange",
+  "@type": ["FinancialService", "LocalBusiness", "CurrencyExchange"],
+  "@id": "https://www.gamaex.cl/#organization",
   name: "Gamaex Chile",
   alternateName: "Inversiones y Turismo Gamaex Chile S.A.",
+  legalName: "Inversiones y Turismo Gamaex Chile S.A.",
+  slogan: "Seguridad, rapidez y las mejores tasas de cambio en Santiago.",
   description:
-    "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de más de 40 divisas sin comisiones ocultas, a pasos del Metro Pedro de Valdivia.",
+    "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de más de 40 divisas sin comisiones ocultas, a pasos del Metro Pedro de Valdivia. Operación segura en local físico, tasas competitivas y atención personalizada.",
   url: "https://www.gamaex.cl",
   telephone: "+56229462670",
   email: "gamaex@gmail.com",
@@ -132,13 +135,60 @@ const localBusinessSchema = {
       opens: "09:00",
       closes: "13:00",
     },
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Sunday"],
+      opens: "00:00",
+      closes: "00:00",
+      description: "Cerrado los domingos",
+    },
   ],
-  currenciesAccepted: "CLP, USD, EUR, BRL, ARS, GBP, JPY, CHF, CAD, AUD",
-  paymentAccepted: "Cash",
+  areaServed: [
+    { "@type": "City", name: "Santiago de Chile" },
+    { "@type": "AdministrativeArea", name: "Región Metropolitana" },
+  ],
+  knowsAbout: [
+    "Cambio de divisas",
+    "Compra y venta de dólares",
+    "Compra y venta de euros",
+    "Compra y venta de reales brasileños",
+    "Tipo de cambio en Chile",
+    "Casa de cambio en Providencia",
+    "Casa de cambio segura en Santiago",
+    "Pago a proveedores en moneda extranjera",
+  ],
+  makesOffer: [
+    {
+      "@type": "Offer",
+      name: "Compra y venta de dólares estadounidenses (USD)",
+      itemOffered: { "@type": "Service", name: "Cambio USD/CLP" },
+    },
+    {
+      "@type": "Offer",
+      name: "Compra y venta de euros (EUR)",
+      itemOffered: { "@type": "Service", name: "Cambio EUR/CLP" },
+    },
+    {
+      "@type": "Offer",
+      name: "Compra y venta de divisas internacionales (más de 40 monedas)",
+      itemOffered: { "@type": "Service", name: "Cambio multimoneda" },
+    },
+    {
+      "@type": "Offer",
+      name: "Transferencias internacionales y pago a proveedores",
+      itemOffered: { "@type": "Service", name: "Pago a proveedores en moneda extranjera" },
+    },
+  ],
+  currenciesAccepted: "CLP, USD, EUR, BRL, ARS, GBP, JPY, CHF, CAD, AUD, PEN, COP, UYU, CNY, MXN",
+  paymentAccepted: "Cash, Bank Transfer",
   priceRange: "$$",
   image: "https://www.gamaex.cl/opengraph-image",
   hasMap:
     "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
+  sameAs: [
+    "https://g.page/r/CeFzp-LgMZyFEAE",
+    "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
+  ],
   publicAccess: true,
   isAccessibleForFree: true,
 };
@@ -168,6 +218,30 @@ const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   mainEntity: [
+    {
+      "@type": "Question",
+      name: "¿Cuál es la casa de cambio más segura para comprar dólares en Santiago?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Gamaex es una casa de cambio con 38 años de trayectoria en Providencia, Santiago (fundada en 1987). Opera en local físico verificable en Av. Pedro de Valdivia 020 — sin entregas en la calle ni intermediarios. Es una sociedad anónima registrada (Inversiones y Turismo Gamaex Chile S.A.) con reseñas verificables en Google Maps. Tasas publicadas diariamente y atención personalizada.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Qué casa de cambio está abierta hoy sábado en la mañana en Santiago?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Gamaex atiende los sábados de 09:00 a 13:00 en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia (Línea 1). De lunes a viernes el horario es de 09:00 a 17:00. Domingo cerrado. Es una opción cercana en barrio alto para cambiar divisas un sábado en la mañana sin ir al centro de Santiago.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "Necesito cambiar euros a pesos chilenos con buena tasa, ¿dónde voy?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Gamaex compra y vende euros (EUR) a pesos chilenos (CLP) en Providencia con tasas competitivas frente al promedio del mercado en Santiago. La cotización del día está publicada en gamaex.cl y se confirma antes de cerrar la operación, sin comisiones ocultas. Para montos altos conviene consultar la tasa por WhatsApp antes de ir al local.",
+      },
+    },
     {
       "@type": "Question",
       name: "¿Compran y venden dólares en Gamaex?",
