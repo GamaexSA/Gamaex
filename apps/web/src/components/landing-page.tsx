@@ -251,6 +251,39 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
     );
   }, [lastSyncAt]);
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.querySelectorAll<HTMLElement>(".gx-reveal").forEach((el) => el.classList.add("is-visible"));
+      document.querySelectorAll<HTMLElement>(".gx-counter").forEach((el) => { el.textContent = el.dataset["target"] ?? el.textContent; });
+      return;
+    }
+    const animateCount = (el: HTMLElement) => {
+      const target = Number(el.dataset["target"] ?? "0");
+      if (!Number.isFinite(target) || target === 0) { el.textContent = String(target); return; }
+      const duration = 1400;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        el.textContent = String(Math.round(target * eased));
+        if (t < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target as HTMLElement;
+        el.classList.add("is-visible");
+        el.querySelectorAll<HTMLElement>(".gx-counter").forEach(animateCount);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
+    document.querySelectorAll<HTMLElement>(".gx-reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className="gx-root">
       <style dangerouslySetInnerHTML={{ __html: `
@@ -282,6 +315,21 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-status.open .dot { background: var(--gold-deep); }
         .gx-status.closed .dot { background: var(--gray); }
         @keyframes pulseDot { 0%,100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        /* Reveal-on-scroll */
+        .gx-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1); will-change: opacity, transform; }
+        .gx-reveal.is-visible { opacity: 1; transform: translateY(0); }
+        @media (prefers-reduced-motion: reduce) {
+          .gx-reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        /* Shimmer en badge dorado del hero */
+        .gx-hero-tag { position: relative; overflow: hidden; isolation: isolate; }
+        .gx-hero-tag::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%); transform: translateX(-100%); animation: shimmer 3.4s ease-in-out infinite; pointer-events: none; }
+        @keyframes shimmer { 0% { transform: translateX(-100%); } 60%,100% { transform: translateX(100%); } }
+        @media (prefers-reduced-motion: reduce) {
+          .gx-hero-tag::after { animation: none; }
+        }
         .gx-cta-dark { background: var(--dark); color: var(--white); padding: 0.65rem 1.5rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border: none; font-family: inherit; }
         .gx-cta-dark:hover { background: #2A3038; transform: translateY(-1px); }
         .gx-cta-gold { background: var(--gold); color: var(--dark); padding: 0.95rem 1.4rem; border-radius: 12px; font-size: 1rem; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; border: none; font-family: inherit; width: 100%; }
@@ -842,17 +890,17 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── STATS ── */}
       {showStats && (
-      <div className="gx-stats">
-        <div className="gx-stat"><h3>38<span>+</span></h3><p>Años de trayectoria</p></div>
-        <div className="gx-stat"><h3>40<span>+</span></h3><p>Divisas disponibles</p></div>
+      <div className="gx-stats gx-reveal">
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="38">0</span><span>+</span></h3><p>Años de trayectoria</p></div>
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="40">0</span><span>+</span></h3><p>Divisas disponibles</p></div>
         <div className="gx-stat"><h3>0<span>%</span></h3><p>Comisiones ocultas</p></div>
-        <div className="gx-stat"><h3>5<span>min</span></h3><p>Operación promedio</p></div>
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="5">0</span><span>min</span></h3><p>Operación promedio</p></div>
       </div>
       )}
 
       {/* ── 3 PASOS ── */}
       {showPasos && (
-      <section className="gx-section">
+      <section className="gx-section gx-reveal">
         <p className="gx-label">Cómo funciona</p>
         <h2 className="gx-title">Cambiar divisas en Gamaex,<br />en 3 simples pasos</h2>
         <p className="gx-subtitle">Sin descargar apps. Sin crear cuentas. Sin verificación de identidad eterna. Como casa de cambio de toda la vida — pero con tecnología.</p>
@@ -881,7 +929,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── 40+ DIVISAS ── */}
       {showDivisas && (
-      <section className="gx-section gx-section-light">
+      <section className="gx-section gx-section-light gx-reveal">
         <p className="gx-label">Más de 40 monedas</p>
         <h2 className="gx-title">Todas las divisas<br />que necesites — y más</h2>
         <p className="gx-subtitle">No importa de dónde vienes ni a dónde vas. Trabajamos las principales del mundo y muchas que otros no tienen disponibles.</p>
@@ -899,7 +947,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── TASAS ── */}
       {showTasas && (
-      <section id="tasas" className="gx-section">
+      <section id="tasas" className="gx-section gx-reveal">
         <div className="gx-rates-meta">
           <div>
             <p className="gx-label">Tasas de hoy</p>
@@ -984,7 +1032,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── SERVICIOS ── */}
       {showServicios && (
-      <section id="servicios" className="gx-section gx-section-light">
+      <section id="servicios" className="gx-section gx-section-light gx-reveal">
         <p className="gx-label">Qué hacemos</p>
         <h2 className="gx-title">Todo lo que necesitas<br />en un solo lugar</h2>
         <p className="gx-subtitle">Más que cambio de divisas: somos tu socio financiero para operaciones en moneda extranjera.</p>
@@ -1025,7 +1073,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── PRESENCIAL VS APPS ── */}
       {showVs && (
-      <section className="gx-section">
+      <section className="gx-section gx-reveal">
         <p className="gx-label">Presencial vs Apps</p>
         <h2 className="gx-title">¿Cansado de descargar apps<br />para cambiar plata?</h2>
         <p className="gx-subtitle">Las apps tienen su lugar, pero para cambiar divisas la forma más rápida sigue siendo venir, mostrar tus billetes y operar cara a cara. Sin pasos extra.</p>
@@ -1060,7 +1108,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── VIDEO LOCAL ── */}
       {showVideo && (
-      <section id="local" className="gx-section gx-section-light" style={{ paddingTop: "3rem", paddingBottom: "3rem" }}>
+      <section id="local" className="gx-section gx-section-light gx-reveal" style={{ paddingTop: "3rem", paddingBottom: "3rem" }}>
         <p className="gx-label">Casa de cambio · Providencia</p>
         <h2 className="gx-title">Conoce nuestro local</h2>
         <p className="gx-subtitle">Una casa de cambio familiar en el corazón de Providencia. Atención directa, sin intermediarios ni burocracia.</p>
@@ -1169,7 +1217,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── TESTIMONIALES ── */}
       {showOpiniones && (
-      <section id="opiniones" className="gx-section">
+      <section id="opiniones" className="gx-section gx-reveal">
         <p className="gx-label">Opiniones reales</p>
         <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
         <p className="gx-subtitle">
@@ -1204,7 +1252,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── FAQ ── */}
       {showFaq && (
-      <section id="faq" className="gx-section">
+      <section id="faq" className="gx-section gx-reveal">
         <p className="gx-label">Preguntas frecuentes</p>
         <h2 className="gx-title">Lo que más nos preguntan</h2>
         <div className="gx-faq-list">
@@ -1240,7 +1288,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
       {/* ── UBICACIÓN ── */}
       {showUbicacion && (
-      <section id="ubicacion" className="gx-section gx-section-light">
+      <section id="ubicacion" className="gx-section gx-section-light gx-reveal">
         <p className="gx-label">Ven a vernos</p>
         <h2 className="gx-title">Av. Pedro de Valdivia 020,<br />Providencia</h2>
         <p className="gx-subtitle">A pasos del Metro Pedro de Valdivia (Línea 1). Atención presencial sin reserva.</p>
