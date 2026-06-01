@@ -38,6 +38,7 @@ export function trackEvent(
       event_category: category,
       event_label: label,
       value,
+      transport_type: "beacon",
     });
   }
 }
@@ -49,10 +50,15 @@ function trackAdsConversion(
 ) {
   if (!GADS_ID || !label) return;
   if (typeof window === "undefined" || !window.gtag) return;
+  // transport_type: 'beacon' usa navigator.sendBeacon → no-blocking, sobrevive
+  // a navegación inmediata (target=_blank, tel:, wa.me). Sin esto, los clicks
+  // outbound se contaban a CTR pero se perdía la conversion antes de que el
+  // request HTTP de Google llegue. Fix de "0 conv pese a CTR sano".
   window.gtag("event", "conversion", {
     send_to: `${GADS_ID}/${label}`,
     value: value ?? 1,
     currency,
+    transport_type: "beacon",
   });
 }
 
