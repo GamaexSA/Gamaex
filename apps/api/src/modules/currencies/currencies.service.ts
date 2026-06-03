@@ -101,7 +101,24 @@ export class CurrenciesService {
     const config = currency.quote_config;
     if (!config) throw new BadRequestException("Moneda sin configuración de precios");
 
-    const d = Math.max(0, Math.min(8, Math.trunc(currency.decimal_places)));
+    // Auto-bump decimal_places si el precio ingresado tiene MÁS decimales
+    // que los configurados. Antes truncábamos silenciosamente: usuario tipea
+    // 8.7245 para yen pero como decimal_places=2 se guardaba 8.72.
+    // Caso típico: yen, peso colombiano/argentino, monedas con precio bajo en CLP.
+    const incomingDecimals = Math.max(
+      countDecimals(dto.manual_buy),
+      countDecimals(dto.manual_sell),
+    );
+    const d = Math.max(
+      0,
+      Math.min(8, Math.max(Math.trunc(currency.decimal_places), incomingDecimals)),
+    );
+    if (d !== currency.decimal_places) {
+      await this.db.currency.update({
+        where: { id: currency.id },
+        data: { decimal_places: d },
+      });
+    }
     const manualBuy  = parseFloat(dto.manual_buy.toFixed(d));
     const manualSell = parseFloat(dto.manual_sell.toFixed(d));
 
@@ -161,8 +178,8 @@ export class CurrenciesService {
   ) {
     const currency = await this.getByCode(code);
     const n = Math.trunc(dto.decimal_places);
-    if (!Number.isFinite(n) || n < 0 || n > 4) {
-      throw new BadRequestException("decimal_places debe ser un entero entre 0 y 4");
+    if (!Number.isFinite(n) || n < 0 || n > 8) {
+      throw new BadRequestException("decimal_places debe ser un entero entre 0 y 8");
     }
     if (n === currency.decimal_places) {
       return { ok: true, decimal_places: n, recalculated: false };
@@ -302,4 +319,23 @@ export class CurrenciesService {
     if (!currency) throw new NotFoundException(`Moneda '${code}' no encontrada`);
     return currency;
   }
+}
+
+/**
+ * Cuenta cuántos decimales tiene un número, ignorando ceros al final.
+ * Ej: 8.7245 → 4, 8.10 → 1, 8 → 0, 8.700 → 1.
+ */
+function countDecimals(value: number): number {
+  if (!Number.isFinite(value)) return 0;
+  // Usar toString para evitar el precision drift de exponentes (8.7245.toFixed).
+  const str = value.toString();
+  if (str.includes('e') || str.includes('E')) {
+    // Notación científica: parsear el exponente.
+    const match = /e([-+]?\d+)/i.exec(str);
+    const exp = match && match[1] ? Math.abs(parseInt(match[1], 10)) : 0;
+    return exp;
+  }
+  const dot = str.indexOf('.');
+  if (dot === -1) return 0;
+  return str.length - dot - 1;
 }

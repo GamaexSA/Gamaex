@@ -18,8 +18,20 @@ interface EditState {
 
 function fmtCLP(n: number | null, decimals = 2) {
   if (n === null) return "—";
-  const d = Math.max(0, Math.min(4, Math.trunc(decimals)));
+  const d = Math.max(0, Math.min(8, Math.trunc(decimals)));
   return n.toLocaleString("es-CL", { minimumFractionDigits: d, maximumFractionDigits: d });
+}
+
+// Cuenta decimales reales de un string-precio tipeado por el usuario.
+// Ignora ceros al final: "8.7000" → 1, "8.7245" → 4, "9" → 0.
+// Acepta tanto "." como "," como separador.
+function decimalsOf(input: string): number {
+  if (!input) return 0;
+  const normalized = input.trim().replace(",", ".");
+  const dot = normalized.indexOf(".");
+  if (dot === -1) return 0;
+  const fractional = normalized.slice(dot + 1).replace(/0+$/, "");
+  return fractional.length;
 }
 
 function Input({ label, value, onChange, placeholder }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string }) {
@@ -142,13 +154,24 @@ export default function CurrenciesPage() {
     setSaving(true);
     try {
       const code = edit.currency.code;
-      const newDecimals = Math.trunc(Number(edit.decimals));
-      if (!Number.isFinite(newDecimals) || newDecimals < 0 || newDecimals > 4) {
-        showToast("Error: decimales debe ser un entero entre 0 y 4");
+      const requestedDecimals = Math.trunc(Number(edit.decimals));
+      if (!Number.isFinite(requestedDecimals) || requestedDecimals < 0 || requestedDecimals > 8) {
+        showToast("Error: decimales debe ser un entero entre 0 y 8");
         return;
       }
-      if (newDecimals !== edit.currency.decimal_places) {
-        await api.updateDecimals(code, newDecimals);
+      // Auto-detect: si el papá tipea "8.7245" en precio pero dejó decimales=2,
+      // subimos a 4 sin que tenga que tocar el otro campo. Caso yen.
+      let effectiveDecimals = requestedDecimals;
+      if (edit.mode === "manual") {
+        const buyDec = decimalsOf(edit.manualBuy);
+        const sellDec = decimalsOf(edit.manualSell);
+        effectiveDecimals = Math.min(8, Math.max(requestedDecimals, buyDec, sellDec));
+        if (effectiveDecimals > requestedDecimals) {
+          showToast(`Subiendo decimales a ${effectiveDecimals} para no perder precisión del precio ingresado.`);
+        }
+      }
+      if (effectiveDecimals !== edit.currency.decimal_places) {
+        await api.updateDecimals(code, effectiveDecimals);
       }
       if (edit.mode === "margins") {
         await api.updateMargins(code, parseFloat(edit.buyMargin), parseFloat(edit.sellMargin));
@@ -493,12 +516,12 @@ export default function CurrenciesPage() {
                 display: "block", fontSize: 11, color: "var(--text-dim)",
                 letterSpacing: 0.5, textTransform: "uppercase", marginBottom: 5,
               }}>
-                Decimales mostrados (0–4)
+                Decimales mostrados (0–8 · se ajusta solo)
               </label>
               <input
                 type="number"
                 min={0}
-                max={4}
+                max={8}
                 step={1}
                 value={edit.decimals}
                 onChange={(e) => setEdit((p) => p ? { ...p, decimals: e.target.value } : p)}
@@ -515,7 +538,7 @@ export default function CurrenciesPage() {
                 }}
               />
               <div style={{ fontSize: 10, color: "var(--text-faint)", marginTop: 6, lineHeight: 1.4 }}>
-                Cantidad de decimales del precio. Cambiarlo recalcula los precios actuales según el nuevo redondeo.
+                Si ingresás un precio con más decimales que este número, se ajusta solo (no se trunca). Útil para yen, peso colombiano y argentino con precio bajo en CLP.
               </div>
             </div>
 
