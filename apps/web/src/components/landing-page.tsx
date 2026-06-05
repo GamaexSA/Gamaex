@@ -876,7 +876,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                     : r.flag_emoji}
                   {" "}{r.code}
                 </span>
-                <strong>{r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}</strong>
+                <strong>{r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0 })}</strong>
               </div>
             ))}
             {lastSyncFmt && (
@@ -998,10 +998,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                       <strong>{r.name}</strong> <span style={{ color: "var(--gray)", fontSize: "0.85rem" }}>· {r.code}</span>
                     </td>
                     <td className="gx-rate-buy" style={{ textAlign: "right" }}>
-                      {r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy < 1 ? r.decimal_places : 0, maximumFractionDigits: r.buy < 1 ? r.decimal_places : 0 })}
+                      {r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0 })}
                     </td>
                     <td className="gx-rate-sell" style={{ textAlign: "right" }}>
-                      {r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell < 1 ? r.decimal_places : 0, maximumFractionDigits: r.sell < 1 ? r.decimal_places : 0 })}
+                      {r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0 })}
                     </td>
                   </tr>
                 ))}
