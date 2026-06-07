@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/analytics";
+import ChatWidget from "@/components/chat-widget";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gamaex.cl"),
@@ -345,6 +346,7 @@ export default function RootLayout({
       <body>
         <Analytics />
         {children}
+        <ChatWidget />
       </body>
     </html>
   );

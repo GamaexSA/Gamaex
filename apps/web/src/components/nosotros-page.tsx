@@ -281,9 +281,9 @@ export default function NosotrosPage() {
         }
         .ns-root * { box-sizing: border-box; }
         .ns-root a { text-decoration: none; color: inherit; }
-        .ns-root h1, .ns-root h2, .ns-root h3 { margin: 0; font-family: 'Cormorant Garamond', 'Georgia', serif; font-weight: 500; letter-spacing: -0.01em; }
+        .ns-root h1, .ns-root h2, .ns-root h3 { margin: 0; font-family: inherit; font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
         .ns-root p { margin: 0; }
-        .ns-root em { font-style: italic; color: var(--ns-gold-deep); }
+        .ns-root em { font-style: normal; color: var(--ns-gold-deep); }
 
         /* NAV */
         .ns-nav {
@@ -322,11 +322,12 @@ export default function NosotrosPage() {
         }
         .ns-hero-inner { position: relative; max-width: 850px; margin: 0 auto; }
         .ns-hero h1 {
-          font-size: clamp(2.4rem, 5vw, 4.2rem);
-          line-height: 1.1; color: var(--ns-white);
+          font-size: clamp(2rem, 4.5vw, 3.4rem);
+          font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+          color: var(--ns-white);
           margin: 1.2rem 0 1.5rem;
         }
-        .ns-hero h1 em { color: var(--ns-gold-light); }
+        .ns-hero h1 em { color: var(--ns-gold-light); font-style: normal; }
         .ns-hero-desc { color: rgba(255,255,255,0.75); font-size: 1.15rem; max-width: 650px; margin: 0 auto 2.5rem; }
         .ns-hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
@@ -373,8 +374,8 @@ export default function NosotrosPage() {
         }
         .ns-stat:last-child { border-right: none; }
         .ns-stat-num {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 3.2rem; font-weight: 500;
+          font-size: 3rem; font-weight: 800;
+          letter-spacing: -2.5px;
           color: var(--ns-gold-deep); line-height: 1;
           margin-bottom: 0.6rem;
         }
@@ -391,7 +392,8 @@ export default function NosotrosPage() {
         .ns-section-dark h2 em { color: var(--ns-gold-light); }
         .ns-section-head { max-width: 720px; margin: 0 auto 3.5rem; text-align: center; }
         .ns-section-head h2 {
-          font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15;
+          font-size: clamp(1.7rem, 3vw, 2.5rem);
+          font-weight: 800; letter-spacing: -1px; line-height: 1.15;
           margin-bottom: 1rem;
         }
         .ns-section-sub {
@@ -416,9 +418,8 @@ export default function NosotrosPage() {
           color: var(--ns-gold); margin-bottom: 0.5rem;
         }
         .ns-historia-quote p {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 1.5rem; line-height: 1.4;
-          color: var(--ns-dark); font-style: italic;
+          font-size: 1.15rem; line-height: 1.55;
+          color: var(--ns-dark); font-weight: 500;
           margin-bottom: 1.5rem;
         }
         .ns-quote-author {
@@ -448,7 +449,8 @@ export default function NosotrosPage() {
         }
         .ns-service-icon { font-size: 2.4rem; margin-bottom: 1rem; }
         .ns-service-card h3 {
-          font-size: 1.5rem; line-height: 1.2;
+          font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
+          line-height: 1.25;
           margin-bottom: 0.8rem; color: var(--ns-dark);
         }
         .ns-service-card p {
@@ -492,7 +494,8 @@ export default function NosotrosPage() {
           border-top: 1px solid var(--ns-border);
         }
         .ns-cta-section h2 {
-          font-size: clamp(2.2rem, 4vw, 3.2rem); line-height: 1.15;
+          font-size: clamp(1.8rem, 3.5vw, 2.7rem);
+          font-weight: 800; letter-spacing: -1px; line-height: 1.15;
           margin-bottom: 0.8rem;
         }
         .ns-cta-section > p { font-size: 1.1rem; color: var(--ns-gray); margin-bottom: 2rem; }
