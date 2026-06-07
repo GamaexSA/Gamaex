@@ -581,8 +581,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.8rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(255,255,255,0.45); flex-wrap: wrap; gap: 0.5rem; }
 
         /* FLOAT WHATSAPP */
-        .gx-wa-float { position: fixed; bottom: 28px; right: 28px; width: 60px; height: 60px; border-radius: 50%; background: var(--green-wa); color: white; display: flex; align-items: center; justify-content: center; font-size: 1.7rem; box-shadow: 0 8px 24px rgba(37,211,102,0.45); z-index: 99; transition: all 0.2s; }
-        .gx-wa-float:hover { transform: scale(1.08); box-shadow: 0 12px 32px rgba(37,211,102,0.55); }
 
         /* HAMBURGER + MOBILE DRAWER */
         .gx-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 10px; background: transparent; border: none; cursor: pointer; border-radius: 10px; }
@@ -1413,18 +1411,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         </div>
       </footer>
 
-      {/* ── FLOAT WHATSAPP ── */}
-      <a
-        href={wa()}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="gx-wa-float"
-        onClick={() => track.whatsappClick("floating")}
-        title="Cotizar por WhatsApp"
-        aria-label="Consultar por WhatsApp"
-      >
-        💬
-      </a>
     </div>
   );
 }
