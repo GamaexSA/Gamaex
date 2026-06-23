@@ -950,7 +950,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           <div>
             <p className="gx-label">Tasas de hoy</p>
             <h2 className="gx-title">Cotizaciones publicadas<br />a diario</h2>
-            <p className="gx-subtitle">Precios actualizados diariamente. Confirma valor exacto y disponibilidad por WhatsApp antes de venir.</p>
+            <p className="gx-subtitle">Las cotizaciones varían constantemente. <strong>Confirme el valor por WhatsApp antes de acudir.</strong></p>
           </div>
           <div style={{ textAlign: "right" }}>
             {lastSyncFmt && (
