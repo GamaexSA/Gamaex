@@ -5,12 +5,11 @@ import ChatWidget from "@/components/chat-widget";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.gamaex.cl"),
   title: {
-    default:
-      "Casa de Cambio en Providencia | Gamaex Chile — Cotiza online tu cambio de dólares y euros",
+    default: "Casa de Cambio Providencia · Dólares y Euros | Gamaex",
     template: "%s | Gamaex Chile",
   },
   description:
-    "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de dólares, euros, reales y más de 40 divisas a pasos del Metro Pedro de Valdivia. Precios finales, sin comisiones ocultas.",
+    "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de dólares, euros y +40 divisas a pasos del Metro Pedro de Valdivia. Sin comisiones ocultas.",
   keywords: [
     "casa de cambio providencia",
     "cambiar dólares providencia",
@@ -192,6 +191,13 @@ const localBusinessSchema = {
   ],
   publicAccess: true,
   isAccessibleForFree: true,
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    reviewCount: "32",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const websiteSchema = {
