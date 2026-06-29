@@ -191,13 +191,8 @@ const localBusinessSchema = {
   ],
   publicAccess: true,
   isAccessibleForFree: true,
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.5",
-    reviewCount: "32",
-    bestRating: "5",
-    worstRating: "1",
-  },
+  // Nota: NO se incluye aggregateRating — Google prohíbe el "self-serving review"
+  // para LocalBusiness/Organization. Las estrellas salen del Google Business Profile.
 };
 
 const websiteSchema = {
