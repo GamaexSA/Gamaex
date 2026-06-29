@@ -70,9 +70,30 @@ const CURRENCY_GRID = [
 const RATE_PRIORITY = ["USD", "EUR", "ARS", "BRL", "PEN", "COP", "UYU"];
 
 const TESTIMONIALS = [
-  { name: "Javier H. Wolnitzky", initial: "JW", context: "Cambia USD mensualmente", text: "Solo un peso más caro por dólar, pero sin esperas. Además, aceptan dólares corrientes que no estén en circulación." },
-  { name: "Ignacio Jorquera", initial: "IJ", context: "Vino por turismo a Chile", text: "Muy buena atención, rápida y clara. Me explicaron bien el tipo de cambio y el proceso fue ordenado. Recomendado si buscas casa de cambio en Providencia." },
-  { name: "Matías Schwarc", initial: "MS", context: "Cliente desde 2019", text: "Rápido, el servicio espectacular, recomendable al 100%. La mejor de Providencia, sin lugar a dudas." },
+  { name: "Yerika Larriega", initial: "YL", context: "Junio 2026", text: "Muy bueno, excelente servicio." },
+  { name: "Araceli Gutiérrez", initial: "AG", context: "Junio 2026", text: "Muy amables y pacientes." },
+  { name: "Jeremy Balmaceda", initial: "JB", context: "Junio 2026", text: "Excelente atención." },
+  { name: "Jessica Luana Azambuja", initial: "JA", context: "Junio 2026", text: "Excelente atendimento." },
+  { name: "Camila", initial: "CM", context: "Junio 2026", text: "Muy buena casa de cambio. Tienen mucha variedad de divisas disponibles (más de 40) y el trato es muy profesional." },
+  { name: "Daniel Trumper", initial: "DT", context: "Junio 2026", text: "La mejor de Providencia, cambio increíble y una atención 10/10." },
+  { name: "Tomás Moreira", initial: "TM", context: "Junio 2026", text: "Excelente atención." },
+  { name: "Inversiones Line 3", initial: "IL", context: "Junio 2026", text: "Maravilloso." },
+  { name: "Luis Hernández", initial: "LH", context: "Junio 2026", text: "Buen servicio, excelente trato, me dieron buen tipo de cambio. Totalmente recomendable y seguros." },
+  { name: "Guillermo Squartini", initial: "GS", context: "Junio 2026", text: "Muy buena atención, precios accesibles, muy recomendado." },
+  { name: "Felipe Carrasco", initial: "FC", context: "Junio 2026", text: "Buena atención." },
+  { name: "Vivih Silva", initial: "VS", context: "Junio 2026", text: "Perfeito ❤️" },
+  { name: "Caio Pichinine", initial: "CP", context: "Mayo 2026", text: "Foi ótimo o atendimento do Eugênio. Estamos muito satisfeitos." },
+  { name: "Artem Meleshchenko", initial: "AM", context: "Mayo 2026", text: "La mejor tasa y atención del barrio. Recomendado 100%, además trabajan el sábado." },
+  { name: "José Correa Ortúzar", initial: "JC", context: "Mayo 2026", text: "Muy buena atención y mucha honestidad." },
+  { name: "María René Flores", initial: "MF", context: "Mayo 2026", text: "" },
+  { name: "Flavia Franzani", initial: "FF", context: "Mayo 2026", text: "" },
+  { name: "Isaías Garcés", initial: "IG", context: "Mayo 2026", text: "Excelente experiencia en Gamaex." },
+  { name: "Vivian Trebitsch", initial: "VT", context: "Mayo 2026", text: "Excelente servicio. Muy rápido todo al 100%." },
+  { name: "Naomi", initial: "NA", context: "Mayo 2026", text: "" },
+  { name: "María José Hernández", initial: "MH", context: "Julio 2022", text: "Tenían peso mexicano más barato que en otras casas de cambio. Muy agradable la atención." },
+  { name: "Alan", initial: "AL", context: "Enero 2022", text: "La mejor de Providencia." },
+  { name: "Matías", initial: "MT", context: "Marzo 2018", text: "Rápido, el servicio espectacular. Recomendable al 100%." },
+  { name: "Matías Bascur", initial: "MB", context: "Febrero 2018", text: "" },
 ];
 
 export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt, pageContext, variant = "full" }: Props) {
@@ -481,11 +502,19 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-vs-list .x { color: var(--red); font-weight: 800; flex-shrink: 0; }
 
         /* TESTIMONIOS */
-        .gx-testimonials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-        .gx-testimonial { background: var(--white); border-radius: 18px; padding: 2rem; border: 1.5px solid var(--border); transition: all 0.25s; }
+        .gx-marquee { margin-top: 3rem; overflow: hidden; position: relative;
+          -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+          mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
+        .gx-marquee-track { display: flex; gap: 1.5rem; width: max-content; animation: gx-scroll 80s linear infinite; }
+        .gx-marquee:hover .gx-marquee-track { animation-play-state: paused; }
+        @keyframes gx-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 0.75rem)); } }
+        @media (prefers-reduced-motion: reduce) { .gx-marquee-track { animation: none; } }
+        .gx-testimonial { background: var(--white); border-radius: 18px; padding: 2rem; border: 1.5px solid var(--border); transition: border-color 0.25s, box-shadow 0.25s;
+          width: 340px; flex-shrink: 0; display: flex; flex-direction: column; }
         .gx-testimonial:hover { border-color: var(--gold); box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
         .gx-stars { display: flex; gap: 2px; margin-bottom: 1rem; color: #F59E0B; font-size: 1rem; }
-        .gx-testimonial-text { font-size: 0.95rem; color: var(--dark); line-height: 1.6; margin-bottom: 1.2rem; }
+        .gx-testimonial-text { font-size: 0.95rem; color: var(--dark); line-height: 1.6; margin-bottom: 1.2rem; flex: 1; }
+        .gx-testimonial-empty { color: var(--gray); font-style: italic; font-size: 0.88rem; }
         .gx-testimonial-author { display: flex; align-items: center; gap: 0.7rem; }
         .gx-avatar { width: 38px; height: 38px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: var(--dark); flex-shrink: 0; }
         .gx-testimonial-author p { font-weight: 600; font-size: 0.9rem; color: var(--dark); }
@@ -621,7 +650,9 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           .gx-logo svg { height: 50px; }
           .gx-hero { grid-template-columns: 1fr; padding: 100px 6% 3rem; gap: 2.5rem; }
           .gx-stats { grid-template-columns: repeat(2, 1fr); }
-          .gx-steps, .gx-services, .gx-testimonials, .gx-vs, .gx-loc-grid, .gx-alert-grid { grid-template-columns: 1fr; }
+          .gx-steps, .gx-services, .gx-vs, .gx-loc-grid, .gx-alert-grid { grid-template-columns: 1fr; }
+          .gx-testimonial { width: 78vw; max-width: 320px; }
+          .gx-marquee-track { animation-duration: 60s; }
           .gx-currencies { grid-template-columns: repeat(4, 1fr); }
           .gx-section { padding: 3.5rem 6%; }
           .gx-rates-table th, .gx-rates-table td { padding: 0.8rem 0.7rem; font-size: 0.85rem; }
@@ -1228,22 +1259,28 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           >
             Google Maps
           </a>{" "}
-          · 4,1 ★ con 18 opiniones
+          · 4,5 ★ con más de 25 opiniones
         </p>
-        <div className="gx-testimonials">
-          {TESTIMONIALS.map((t) => (
-            <div key={t.name} className="gx-testimonial">
-              <div className="gx-stars">★ ★ ★ ★ ★</div>
-              <p className="gx-testimonial-text">&ldquo;{t.text}&rdquo;</p>
-              <div className="gx-testimonial-author">
-                <div className="gx-avatar">{t.initial}</div>
-                <div>
-                  <p>{t.name}</p>
-                  <span>{t.context}</span>
+        <div className="gx-marquee" aria-label="Reseñas de clientes en Google">
+          <div className="gx-marquee-track">
+            {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
+              <div key={`${t.name}-${i}`} className="gx-testimonial" aria-hidden={i >= TESTIMONIALS.length}>
+                <div className="gx-stars">★ ★ ★ ★ ★</div>
+                {t.text ? (
+                  <p className="gx-testimonial-text">&ldquo;{t.text}&rdquo;</p>
+                ) : (
+                  <p className="gx-testimonial-text gx-testimonial-empty">Calificación de 5 estrellas en Google.</p>
+                )}
+                <div className="gx-testimonial-author">
+                  <div className="gx-avatar">{t.initial}</div>
+                  <div>
+                    <p>{t.name}</p>
+                    <span>{t.context}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
       )}
