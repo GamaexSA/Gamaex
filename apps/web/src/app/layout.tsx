@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     template: "%s | Gamaex Chile",
   },
   description:
-    "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de dólares, euros y +40 divisas a pasos del Metro Pedro de Valdivia. Sin comisiones ocultas.",
+    "Compra y venta de dólares, euros y +40 divisas en Providencia. Sin comisiones ocultas, a pasos del Metro Pedro de Valdivia. 38 años de trayectoria.",
   keywords: [
     "casa de cambio providencia",
     "cambiar dólares providencia",
