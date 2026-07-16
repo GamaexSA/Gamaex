@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Moneda Extranjera en Chile | +40 divisas — Gamaex",
+  title: "Cambio Moneda Extranjera Chile · +40 Divisas",
   description:
-    "Cambia moneda extranjera en Chile con Gamaex. Más de 40 divisas disponibles: dólares, euros, reales, yenes y más. Precios transparentes, sin comisiones, 38 años de experiencia.",
+    "Cambia moneda extranjera en Chile con Gamaex: dólares, euros, reales, yenes y +40 divisas. Precios transparentes, sin comisiones, 38 años de experiencia.",
   keywords: [
     "cambio moneda extranjera chile",
     "donde cambiar moneda extranjera en chile",

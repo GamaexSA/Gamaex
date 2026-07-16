@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Divisas Las Condes | Gamaex — USD EUR y más",
+  title: "Cambio de Divisas Las Condes · USD, EUR y Más",
   description:
-    "Cambio de divisas cercano a Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia — a minutos de Las Condes. Más de 40 monedas, sin comisiones, 38 años.",
+    "Cambio de divisas cercano a Las Condes. Gamaex en Av. Pedro de Valdivia 020, Providencia. Más de 40 monedas, sin comisiones, 38 años de experiencia.",
   keywords: [
     "cambio divisas las condes",
     "casa de cambio las condes providencia",

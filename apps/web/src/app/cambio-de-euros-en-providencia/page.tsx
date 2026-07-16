@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Euros en Providencia | Gamaex — Mejor Precio EUR",
+  title: "Cambio de Euros en Providencia · EUR Hoy",
   description:
     "Cambia euros en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020 — cotización EUR/CLP actualizada, sin comisiones, atención inmediata.",
   keywords: [

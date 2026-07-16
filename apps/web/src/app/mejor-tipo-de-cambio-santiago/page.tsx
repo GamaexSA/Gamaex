@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Mejor Tipo de Cambio en Santiago | Sin comisiones — Gamaex",
+  title: "Mejor Tipo de Cambio Santiago · Sin Comisión",
   description:
     "Gamaex ofrece el mejor tipo de cambio en Santiago: precios finales, sin comisiones ocultas. 38 años de trayectoria en Providencia. Compara y elige.",
   keywords: [

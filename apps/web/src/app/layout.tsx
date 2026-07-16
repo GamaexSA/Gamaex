@@ -308,6 +308,46 @@ const faqSchema = {
         text: "Sí. Gamaex ofrece servicios de transferencias internacionales y pagos a proveedores en moneda extranjera. Contamos con condiciones especiales para empresas que operan en moneda extranjera.",
       },
     },
+    {
+      "@type": "Question",
+      name: "¿Qué documentos necesito para cambiar dólares u otras divisas en Chile?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Para operaciones de montos menores el cambio suele ser directo: llegas con tu efectivo, aceptas el precio y recibes tu dinero en minutos. Para montos más altos, la normativa chilena de prevención de lavado de activos — fiscalizada por la Unidad de Análisis Financiero (UAF, www.uaf.cl) — exige identificar al cliente, por lo que te pueden pedir la cédula de identidad o el pasaporte. Es un requisito legal que aplica a todas las casas de cambio registradas en Chile.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cuál es la diferencia entre el precio de compra y el de venta?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "El precio de compra es el valor al que la casa de cambio te compra la divisa: por ejemplo, cuando entregas dólares y recibes pesos chilenos. El precio de venta es el valor al que te la vende: cuando entregas pesos y te llevas dólares. La diferencia entre ambos precios se llama spread y es el margen con el que opera toda casa de cambio; por eso el precio de venta siempre es más alto que el de compra.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cómo se determina el tipo de cambio en Chile?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "En Chile el tipo de cambio es flexible: el precio del dólar y de las demás divisas se determina por la oferta y la demanda del mercado, y por eso varía constantemente durante el día. Como referencia oficial, el Banco Central de Chile (www.bcentral.cl) publica cada día hábil el «dólar observado», un promedio de las operaciones del mercado formal. Las casas de cambio fijan sus precios de compra y venta a partir de ese mercado.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Hay límites para cambiar efectivo en Chile?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Cambiar efectivo es legal y no existe una prohibición general por monto. Sin embargo, las operaciones que superan ciertos umbrales están sujetas a la normativa de prevención de lavado de activos que fiscaliza la Unidad de Análisis Financiero (UAF, www.uaf.cl): la casa de cambio debe identificar al cliente y registrar la operación. Si planeas cambiar una suma importante, conviene avisar antes por WhatsApp para confirmar disponibilidad de billetes y agilizar la atención.",
+      },
+    },
+    {
+      "@type": "Question",
+      name: "¿Cómo funciona una casa de cambio?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Una casa de cambio compra y vende monedas extranjeras al público. Publica un precio de compra y un precio de venta para cada divisa y obtiene su margen de la diferencia entre ambos (el spread), no de comisiones adicionales. La operación es inmediata: entregas una moneda y recibes la otra en el momento. En Chile las casas de cambio operan registradas ante la Unidad de Análisis Financiero y aplican verificación de identidad en operaciones de mayor monto.",
+      },
+    },
   ],
 };
 

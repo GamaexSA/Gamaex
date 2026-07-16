@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Efectivo en Moneda Extranjera en Chile | Gamaex Providencia",
+  title: "Efectivo en Moneda Extranjera · +40 Divisas",
   description:
-    "Obtén efectivo en moneda extranjera en Chile. Gamaex en Providencia entrega USD, EUR, GBP, BRL y más de 40 divisas en efectivo. Sin comisiones, atención directa.",
+    "Obtén efectivo en moneda extranjera en Chile. Gamaex en Providencia entrega USD, EUR, GBP, BRL y +40 divisas. Sin comisiones, atención directa.",
   keywords: [
     "efectivo moneda extranjera chile",
     "comprar divisas en efectivo santiago",

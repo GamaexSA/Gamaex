@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Tipo de Cambio Hoy en Chile | Gamaex — Todas las Divisas",
+  title: "Tipo de Cambio Hoy Chile · +40 Divisas",
   description:
-    "Tipo de cambio hoy en Chile: dólar, euro, real, libra y más de 40 divisas. Gamaex publica los precios de compra y venta diariamente en Providencia. Sin comisiones.",
+    "Tipo de cambio hoy en Chile: dólar, euro, real, libra y +40 divisas. Gamaex publica precios de compra y venta a diario en Providencia. Sin comisiones.",
   keywords: [
     "tipo de cambio hoy chile",
     "tipo de cambio chile hoy todas las divisas",

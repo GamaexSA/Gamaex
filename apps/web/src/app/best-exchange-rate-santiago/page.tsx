@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Best Exchange Rate in Santiago Chile | No fees — Gamaex",
+  title: "Best Exchange Rate in Santiago · No Fees",
   description:
-    "Get the best currency exchange rate in Santiago at Gamaex, Providencia. USD, EUR, BRL and 40+ currencies. No hidden fees. 38 years of experience near Metro Pedro de Valdivia.",
+    "Get the best exchange rate in Santiago at Gamaex, Providencia. USD, EUR, BRL and 40+ currencies, no hidden fees, near Metro Pedro de Valdivia.",
   keywords: [
     "best exchange rate santiago",
     "best currency exchange santiago chile",

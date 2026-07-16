@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Currency Exchange Near Me Santiago | Gamaex — Providencia",
+  title: "Currency Exchange Near Me Santiago · No Fees",
   description:
-    "Looking for currency exchange near you in Santiago? Gamaex in Providencia: 38 years of experience, 40+ currencies, transparent rates, no hidden fees. Steps from Metro Pedro de Valdivia (Line 1).",
+    "Currency exchange near you in Santiago: Gamaex in Providencia. 40+ currencies, transparent rates, no hidden fees, steps from Metro Pedro de Valdivia.",
   keywords: [
     "currency exchange near me santiago",
     "forex exchange near me santiago chile",

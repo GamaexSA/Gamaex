@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Dólar y Euro en Santiago | USD EUR CLP — Gamaex",
+  title: "Cambio Dólar y Euro en Santiago · USD y EUR",
   description:
-    "Cambia dólares y euros en Gamaex, Providencia. Precio USD/CLP y EUR/CLP actualizado diariamente. Sin comisiones, atención directa. 38 años de experiencia en Santiago.",
+    "Cambia dólares y euros en Gamaex, Providencia. USD/CLP y EUR/CLP actualizados a diario, sin comisiones, atención directa. 38 años en Santiago.",
   keywords: [
     "cambio dolar euro santiago",
     "comprar dolar y euro santiago",

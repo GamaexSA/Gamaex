@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Divisas Santiago Centro | Gamaex Providencia",
+  title: "Cambio Divisas Santiago Centro · +40 Monedas",
   description:
-    "Cambia divisas en Santiago. Gamaex en Av. Pedro de Valdivia 020, Providencia — referencia para todo Santiago. Más de 40 monedas, sin comisiones, 38 años de experiencia.",
+    "Cambia divisas en Santiago. Gamaex en Av. Pedro de Valdivia 020, Providencia. Más de 40 monedas, sin comisiones, 38 años de experiencia.",
   keywords: [
     "cambio divisas santiago centro",
     "casa de cambio santiago",

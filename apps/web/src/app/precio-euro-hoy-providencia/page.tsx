@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Euro Hoy en Providencia | Gamaex — EUR CLP",
+  title: "Precio Euro Hoy en Providencia · EUR/CLP",
   description:
     "Precio del euro hoy en Providencia. Gamaex en Av. Pedro de Valdivia 020 actualiza el EUR/CLP diariamente. Sin comisiones, atención directa.",
   keywords: [

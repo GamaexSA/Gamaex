@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio Metro Pedro de Valdivia | Gamaex Chile",
+  title: "Casa de Cambio Metro Pedro de Valdivia",
   description:
-    "Gamaex está a pasos del Metro Pedro de Valdivia (Línea 1). La casa de cambio de referencia en Providencia: 38 años de trayectoria, +40 divisas, precios finales sin comisiones.",
+    "Gamaex está a pasos del Metro Pedro de Valdivia (Línea 1). Casa de cambio de referencia en Providencia: 38 años, +40 divisas, sin comisiones.",
   keywords: [
     "casa de cambio metro pedro de valdivia",
     "cambio moneda pedro de valdivia",

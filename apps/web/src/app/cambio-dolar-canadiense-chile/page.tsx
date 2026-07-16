@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Dólar Canadiense en Chile | CAD/CLP — Gamaex Providencia",
+  title: "Cambio Dólar Canadiense en Chile · CAD/CLP",
   description:
     "Compra y vende dólares canadienses en Gamaex, Providencia. Precio CAD/CLP actualizado, 38 años de trayectoria, atención directa sin comisiones.",
   keywords: [

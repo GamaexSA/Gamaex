@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Metro Tobalaba — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Metro Tobalaba",
   description:
-    "Casa de cambio cerca del Metro Tobalaba. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas cuadras de la estación Tobalaba. Sin comisiones, 38 años.",
+    "Casa de cambio cerca del Metro Tobalaba. Gamaex en Av. Pedro de Valdivia 020, Providencia, a pocas cuadras de la estación. Sin comisiones, 38 años.",
   keywords: [
     "casa de cambio metro tobalaba",
     "cambio divisas tobalaba",

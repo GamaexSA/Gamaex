@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Reales Brasileños en Chile | BRL CLP — Gamaex",
+  title: "Comprar Reales Brasileños en Chile · BRL/CLP",
   description:
     "Compra reales brasileños en Chile al mejor precio. Gamaex en Providencia — cotización BRL/CLP actualizada, sin comisiones. Ideal para viajes a Brasil.",
   keywords: [

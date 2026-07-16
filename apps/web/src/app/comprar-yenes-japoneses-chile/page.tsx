@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Yenes Japoneses en Chile | JPY CLP — Gamaex",
+  title: "Comprar Yenes Japoneses en Chile · JPY/CLP",
   description:
-    "Compra yenes japoneses en Chile para tu viaje a Japón. Gamaex en Providencia — cotización JPY/CLP actualizada, sin comisiones, atención directa. 38 años de experiencia.",
+    "Compra yenes japoneses en Chile para tu viaje a Japón. Gamaex en Providencia: cotización JPY/CLP actualizada, sin comisiones, atención directa.",
   keywords: [
     "comprar yenes japoneses chile",
     "donde comprar yenes en chile",

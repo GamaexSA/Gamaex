@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Euros en Chile | Mejor Precio EUR CLP — Gamaex",
+  title: "Comprar Euros en Chile · EUR/CLP Hoy",
   description:
-    "Compra euros en Chile al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada diariamente, sin comisiones, atención directa. 38 años de experiencia.",
+    "Compra euros en Chile al mejor precio. Gamaex en Providencia: cotización EUR/CLP actualizada a diario, sin comisiones. 38 años de experiencia.",
   keywords: [
     "comprar euros chile",
     "donde comprar euros chile",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Moneda en Santiago | Gamaex Chile — Providencia",
+  title: "Cambio de Moneda en Santiago · +40 Divisas",
   description:
-    "Cambia tu moneda en Santiago con Gamaex: 38 años de trayectoria en Providencia. +40 divisas, precios finales sin comisiones. A pasos del Metro Pedro de Valdivia. Cotizá por WhatsApp antes de venir.",
+    "Cambia tu moneda en Santiago con Gamaex: 38 años en Providencia, +40 divisas, precios finales sin comisiones. A pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambio de moneda santiago",
     "casa de cambio santiago",

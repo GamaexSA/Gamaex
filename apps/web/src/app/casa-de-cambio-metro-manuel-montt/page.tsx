@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Metro Manuel Montt — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Metro Manuel Montt",
   description:
-    "Casa de cambio cerca de Metro Manuel Montt. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas cuadras de Manuel Montt. Sin comisiones, 38 años de trayectoria.",
+    "Casa de cambio cerca de Metro Manuel Montt. Gamaex en Av. Pedro de Valdivia 020, Providencia, a pocas cuadras. Sin comisiones, 38 años de trayectoria.",
   keywords: [
     "casa de cambio metro manuel montt",
     "cambio divisas manuel montt providencia",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-metro-manuel-montt",
   },
   openGraph: {
-    title: "Casa de cambio cerca de Metro Manuel Montt — Gamaex Providencia",
+    title: "Casa de Cambio cerca de Metro Manuel Montt | Gamaex",
     description: "Cambio de divisas cerca de Metro Manuel Montt. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-metro-manuel-montt",
   },

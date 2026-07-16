@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "¿Cuánto vale el Euro en Chile hoy? | EUR/CLP — Gamaex",
+  title: "¿Cuánto vale el euro en Chile hoy? · EUR/CLP",
   description:
     "Precio del euro en Chile hoy. Gamaex publica el valor EUR/CLP de compra y venta diariamente. Calcula cuántos pesos chilenos recibes por tus euros.",
   keywords: [

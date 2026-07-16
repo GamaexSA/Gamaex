@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Gamaex Providencia | Casa de Cambio Av. Pedro de Valdivia 020",
+  title: "Gamaex Providencia · Casa de Cambio y Divisas",
   description:
-    "Gamaex en Providencia, Santiago. Av. Pedro de Valdivia 020, a pasos del Metro Pedro de Valdivia. Casa de cambio con más de 38 años de trayectoria, sin comisiones.",
+    "Gamaex en Providencia, Santiago: Av. Pedro de Valdivia 020, a pasos del Metro. Casa de cambio con 38 años de trayectoria, sin comisiones.",
   keywords: [
     "gamaex providencia",
     "gamaex chile providencia",

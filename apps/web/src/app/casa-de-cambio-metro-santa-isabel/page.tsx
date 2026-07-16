@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Metro Santa Isabel — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Metro Santa Isabel",
   description:
-    "Casa de cambio cerca de Metro Santa Isabel. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas paradas de Santa Isabel. Sin comisiones, 38 años de experiencia.",
+    "Casa de cambio cerca de Metro Santa Isabel. Gamaex en Av. Pedro de Valdivia 020, Providencia, a pocas paradas. Sin comisiones, 38 años de experiencia.",
   keywords: [
     "casa de cambio metro santa isabel",
     "cambio divisas santa isabel providencia",
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-metro-santa-isabel",
   },
   openGraph: {
-    title: "Casa de cambio cerca de Metro Santa Isabel — Gamaex Providencia",
+    title: "Casa de Cambio cerca de Metro Santa Isabel | Gamaex",
     description: "Cambio de divisas cerca de Metro Santa Isabel. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-metro-santa-isabel",
   },

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Pesos Uruguayos en Chile | UYU CLP — Gamaex",
+  title: "Cambiar Pesos Uruguayos en Chile · UYU/CLP",
   description:
     "Cambia pesos uruguayos en Chile. Gamaex en Providencia compra y vende UYU al mejor precio. Sin comisiones, consultar disponibilidad por WhatsApp.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Costanera Center — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Costanera Center",
   description:
-    "Casa de cambio cercana a Costanera Center. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocos minutos a pie de Costanera Center. Más de 40 divisas, sin comisiones.",
+    "Casa de cambio cercana a Costanera Center. Gamaex en Av. Pedro de Valdivia 020, Providencia, a minutos a pie. +40 divisas, sin comisiones.",
   keywords: [
     "casa de cambio costanera center",
     "cambio divisas costanera center",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-costanera-center",
   },
   openGraph: {
-    title: "Casa de cambio cerca de Costanera Center — Gamaex Providencia",
+    title: "Casa de Cambio cerca de Costanera Center | Gamaex",
     description: "Cambio de divisas a pasos de Costanera Center. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-costanera-center",
   },

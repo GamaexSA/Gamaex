@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "¿Cuánto está el dólar en Chile hoy? | USD/CLP — Gamaex",
+  title: "¿Cuánto está el dólar en Chile hoy? · USD/CLP",
   description:
     "Precio actualizado del dólar en Chile hoy. Gamaex publica los precios de compra y venta USD/CLP diariamente en Providencia. Sin comisiones ocultas.",
   keywords: [

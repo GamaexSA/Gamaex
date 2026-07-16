@@ -3,9 +3,9 @@ import type { PublicRatesResponse } from "@gamaex/types";
 import LandingPage from "@/components/landing-page";
 
 export const metadata: Metadata = {
-  title: "Servicios | Gamaex — Cambio de divisas, transferencias y más",
+  title: "Servicios · Divisas y Transferencias",
   description:
-    "Servicios de Gamaex en Providencia: cambio de 40+ divisas, transferencias internacionales, pago a proveedores y atención corporativa. 38 años de trayectoria, sin comisiones ocultas.",
+    "Servicios de Gamaex en Providencia: cambio de +40 divisas, transferencias internacionales, pago a proveedores y atención corporativa. Sin comisiones.",
   alternates: { canonical: "https://www.gamaex.cl/servicios" },
   openGraph: {
     title: "Servicios | Gamaex Chile",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cotización Dólar Online en Chile | Gamaex — Precio en Tiempo Real",
+  title: "Cotización Dólar Online · USD en Tiempo Real",
   description:
-    "Cotiza el dólar online con Gamaex. Precio compra y venta USD/CLP actualizado. Calculadora de divisas para saber cuánto recibirás antes de venir al local en Providencia.",
+    "Cotiza el dólar online con Gamaex. Precio de compra y venta USD/CLP actualizado. Calcula cuánto recibirás antes de venir al local en Providencia.",
   keywords: [
     "cotizacion dolar online",
     "cotizar dolar chile online",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/cotizacion-dolar-online",
   },
   openGraph: {
-    title: "Cotización Dólar Online | Gamaex Chile — USD/CLP en Tiempo Real",
+    title: "Cotización Dólar Online · USD en Tiempo Real | Gamaex",
     description:
       "Precio compra/venta USD/CLP actualizado. Calculadora de divisas. Gamaex Providencia.",
     url: "https://www.gamaex.cl/cotizacion-dolar-online",

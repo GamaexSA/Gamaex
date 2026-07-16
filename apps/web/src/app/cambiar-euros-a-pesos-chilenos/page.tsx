@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Euros a Pesos Chilenos | EUR CLP — Gamaex",
+  title: "Cambiar Euros a Pesos Chilenos · EUR/CLP",
   description:
-    "Cambia euros a pesos chilenos en Gamaex, Providencia. Cotización EUR/CLP actualizada, sin comisiones, pago inmediato. 38 años de experiencia en cambio de divisas.",
+    "Cambia euros a pesos chilenos en Gamaex, Providencia. Cotización EUR/CLP actualizada, sin comisiones, pago inmediato. 38 años de experiencia.",
   keywords: [
     "cambiar euros a pesos chilenos",
     "euro a peso chileno",

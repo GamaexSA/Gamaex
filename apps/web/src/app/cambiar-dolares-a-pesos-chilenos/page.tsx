@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Dólares a Pesos Chilenos | USD→CLP — Gamaex",
+  title: "Cambiar Dólares a Pesos Chilenos · USD/CLP",
   description:
     "Cambia dólares a pesos chilenos en Gamaex, Providencia. Precio USD/CLP justo, sin comisiones ocultas. Calcula cuántos pesos recibes por tus dólares.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Yen Japonés en Chile | JPY/CLP — Gamaex Providencia",
+  title: "Cambio Yen Japonés en Chile · JPY/CLP Hoy",
   description:
-    "Compra y vende yenes japoneses en Gamaex, Providencia. Precio JPY/CLP actualizado, sin comisiones. 38 años de experiencia a pasos del Metro Pedro de Valdivia.",
+    "Compra y vende yenes japoneses en Gamaex, Providencia. Precio JPY/CLP actualizado, sin comisiones, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambio yen japones chile",
     "comprar yenes santiago",

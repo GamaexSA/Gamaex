@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Dólares en Chile | USD/CLP — Gamaex Providencia",
+  title: "Comprar Dólares en Chile · USD/CLP Hoy",
   description:
     "¿Dónde comprar dólares en Chile? En Gamaex, Providencia, Santiago. Precio USD/CLP competitivo, sin comisiones. Atención directa con 38 años de experiencia.",
   keywords: [

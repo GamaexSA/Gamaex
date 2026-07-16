@@ -44,7 +44,7 @@ const navHref = (variant: LandingVariant, target: string) => {
   }
 };
 
-const FAQ_ITEMS = [
+const FAQ_ITEMS: { q: string; a: React.ReactNode }[] = [
   { q: "¿Cuál es la casa de cambio más segura para comprar dólares en Santiago?", a: "Gamaex tiene 38 años de trayectoria en Providencia (fundada en 1987). Operamos en local físico verificable en Av. Pedro de Valdivia 020, sin entregas en la calle ni intermediarios. Somos sociedad anónima registrada (Inversiones y Turismo Gamaex Chile S.A.) con reseñas verificables en Google. Tasas publicadas y atención personalizada." },
   { q: "¿Qué casa de cambio está abierta hoy sábado en la mañana?", a: "Gamaex atiende los sábados de 9:00 a 13:00 en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia. Una opción cercana en barrio alto para cambiar divisas un sábado sin ir al centro." },
   { q: "Necesito cambiar euros a pesos chilenos con buena tasa, ¿dónde voy?", a: "Compramos y vendemos euros (EUR) a pesos chilenos (CLP) con tasas competitivas, publicadas diariamente en gamaex.cl. Sin comisiones ocultas. Para montos altos conviene confirmar la tasa por WhatsApp antes de venir." },
@@ -55,6 +55,26 @@ const FAQ_ITEMS = [
   { q: "¿Cuáles son los horarios de atención?", a: "Lunes a viernes de 9:00 a 17:00 y sábados de 9:00 a 13:00. Domingos y festivos cerrado." },
   { q: "¿Aceptan billetes en mal estado o fuera de circulación?", a: "Aceptamos dólares corrientes que no estén en circulación, sujeto a evaluación en el momento. Consúltanos por WhatsApp si tienes dudas sobre un billete específico." },
   { q: "¿Hacen transferencias internacionales?", a: "Sí. Ofrecemos transferencias internacionales y pago a proveedores en moneda extranjera. Tenemos condiciones especiales para empresas." },
+  {
+    q: "¿Qué documentos necesito para cambiar dólares u otras divisas en Chile?",
+    a: (<>Para operaciones de montos menores el cambio suele ser directo: llegas con tu efectivo, aceptas el precio y recibes tu dinero en minutos. Para montos más altos, la normativa chilena de prevención de lavado de activos — fiscalizada por la <a href="https://www.uaf.cl" target="_blank" rel="noopener noreferrer">Unidad de Análisis Financiero (UAF)</a> — exige identificar al cliente, por lo que te pueden pedir la cédula de identidad o el pasaporte. Es un requisito legal que aplica a todas las casas de cambio registradas en Chile.</>),
+  },
+  {
+    q: "¿Cuál es la diferencia entre el precio de compra y el de venta?",
+    a: "El precio de compra es el valor al que la casa de cambio te compra la divisa: por ejemplo, cuando entregas dólares y recibes pesos chilenos. El precio de venta es el valor al que te la vende: cuando entregas pesos y te llevas dólares. La diferencia entre ambos precios se llama spread y es el margen con el que opera toda casa de cambio; por eso el precio de venta siempre es más alto que el de compra.",
+  },
+  {
+    q: "¿Cómo se determina el tipo de cambio en Chile?",
+    a: (<>En Chile el tipo de cambio es flexible: el precio del dólar y de las demás divisas se determina por la oferta y la demanda del mercado, y por eso varía constantemente durante el día. Como referencia oficial, el <a href="https://www.bcentral.cl" target="_blank" rel="noopener noreferrer">Banco Central de Chile</a> publica cada día hábil el &laquo;dólar observado&raquo;, un promedio de las operaciones del mercado formal. Las casas de cambio fijan sus precios de compra y venta a partir de ese mercado.</>),
+  },
+  {
+    q: "¿Hay límites para cambiar efectivo en Chile?",
+    a: "Cambiar efectivo es legal y no existe una prohibición general por monto. Sin embargo, las operaciones que superan ciertos umbrales están sujetas a la normativa de prevención de lavado de activos que fiscaliza la Unidad de Análisis Financiero (UAF): la casa de cambio debe identificar al cliente y registrar la operación. Si planeas cambiar una suma importante, te recomendamos escribirnos antes por WhatsApp para confirmar disponibilidad de billetes y agilizar la atención en el local.",
+  },
+  {
+    q: "¿Cómo funciona una casa de cambio?",
+    a: "Una casa de cambio compra y vende monedas extranjeras al público. Publica un precio de compra y un precio de venta para cada divisa y obtiene su margen de la diferencia entre ambos (el spread), no de comisiones adicionales. La operación es inmediata: entregas una moneda y recibes la otra en el momento. En Chile las casas de cambio operan registradas ante la Unidad de Análisis Financiero y aplican verificación de identidad en operaciones de mayor monto.",
+  },
   { q: "¿Cómo llego al local?", a: "Estamos en Av. Pedro de Valdivia 020, Providencia. A pasos de la salida del Metro Pedro de Valdivia (Línea 1). También cerca de Costanera Center." },
 ];
 
@@ -569,6 +589,8 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.35s ease; }
         .gx-faq-item.open .gx-faq-a { max-height: 600px; padding-bottom: 1.5rem; }
         .gx-faq-a p { color: var(--gray); line-height: 1.7; font-size: 0.95rem; max-width: 720px; }
+        .gx-faq-a p a, .gx-rates-foot a { color: var(--gold-deep); font-weight: 600; text-decoration: underline; }
+        .gx-faq-a p a:hover, .gx-rates-foot a:hover { color: var(--gold-darker); }
         .gx-faq-cta { text-align: center; margin-top: 2.5rem; }
         .gx-faq-cta p { color: var(--gray); margin-bottom: 1rem; font-size: 0.95rem; }
 
@@ -1055,7 +1077,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
             💬 Consultar
           </a>
         </div>
-        <p className="gx-rates-foot">Cotización orientativa. Para confirmar precio y operar, consúltenos directamente.</p>
+        <p className="gx-rates-foot">
+          Cotización orientativa. El tipo de cambio se determina por la oferta y demanda del mercado; según el{" "}
+          <a href="https://www.bcentral.cl" target="_blank" rel="noopener noreferrer">Banco Central de Chile</a>, el &laquo;dólar observado&raquo; que publica cada día hábil es la referencia oficial. Para confirmar precio y operar, consúltenos directamente.
+        </p>
       </section>
       )}
 

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Euros en Santiago | EUR/CLP — Gamaex Providencia",
+  title: "Comprar Euros en Santiago · EUR/CLP Hoy",
   description:
     "Compra euros en Gamaex, Providencia. Precio EUR/CLP competitivo, sin comisiones ocultas. 38 años de experiencia a pasos del Metro Pedro de Valdivia.",
   keywords: [

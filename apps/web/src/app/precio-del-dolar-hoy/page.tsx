@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio del Dólar Hoy en Chile | USD CLP — Gamaex",
+  title: "Precio del Dólar Hoy en Chile · USD/CLP",
   description:
     "Precio del dólar hoy en Chile actualizado en Gamaex. USD/CLP de compra y venta para personas y empresas. Sin comisiones, precio real, Providencia.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Dólar Hoy en Chile | Gamaex — Tipo de Cambio USD/CLP",
+  title: "Precio Dólar Hoy Chile · Tipo de Cambio USD",
   description:
-    "Consulta el precio del dólar hoy en Chile con Gamaex. Tipo de cambio USD/CLP actualizado. Compra y vende dólares al mejor precio en Providencia, sin comisiones ocultas.",
+    "Consulta el precio del dólar hoy en Chile con Gamaex. Tipo de cambio USD/CLP actualizado. Compra y vende dólares en Providencia sin comisiones.",
   keywords: [
     "precio dolar hoy chile",
     "tipo de cambio dolar chile hoy",

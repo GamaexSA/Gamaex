@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casas de Cambio en Providencia | La Mejor — Gamaex",
+  title: "Casas de Cambio en Providencia · +40 Divisas",
   description:
-    "Buscas casas de cambio en Providencia? Gamaex en Av. Pedro de Valdivia 020 es la referencia del sector — sin comisiones, +40 divisas, 38 años de trayectoria.",
+    "¿Buscas casas de cambio en Providencia? Gamaex en Av. Pedro de Valdivia 020 es la referencia: sin comisiones, +40 divisas, 38 años de trayectoria.",
   keywords: [
     "casas de cambio providencia",
     "casas de cambio en providencia santiago",

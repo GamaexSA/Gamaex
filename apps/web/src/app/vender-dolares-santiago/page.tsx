@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Dólares en Santiago | Gamaex Chile — Mejor Precio",
+  title: "Vender Dólares en Santiago · Mejor Precio",
   description:
-    "Vende tus dólares al mejor precio en Gamaex, Providencia. 38 años comprando divisas a precios justos y transparentes. A pasos del Metro Pedro de Valdivia. Cotizá por WhatsApp antes de venir.",
+    "Vende tus dólares al mejor precio en Gamaex, Providencia. 38 años comprando divisas a precios justos, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "vender dolares santiago",
     "donde vender dolares en santiago",

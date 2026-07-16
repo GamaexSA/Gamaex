@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cotización Dólar Chile Hoy | USD/CLP — Gamaex Providencia",
+  title: "Cotización Dólar Chile Hoy · USD/CLP",
   description:
     "Cotización del dólar en Chile hoy. Precio USD/CLP de compra y venta actualizado diariamente en Gamaex Providencia. Calcula en nuestra calculadora.",
   keywords: [

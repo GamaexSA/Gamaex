@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Divisas en Providencia | +40 monedas — Gamaex",
+  title: "Cambio de Divisas Providencia · +40 Monedas",
   description:
-    "Cambio de divisas en Providencia. Gamaex en Av. Pedro de Valdivia 020, a pasos del Metro. Más de 40 monedas, 38 años de experiencia, precios sin comisiones.",
+    "Cambio de divisas en Providencia. Gamaex en Av. Pedro de Valdivia 020, a pasos del Metro. Más de 40 monedas, 38 años, precios sin comisiones.",
   keywords: [
     "cambio divisas providencia",
     "cambio monedas providencia",

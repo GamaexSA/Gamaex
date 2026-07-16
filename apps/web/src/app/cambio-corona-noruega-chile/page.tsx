@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Corona Noruega en Chile | NOK/CLP — Gamaex",
+  title: "Cambio Corona Noruega en Chile · NOK/CLP",
   description:
-    "Compra y vende coronas noruegas en Gamaex, Providencia. Precio NOK/CLP actualizado, sin comisiones. 38 años de experiencia a pasos del Metro Pedro de Valdivia.",
+    "Compra y vende coronas noruegas en Gamaex, Providencia. Precio NOK/CLP actualizado, sin comisiones, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambio corona noruega chile",
     "comprar coronas noruegas santiago",

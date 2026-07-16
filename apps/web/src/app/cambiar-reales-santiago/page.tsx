@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Reales Brasileños en Santiago | Gamaex Chile — BRL/CLP",
+  title: "Cambiar Reales en Santiago · BRL/CLP Hoy",
   description:
-    "Cambia reales brasileños (BRL) en Gamaex Providencia. Precio competitivo BRL/CLP, 38 años de experiencia, atención directa a pasos del Metro Pedro de Valdivia. Cotizá por WhatsApp.",
+    "Cambia reales brasileños (BRL) en Gamaex, Providencia. Precio BRL/CLP competitivo, 38 años de experiencia, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambiar reales santiago",
     "cambio real brasileño santiago",

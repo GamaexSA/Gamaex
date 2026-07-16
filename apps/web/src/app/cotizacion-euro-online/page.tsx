@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cotización Euro Online Chile | EUR/CLP — Gamaex",
+  title: "Cotización Euro Online Chile · EUR/CLP",
   description:
     "Cotización del euro online en Chile. Precio EUR/CLP actualizado en Gamaex. Calcula cuántos pesos chilenos recibes por tus euros. Atención en Providencia.",
   keywords: [

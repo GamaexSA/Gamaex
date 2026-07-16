@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Dólares en Santiago | Gamaex Chile — Providencia",
+  title: "Comprar Dólares en Santiago · USD/CLP Hoy",
   description:
-    "¿Dónde comprar dólares en Santiago? Gamaex en Providencia: 38 años de trayectoria, precios transparentes y atención directa a pasos del Metro Pedro de Valdivia. Sin comisiones ocultas.",
+    "¿Dónde comprar dólares en Santiago? Gamaex en Providencia: 38 años de trayectoria, sin comisiones ocultas, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "comprar dolares santiago",
     "donde comprar dolares en santiago",

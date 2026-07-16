@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Dólares en Providencia | Gamaex — Mejor Precio USD",
+  title: "Cambio de Dólares en Providencia · USD Hoy",
   description:
     "Cambia dólares en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020 — cotización USD/CLP actualizada, sin comisiones, atención inmediata.",
   keywords: [

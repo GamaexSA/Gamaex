@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Sol Peruano en Chile | PEN CLP — Gamaex",
+  title: "Cambio Sol Peruano en Chile · PEN/CLP Hoy",
   description:
-    "Cambia soles peruanos en Chile. Gamaex en Providencia compra y vende PEN al mejor precio. Sin comisiones, atención directa. 38 años de experiencia en cambio de divisas.",
+    "Cambia soles peruanos en Chile. Gamaex en Providencia compra y vende PEN al mejor precio, sin comisiones. 38 años de experiencia en divisas.",
   keywords: [
     "cambio sol peruano chile",
     "PEN CLP hoy",

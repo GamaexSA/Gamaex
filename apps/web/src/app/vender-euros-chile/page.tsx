@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Euros en Chile | Mejor Precio EUR CLP — Gamaex",
+  title: "Vender Euros en Chile · EUR/CLP Hoy",
   description:
     "Vende tus euros en Chile al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada, pago inmediato, sin comisiones. 38 años de trayectoria.",
   keywords: [

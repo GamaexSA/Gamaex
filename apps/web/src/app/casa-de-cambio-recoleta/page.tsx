@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Recoleta — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Recoleta · Divisas",
   description:
     "Casa de cambio cercana a Recoleta. Gamaex en Av. Pedro de Valdivia 020, Providencia — accesible desde Recoleta en Metro (Línea 1). Sin comisiones, 38 años.",
   keywords: [

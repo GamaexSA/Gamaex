@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Dólares Sin Comisión en Chile | Gamaex Providencia",
+  title: "Comprar Dólares Sin Comisión · Precio Final",
   description:
-    "Compra dólares sin comisión en Gamaex, Providencia. Sin cargos ocultos, sin spreads abusivos. El precio que ves es el precio final — 38 años de transparencia.",
+    "Compra dólares sin comisión en Gamaex, Providencia. Sin cargos ocultos: el precio que ves es el precio final. 38 años de transparencia.",
   keywords: [
     "comprar dolares sin comision",
     "donde comprar dolares sin comision chile",

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Euro en Chile | EUR/CLP — Gamaex Providencia",
+  title: "Cambio Euro en Chile · EUR/CLP Actualizado",
   description:
     "Cambio de euros en Chile. Compra y venta EUR/CLP en Gamaex Providencia. Precios actualizados, sin comisiones ocultas. 38 años de trayectoria.",
   keywords: [

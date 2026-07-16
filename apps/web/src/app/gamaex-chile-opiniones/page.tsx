@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Gamaex Chile Opiniones | Casa de Cambio Confiable en Providencia",
+  title: "Gamaex Opiniones · Casa de Cambio Confiable",
   description:
-    "Lee las opiniones de clientes sobre Gamaex en Chile. Casa de cambio con 38 años de trayectoria en Providencia. Precios transparentes, atención directa y sin comisiones.",
+    "Lee opiniones de clientes sobre Gamaex, casa de cambio con 38 años de trayectoria en Providencia. Precios transparentes y atención sin comisiones.",
   keywords: [
     "gamaex chile opiniones",
     "gamaex providencia opiniones",

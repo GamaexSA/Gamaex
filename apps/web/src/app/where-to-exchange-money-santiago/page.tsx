@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Where to Exchange Money in Santiago Chile | Gamaex",
+  title: "Where to Exchange Money in Santiago · No Fees",
   description:
-    "Looking for where to exchange money in Santiago, Chile? Gamaex in Providencia offers 40+ currencies, no commission, and 38 years of trusted service near Metro Pedro de Valdivia.",
+    "Where to exchange money in Santiago, Chile: Gamaex in Providencia offers 40+ currencies, no commission, near Metro Pedro de Valdivia.",
   keywords: [
     "where to exchange money santiago chile",
     "best place to exchange money santiago",

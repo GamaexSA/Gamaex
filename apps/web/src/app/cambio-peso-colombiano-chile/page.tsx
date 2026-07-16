@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Peso Colombiano en Chile | COP CLP — Gamaex",
+  title: "Cambio Peso Colombiano en Chile · COP/CLP",
   description:
-    "Cambia pesos colombianos en Chile. Gamaex en Providencia compra y vende COP al mejor precio. Sin comisiones, atención directa. 38 años de experiencia en divisas.",
+    "Cambia pesos colombianos en Chile. Gamaex en Providencia compra y vende COP al mejor precio. Sin comisiones, atención directa, 38 años de experiencia.",
   keywords: [
     "cambio peso colombiano chile",
     "COP CLP hoy",

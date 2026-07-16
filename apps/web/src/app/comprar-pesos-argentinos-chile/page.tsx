@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Pesos Argentinos en Chile | ARS CLP — Gamaex",
+  title: "Comprar Pesos Argentinos en Chile · ARS/CLP",
   description:
     "Compra pesos argentinos en Chile para tu viaje a Argentina. Gamaex en Providencia — cotización ARS/CLP actualizada, sin comisiones, atención directa.",
   keywords: [

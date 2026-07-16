@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Money Exchange Santiago | Currency Exchange Providencia — Gamaex",
+  title: "Money Exchange Santiago · 40+ Currencies",
   description:
-    "Best currency exchange in Providencia, Santiago. Gamaex: buy and sell USD, EUR, BRL and 40+ currencies near Metro Pedro de Valdivia. 38 years of experience. No hidden fees.",
+    "Buy and sell USD, EUR, BRL and 40+ currencies at Gamaex, Providencia, near Metro Pedro de Valdivia. 38 years of experience, no hidden fees.",
   keywords: [
     "money exchange santiago",
     "currency exchange providencia",

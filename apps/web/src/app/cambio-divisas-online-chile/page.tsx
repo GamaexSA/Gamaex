@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Divisas Online Chile | Cotización en Tiempo Real — Gamaex",
+  title: "Cambio Divisas Online Chile · Tiempo Real",
   description:
-    "Consulta las cotizaciones de divisas online en Chile. Gamaex publica precios en tiempo real. Cotiza por WhatsApp y opera en nuestro local de Providencia sin comisiones.",
+    "Consulta cotizaciones de divisas online en Chile. Gamaex publica precios en tiempo real. Cotiza por WhatsApp y opera en Providencia sin comisiones.",
   keywords: [
     "cambio divisas online chile",
     "cotizacion divisas online chile",

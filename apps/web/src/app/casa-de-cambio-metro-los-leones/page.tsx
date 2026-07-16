@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Metro Los Leones — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Metro Los Leones",
   description:
-    "Casa de cambio a pasos de Metro Los Leones. Gamaex en Av. Pedro de Valdivia 020, Providencia — a metros de la salida Los Leones. Sin comisiones, 38 años de experiencia.",
+    "Casa de cambio a pasos de Metro Los Leones. Gamaex en Av. Pedro de Valdivia 020, Providencia, a metros de la salida Los Leones. Sin comisiones.",
   keywords: [
     "casa de cambio metro los leones",
     "cambio divisas los leones providencia",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     canonical: "https://www.gamaex.cl/casa-de-cambio-metro-los-leones",
   },
   openGraph: {
-    title: "Casa de cambio cerca de Metro Los Leones — Gamaex Providencia",
+    title: "Casa de Cambio cerca de Metro Los Leones | Gamaex",
     description: "Cambio de divisas a pasos del Metro Los Leones. Gamaex en Providencia, sin comisiones.",
     url: "https://www.gamaex.cl/casa-de-cambio-metro-los-leones",
   },

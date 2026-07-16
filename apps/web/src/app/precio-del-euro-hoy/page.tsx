@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio del Euro Hoy en Chile | EUR CLP — Gamaex",
+  title: "Precio del Euro Hoy en Chile · EUR/CLP",
   description:
     "Precio del euro hoy en Chile actualizado en Gamaex. EUR/CLP de compra y venta. Sin comisiones, precio real, Providencia. Calculadora de divisas incluida.",
   keywords: [

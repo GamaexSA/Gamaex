@@ -3,9 +3,9 @@ import type { PublicRatesResponse } from "@gamaex/types";
 import LandingPage from "@/components/landing-page";
 
 export const metadata: Metadata = {
-  title: "Preguntas frecuentes | Gamaex Chile",
+  title: "Preguntas Frecuentes · Cambio de Divisas",
   description:
-    "Resolvemos las dudas más comunes sobre cambio de divisas en Gamaex: monedas que trabajamos, horarios, comisiones, billetes aceptados y transferencias internacionales.",
+    "Resolvemos las dudas más comunes sobre cambio de divisas en Gamaex: monedas, horarios, comisiones, billetes aceptados y transferencias internacionales.",
   alternates: { canonical: "https://www.gamaex.cl/preguntas-frecuentes" },
   openGraph: {
     title: "Preguntas frecuentes | Gamaex Chile",

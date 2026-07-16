@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Yuan Chino en Chile | CNY/CLP — Gamaex Providencia",
+  title: "Cambio Yuan Chino en Chile · CNY/CLP Hoy",
   description:
-    "Compra y vende yuanes chinos en Gamaex, Providencia. Precio CNY/CLP actualizado, sin comisiones. Especialistas en divisas asiáticas con 38 años de experiencia.",
+    "Compra y vende yuanes chinos en Gamaex, Providencia. Precio CNY/CLP actualizado, sin comisiones. Especialistas en divisas asiáticas.",
   keywords: [
     "cambio yuan chino chile",
     "comprar yuanes santiago",

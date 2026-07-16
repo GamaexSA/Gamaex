@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio en Providencia | Gamaex — Av. Pedro de Valdivia 020",
+  title: "Casa de Cambio en Providencia · 38 Años",
   description:
-    "Gamaex: la casa de cambio de referencia en Providencia con 38 años de trayectoria. Compra y venta de +40 divisas en Av. Pedro de Valdivia 020, a metros del Metro Pedro de Valdivia. Sin comisiones ocultas.",
+    "Casa de cambio de referencia en Providencia: 38 años de trayectoria, +40 divisas, sin comisiones. Av. Pedro de Valdivia 020, a metros del Metro.",
   keywords: [
     "casa de cambio providencia",
     "casa de cambio pedro de valdivia",

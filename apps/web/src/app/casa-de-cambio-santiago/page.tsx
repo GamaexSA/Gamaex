@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de Cambio en Santiago | Gamaex — Providencia, 38 Años",
+  title: "Casa de Cambio en Santiago · +40 Divisas",
   description:
-    "La mejor casa de cambio en Santiago está en Gamaex, Providencia. 38 años comprando y vendiendo más de 40 divisas. Atención directa, precios finales, sin comisiones. Metro Pedro de Valdivia.",
+    "La mejor casa de cambio en Santiago está en Gamaex, Providencia. 38 años comprando y vendiendo +40 divisas, sin comisiones. Metro Pedro de Valdivia.",
   keywords: [
     "casa de cambio santiago",
     "casa de cambio santiago chile",

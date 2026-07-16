@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Dólares en Chile | USD/CLP — Gamaex Providencia",
+  title: "Vender Dólares en Chile · USD/CLP Hoy",
   description:
-    "Vende tus dólares en Gamaex, Providencia. Obtenemos el mejor precio USD/CLP del mercado. Sin comisiones, 38 años de experiencia. A pasos del Metro Pedro de Valdivia.",
+    "Vende tus dólares en Gamaex, Providencia, al mejor precio USD/CLP. Sin comisiones, 38 años de experiencia, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "vender dolares chile",
     "donde vender dolares en chile",

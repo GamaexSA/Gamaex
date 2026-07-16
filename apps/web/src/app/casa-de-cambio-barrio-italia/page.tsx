@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Barrio Italia — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Barrio Italia",
   description:
     "Casa de cambio cercana a Barrio Italia. Gamaex está en Providencia, a pocos minutos de Barrio Italia. Compra y venta de divisas, 38 años de experiencia.",
   keywords: [

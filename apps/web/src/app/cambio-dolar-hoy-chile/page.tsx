@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Dólar Hoy Chile | USD/CLP actualizado — Gamaex",
+  title: "Cambio Dólar Hoy Chile · USD/CLP Actualizado",
   description:
     "Cambio de dólar hoy en Chile. Precio USD/CLP de compra y venta publicado diariamente en Gamaex Providencia. Sin comisiones, 38 años de experiencia.",
   keywords: [

@@ -39,9 +39,9 @@ const localBusiness = JSON.stringify({
 
 export const metadata: Metadata = {
   // Sin sufijo " | Gamaex Chile" — el layout.tsx lo agrega vía title.template.
-  title: "Casa de Cambio en Providencia",
+  title: "Casa de Cambio en Providencia · +40 Divisas",
   description:
-    "Compra y venta de dólares, euros, reales y más de 40 divisas en Gamaex Chile. Atención presencial en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia.",
+    "Compra y venta de dólares, euros y +40 divisas en Providencia. Sin comisiones, en Av. Pedro de Valdivia 020, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "casa de cambio providencia",
     "casa de cambio en providencia",

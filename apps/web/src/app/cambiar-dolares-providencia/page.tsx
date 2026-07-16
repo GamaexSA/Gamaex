@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Dólares en Providencia | Gamaex Chile — Metro Pedro de Valdivia",
+  title: "Cambiar Dólares en Providencia · USD/CLP Hoy",
   description:
-    "Cambiá dólares en Providencia con 38 años de trayectoria. Gamaex: compra y venta de USD al mejor precio, a pasos del Metro Pedro de Valdivia. Sin comisiones. Cotizá por WhatsApp.",
+    "Cambia dólares en Providencia con 38 años de trayectoria. Compra y venta de USD sin comisiones, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambiar dólares providencia",
     "comprar dólares providencia",

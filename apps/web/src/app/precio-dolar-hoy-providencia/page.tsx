@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Dólar Hoy en Providencia | Gamaex — USD en Tiempo Real",
+  title: "Precio Dólar Hoy en Providencia · USD/CLP",
   description:
-    "Consulta el precio del dólar hoy en Providencia. Gamaex actualiza la cotización USD/CLP cada hora. Sin comisiones, atención directa en Av. Pedro de Valdivia 020.",
+    "Consulta el precio del dólar hoy en Providencia. Gamaex actualiza la cotización USD/CLP cada hora. Sin comisiones, en Av. Pedro de Valdivia 020.",
   keywords: [
     "precio dolar hoy providencia",
     "cotizacion dolar providencia",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cotización Dólar y Euro en Chile Hoy | USD EUR CLP — Gamaex",
+  title: "Cotización Dólar y Euro Hoy · USD EUR CLP",
   description:
-    "Cotización del dólar y el euro en Chile actualizada hoy. USD/CLP y EUR/CLP en Gamaex Providencia. Cambia sin comisiones, precio real actualizado diariamente.",
+    "Cotización del dólar y el euro en Chile actualizada hoy. USD/CLP y EUR/CLP en Gamaex Providencia. Cambia sin comisiones, precio real diario.",
   keywords: [
     "cotizacion dolar euro chile",
     "cotizacion dolar y euro hoy",

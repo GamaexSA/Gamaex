@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Divisas en Chile | Compra y Venta de Moneda Extranjera — Gamaex",
+  title: "Divisas en Chile · Compra y Venta +40 Monedas",
   description:
     "Compra y venta de divisas en Chile. Gamaex en Providencia ofrece más de 40 monedas extranjeras al mejor precio — sin comisiones, 38 años de trayectoria.",
   keywords: [

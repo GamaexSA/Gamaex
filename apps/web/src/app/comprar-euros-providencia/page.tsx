@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Euros en Providencia | Gamaex — Mejor Precio EUR",
+  title: "Comprar Euros en Providencia · EUR Hoy",
   description:
-    "Compra euros en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020 — sin comisiones, cotización EUR/CLP actualizada diariamente. 38 años de experiencia.",
+    "Compra euros en Providencia. Gamaex en Av. Pedro de Valdivia 020: sin comisiones, cotización EUR/CLP actualizada a diario. 38 años de experiencia.",
   keywords: [
     "comprar euros providencia",
     "donde comprar euros en providencia",

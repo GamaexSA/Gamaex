@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cuánto Vale el Dólar Hoy en Chile | Precio USD — Gamaex",
+  title: "Cuánto Vale el Dólar Hoy · Precio USD Chile",
   description:
-    "Consulta cuánto vale el dólar hoy en Chile. Gamaex actualiza el precio del dólar diariamente. Cambia tus dólares en Providencia sin comisiones al mejor tipo de cambio.",
+    "Consulta cuánto vale el dólar hoy en Chile. Gamaex actualiza el precio a diario. Cambia tus dólares en Providencia sin comisiones.",
   keywords: [
     "cuanto vale el dolar hoy",
     "cuanto vale el dolar hoy chile",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Divisas sin Comisión | Precio final — Gamaex",
+  title: "Cambio de Divisas sin Comisión · Precio Final",
   description:
-    "Cambio de divisas sin comisión en Gamaex, Providencia. El precio que ves es el precio final — sin cargos ocultos, sin comisiones de ningún tipo. 38 años de transparencia.",
+    "Cambio de divisas sin comisión en Gamaex, Providencia. El precio que ves es el precio final: sin cargos ocultos. 38 años de transparencia.",
   keywords: [
     "cambio divisas sin comision chile",
     "casa de cambio sin comisiones santiago",

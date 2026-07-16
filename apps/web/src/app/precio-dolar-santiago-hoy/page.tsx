@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Dólar Santiago Hoy | USD/CLP — Gamaex Providencia",
+  title: "Precio Dólar Santiago Hoy · Compra y Venta",
   description:
     "Precio del dólar hoy en Santiago. Gamaex publica los valores de compra y venta USD/CLP actualizados diariamente. Sin comisiones, atención en Providencia.",
   keywords: [

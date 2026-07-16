@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Comprar Libras Esterlinas en Chile | GBP CLP — Gamaex",
+  title: "Comprar Libras Esterlinas en Chile · GBP/CLP",
   description:
-    "Compra libras esterlinas en Chile al mejor precio. Gamaex en Providencia — cotización GBP/CLP actualizada, sin comisiones, atención directa. 38 años de experiencia.",
+    "Compra libras esterlinas en Chile al mejor precio. Gamaex en Providencia: cotización GBP/CLP actualizada, sin comisiones, atención directa.",
   keywords: [
     "comprar libras esterlinas chile",
     "donde comprar libras esterlinas santiago",

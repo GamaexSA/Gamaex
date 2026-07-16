@@ -3,9 +3,9 @@ import type { PublicRatesResponse } from "@gamaex/types";
 import LandingPage from "@/components/landing-page";
 
 export const metadata: Metadata = {
-  title: "Alerta de precio | Gamaex — Avísame cuando llegue mi precio",
+  title: "Alerta de Precio de Divisas por WhatsApp",
   description:
-    "Déjanos tu precio objetivo y te avisamos por WhatsApp cuando el mercado se acerque. Alerta de precio gratuita, sin compromiso. Dólar, euro, real y +40 divisas.",
+    "Déjanos tu precio objetivo y te avisamos por WhatsApp cuando el mercado se acerque. Alerta gratuita, sin compromiso. Dólar, euro y +40 divisas.",
   alternates: { canonical: "https://www.gamaex.cl/alerta-de-precio" },
   openGraph: {
     title: "Alerta de precio | Gamaex Chile",

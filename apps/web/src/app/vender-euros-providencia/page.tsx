@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Euros en Providencia | Gamaex — Mejor Precio EUR",
+  title: "Vender Euros en Providencia · EUR Hoy",
   description:
-    "Vende tus euros en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020 — sin comisiones, pago inmediato, cotización justa EUR/CLP. 38 años en el mercado.",
+    "Vende tus euros en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020: sin comisiones, pago inmediato, cotización justa EUR/CLP.",
   keywords: [
     "vender euros providencia",
     "donde vender euros en providencia",

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Tipo de Cambio de Hoy en Chile | USD EUR CLP — Gamaex",
+  title: "Tipo de Cambio de Hoy · USD EUR y +40 Divisas",
   description:
     "Tipo de cambio de hoy en Chile. USD/CLP, EUR/CLP y +40 divisas actualizadas en Gamaex Providencia. Sin comisiones, precio real diario.",
   keywords: [

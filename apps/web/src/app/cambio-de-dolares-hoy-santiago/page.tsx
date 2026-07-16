@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Dólares Hoy en Santiago | USD/CLP — Gamaex",
+  title: "Cambio de Dólares Hoy en Santiago · USD/CLP",
   description:
     "Cambio de dólares hoy en Santiago. Precio USD/CLP de compra y venta actualizado en Gamaex Providencia. Sin comisiones ocultas, 38 años de experiencia.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Maipú — Gamaex Providencia, Santiago",
+  title: "Casa de Cambio cerca de Maipú · +40 Divisas",
   description:
-    "Casa de cambio cercana a Maipú. Gamaex en Av. Pedro de Valdivia 020, Providencia — accesible desde Maipú en Metro Línea 1 o Línea 5. Sin comisiones, 38 años.",
+    "Casa de cambio cercana a Maipú. Gamaex en Av. Pedro de Valdivia 020, Providencia, accesible en Metro Línea 1 o Línea 5. Sin comisiones, 38 años.",
   keywords: [
     "casa de cambio maipu",
     "cambio divisas maipu santiago",

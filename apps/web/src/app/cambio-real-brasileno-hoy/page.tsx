@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Real Brasileño Hoy Chile | BRL/CLP — Gamaex Providencia",
+  title: "Cambio Real Brasileño Hoy en Chile · BRL/CLP",
   description:
     "Precio del real brasileño hoy en Chile. Compra y vende BRL al mejor tipo de cambio en Gamaex, Providencia. Cotización actualizada, sin comisiones ocultas.",
   keywords: [

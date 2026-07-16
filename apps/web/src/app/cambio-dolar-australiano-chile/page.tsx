@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Dólar Australiano en Chile | AUD/CLP — Gamaex Providencia",
+  title: "Cambio Dólar Australiano en Chile · AUD/CLP",
   description:
     "Compra y vende dólares australianos en Gamaex, Providencia. Precio AUD/CLP actualizado, sin comisiones. 38 años de experiencia en cambio de divisas.",
   keywords: [

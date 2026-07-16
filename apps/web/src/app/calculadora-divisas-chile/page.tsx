@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Calculadora de Divisas Chile | Conversor de Monedas — Gamaex",
+  title: "Calculadora de Divisas Chile · +40 Monedas",
   description:
-    "Calcula cuántos pesos chilenos recibirás por tus divisas con la calculadora de Gamaex. +40 monedas disponibles. Precios reales actualizados. Casa de cambio en Providencia, Santiago.",
+    "Calcula cuántos pesos chilenos recibirás por tus divisas. +40 monedas, precios reales actualizados. Gamaex, casa de cambio en Providencia, Santiago.",
   keywords: [
     "calculadora divisas chile",
     "calculadora de monedas chile",

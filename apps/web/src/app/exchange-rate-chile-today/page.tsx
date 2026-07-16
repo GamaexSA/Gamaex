@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Exchange Rate Chile Today | USD CLP EUR — Gamaex",
+  title: "Exchange Rate Chile Today · USD EUR CLP",
   description:
-    "Live exchange rates in Chile today. USD/CLP, EUR/CLP and 40+ currencies at Gamaex, Providencia. No fees, best rates, 38 years of experience. Walk in or check online.",
+    "Live exchange rates in Chile today. USD/CLP, EUR/CLP and 40+ currencies at Gamaex, Providencia. No fees, 38 years of experience.",
   keywords: [
     "exchange rate chile today",
     "USD CLP rate today",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Ñuñoa — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Ñuñoa · +40 Divisas",
   description:
-    "Cambia divisas cerca de Ñuñoa en Gamaex, Providencia. 38 años de experiencia, más de 40 monedas, precios finales sin comisiones. Acceso fácil por Metro Línea 1.",
+    "Cambia divisas cerca de Ñuñoa en Gamaex, Providencia. 38 años de experiencia, +40 monedas, precios finales sin comisiones. Acceso por Metro Línea 1.",
   keywords: [
     "casa de cambio ñuñoa",
     "cambio moneda ñuñoa",

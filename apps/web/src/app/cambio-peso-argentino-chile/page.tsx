@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Peso Argentino en Chile | ARS/CLP — Gamaex Providencia",
+  title: "Cambio Peso Argentino en Chile · ARS/CLP",
   description:
     "Compra y vende pesos argentinos en Gamaex, Providencia. Precio ARS/CLP actualizado al día. 38 años de experiencia. Sin comisiones ocultas.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Euro Hoy en Chile | Gamaex — Tipo de Cambio EUR/CLP",
+  title: "Precio Euro Hoy Chile · Tipo de Cambio EUR",
   description:
-    "Consulta el precio del euro hoy en Chile con Gamaex. Tipo de cambio EUR/CLP actualizado. Compra y vende euros al mejor precio en Providencia, sin comisiones ocultas.",
+    "Consulta el precio del euro hoy en Chile con Gamaex. Tipo de cambio EUR/CLP actualizado. Compra y vende euros en Providencia sin comisiones.",
   keywords: [
     "precio euro hoy chile",
     "tipo de cambio euro chile hoy",

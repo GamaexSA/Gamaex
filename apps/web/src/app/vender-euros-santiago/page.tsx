@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Euros en Santiago | EUR/CLP — Gamaex Providencia",
+  title: "Vender Euros en Santiago · EUR/CLP Hoy",
   description:
     "Vende tus euros en Gamaex, Providencia. Obtenemos el mejor precio EUR/CLP del mercado. Sin comisiones, atención directa, 38 años de experiencia.",
   keywords: [

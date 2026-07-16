@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Metro Baquedano — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Metro Baquedano",
   description:
-    "Casa de cambio cerca de Metro Baquedano. Gamaex en Av. Pedro de Valdivia 020, Providencia — a pocas cuadras de Baquedano. Sin comisiones, 38 años de experiencia.",
+    "Casa de cambio cerca de Metro Baquedano. Gamaex en Av. Pedro de Valdivia 020, Providencia, a pocas cuadras. Sin comisiones, 38 años de experiencia.",
   keywords: [
     "casa de cambio metro baquedano",
     "cambio divisas baquedano providencia",

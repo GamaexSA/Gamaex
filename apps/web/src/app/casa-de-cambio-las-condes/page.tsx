@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Casa de cambio cerca de Las Condes — Gamaex Providencia",
+  title: "Casa de Cambio cerca de Las Condes · Divisas",
   description:
-    "Gamaex en Providencia: la casa de cambio más cercana a Las Condes. +40 divisas, 38 años de trayectoria, precios finales sin comisiones. A minutos en Metro Línea 1.",
+    "Gamaex en Providencia: la casa de cambio más cercana a Las Condes. +40 divisas, 38 años, precios finales sin comisiones. A minutos en Metro Línea 1.",
   keywords: [
     "casa de cambio las condes",
     "casa de cambio cerca de las condes",

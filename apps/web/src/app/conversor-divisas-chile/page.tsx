@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Conversor de Divisas Chile | Calculadora gratuita — Gamaex",
+  title: "Conversor de Divisas Chile · +40 Monedas",
   description:
     "Conversor de divisas para Chile. Calcula USD, EUR, BRL y más de 40 monedas en pesos chilenos. Precios reales de Gamaex, actualizados diariamente.",
   keywords: [

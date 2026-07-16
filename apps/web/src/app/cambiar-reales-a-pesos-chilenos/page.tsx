@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Reales a Pesos Chilenos | BRL→CLP — Gamaex",
+  title: "Cambiar Reales a Pesos Chilenos · BRL/CLP",
   description:
     "Cambia reales brasileños a pesos chilenos en Gamaex, Providencia. Precio BRL/CLP actualizado, sin comisiones. 38 años de experiencia en Santiago.",
   keywords: [

@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Precio Euro Hoy en Santiago | EUR/CLP — Gamaex Providencia",
+  title: "Precio Euro Hoy en Santiago · EUR/CLP",
   description:
     "Precio del euro hoy en Santiago. Gamaex publica el precio EUR/CLP de compra y venta diariamente. Sin comisiones, atención en Providencia.",
   keywords: [

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Vender Dólares en Providencia | Gamaex — Mejor Precio USD",
+  title: "Vender Dólares en Providencia · USD Hoy",
   description:
-    "Vende tus dólares en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020 — sin comisiones, pago inmediato, tipo de cambio justo. 38 años en el mercado.",
+    "Vende tus dólares en Providencia al mejor precio. Gamaex en Av. Pedro de Valdivia 020: sin comisiones, pago inmediato, tipo de cambio justo.",
   keywords: [
     "vender dolares providencia",
     "donde vender dolares en providencia",

@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambiar Euros en Santiago | Gamaex Chile — EUR a CLP Providencia",
+  title: "Cambiar Euros en Santiago · EUR/CLP Hoy",
   description:
-    "Cambia euros a pesos chilenos en Gamaex, Providencia. Mejor precio EUR/CLP, 38 años de trayectoria y atención directa a pasos del Metro Pedro de Valdivia. Sin comisiones ocultas.",
+    "Cambia euros a pesos chilenos en Gamaex, Providencia. 38 años de trayectoria, sin comisiones, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambiar euros santiago",
     "cambio euro peso chileno",

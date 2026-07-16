@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Franco Suizo en Chile | CHF/CLP — Gamaex Providencia",
+  title: "Cambio Franco Suizo en Chile · CHF/CLP",
   description:
-    "Compra y vende francos suizos en Gamaex, Providencia. Precio CHF/CLP actualizado, sin comisiones. 38 años de experiencia a pasos del Metro Pedro de Valdivia.",
+    "Compra y vende francos suizos en Gamaex, Providencia. Precio CHF/CLP actualizado, sin comisiones, a pasos del Metro Pedro de Valdivia.",
   keywords: [
     "cambio franco suizo chile",
     "comprar francos suizos santiago",

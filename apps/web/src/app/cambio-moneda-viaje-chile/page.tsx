@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio de Moneda para Viaje en Chile | Gamaex — Divisas",
+  title: "Cambio de Moneda para Viaje · +40 Divisas",
   description:
-    "Cambia moneda para tu viaje en Gamaex, Providencia. USD, EUR, GBP, BRL y más de 40 divisas al mejor precio. Sin comisiones, atención directa. Lleva el efectivo que necesitas.",
+    "Cambia moneda para tu viaje en Gamaex, Providencia. USD, EUR, GBP, BRL y +40 divisas al mejor precio, sin comisiones. Lleva el efectivo que necesitas.",
   keywords: [
     "cambio moneda viaje chile",
     "donde cambiar moneda para viajar chile",

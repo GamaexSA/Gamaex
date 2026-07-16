@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Pago a Proveedores en Moneda Extranjera | Gamaex Chile",
+  title: "Pago a Proveedores en Moneda Extranjera",
   description:
-    "Paga a tus proveedores en moneda extranjera con Gamaex. Transferencias internacionales en USD, EUR y más. Condiciones especiales para empresas. 38 años de experiencia.",
+    "Paga a tus proveedores en moneda extranjera con Gamaex. Transferencias internacionales en USD, EUR y más. Condiciones especiales para empresas.",
   keywords: [
     "pago proveedores moneda extranjera chile",
     "transferencia internacional proveedores chile",

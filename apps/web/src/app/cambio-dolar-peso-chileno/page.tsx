@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Dólar Peso Chileno | USD/CLP hoy — Gamaex",
+  title: "Cambio Dólar Peso Chileno · USD/CLP Hoy",
   description:
     "Cambio de dólar a peso chileno en Gamaex. Precio USD/CLP actualizado, sin comisiones ocultas. Calcula la conversión y consulta por WhatsApp.",
   keywords: [

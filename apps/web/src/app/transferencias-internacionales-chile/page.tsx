@@ -12,9 +12,9 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Transferencias Internacionales en Chile | Gamaex — Providencia",
+  title: "Transferencias Internacionales en Chile",
   description:
-    "Gamaex ofrece transferencias internacionales y pagos a proveedores en moneda extranjera desde Providencia. 38 años de experiencia, condiciones especiales para empresas y personas.",
+    "Transferencias internacionales y pagos a proveedores en moneda extranjera desde Providencia. 38 años de experiencia, condiciones para empresas y personas.",
   keywords: [
     "transferencias internacionales chile",
     "transferencia internacional desde chile",

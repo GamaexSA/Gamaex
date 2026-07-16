@@ -12,7 +12,7 @@ const breadcrumb = JSON.stringify({
 });
 
 export const metadata: Metadata = {
-  title: "Cambio Libra Esterlina en Chile | GBP/CLP — Gamaex Providencia",
+  title: "Cambio Libra Esterlina en Chile · GBP/CLP",
   description:
     "Compra y vende libras esterlinas en Gamaex, Providencia. Precio GBP/CLP actualizado, 38 años de trayectoria, atención directa sin comisiones ocultas.",
   keywords: [
