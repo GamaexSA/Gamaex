@@ -16,7 +16,11 @@ const breadcrumb = JSON.stringify({
 
 const localBusiness = JSON.stringify({
   "@context": "https://schema.org",
-  "@type": "FinancialService",
+  // Mismo @id que el nodo global de layout.tsx → los crawlers los fusionan como
+  // UNA sola entidad (no como dos negocios distintos). Evita que un auditor lea
+  // un FinancialService "suelto" sin geo y crea que el tipo raíz es Organization.
+  "@type": ["FinancialService", "LocalBusiness"],
+  "@id": "https://www.gamaex.cl/#organization",
   name: "Gamaex Chile",
   url: "https://www.gamaex.cl",
   image: "https://www.gamaex.cl/opengraph-image",
@@ -28,6 +32,11 @@ const localBusiness = JSON.stringify({
     addressRegion: "Región Metropolitana",
     postalCode: "7500000",
     addressCountry: "CL",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: -33.4233,
+    longitude: -70.6127,
   },
   areaServed: ["Providencia", "Las Condes", "Santiago", "Región Metropolitana"],
   openingHoursSpecification: [
