@@ -14,9 +14,26 @@ type Status = "idle" | "sending" | "ok" | "error";
 const EMAIL_RX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PHONE_RX = /^\+?[\d\s()-]{7,20}$/;
 
-export default function ContactoForm({ monedas }: { monedas: MonedaOption[] }) {
+// Fallback si no llegan monedas desde las tasas en vivo (ej. embebido sin datos).
+const DEFAULT_MONEDAS: MonedaOption[] = [
+  { code: "USD", name: "Dólar estadounidense", flag: "🇺🇸" },
+  { code: "EUR", name: "Euro", flag: "🇪🇺" },
+  { code: "ARS", name: "Peso argentino", flag: "🇦🇷" },
+  { code: "BRL", name: "Real brasileño", flag: "🇧🇷" },
+  { code: "GBP", name: "Libra esterlina", flag: "🇬🇧" },
+  { code: "PEN", name: "Sol peruano", flag: "🇵🇪" },
+];
+
+export default function ContactoForm({
+  monedas,
+  embedded = false,
+}: {
+  monedas: MonedaOption[];
+  embedded?: boolean;
+}) {
+  const opts = monedas.length ? monedas : DEFAULT_MONEDAS;
   const [operacion, setOperacion] = useState<Operacion>("comprar");
-  const [moneda, setMoneda] = useState(monedas[0]?.code ?? "USD");
+  const [moneda, setMoneda] = useState(opts[0]?.code ?? "USD");
   const [cantidad, setCantidad] = useState("");
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -83,14 +100,16 @@ export default function ContactoForm({ monedas }: { monedas: MonedaOption[] }) {
   }
 
   return (
-    <main className="ct-wrap">
-      <header className="ct-top">
-        <a href="/" className="ct-brand" aria-label="Volver a Gamaex">
-          <span className="ct-logo">GAMAEX</span>
-          <span className="ct-sub">Casa de cambio · Providencia</span>
-        </a>
-        <a href="/" className="ct-back">← Volver al inicio</a>
-      </header>
+    <main className={embedded ? "ct-wrap ct-embedded" : "ct-wrap"}>
+      {!embedded && (
+        <header className="ct-top">
+          <a href="/" className="ct-brand" aria-label="Volver a Gamaex">
+            <span className="ct-logo">GAMAEX</span>
+            <span className="ct-sub">Casa de cambio · Providencia</span>
+          </a>
+          <a href="/" className="ct-back">← Volver al inicio</a>
+        </header>
+      )}
 
       <section className="ct-card">
         {status === "ok" ? (
@@ -142,7 +161,7 @@ export default function ContactoForm({ monedas }: { monedas: MonedaOption[] }) {
                 <label className="ct-field">
                   <span>Moneda</span>
                   <select value={moneda} onChange={(e) => setMoneda(e.target.value)}>
-                    {monedas.map((m) => (
+                    {opts.map((m) => (
                       <option key={m.code} value={m.code}>
                         {m.flag} {m.code} — {m.name}
                       </option>
@@ -217,9 +236,11 @@ export default function ContactoForm({ monedas }: { monedas: MonedaOption[] }) {
         )}
       </section>
 
-      <footer className="ct-foot">
-        Av. Pedro de Valdivia 020, Providencia · Lun–Vie 9:00–17:30 · Sáb 9:00–13:00
-      </footer>
+      {!embedded && (
+        <footer className="ct-foot">
+          Av. Pedro de Valdivia 020, Providencia · Lun–Vie 9:00–17:30 · Sáb 9:00–13:00
+        </footer>
+      )}
 
       <style jsx>{`
         .ct-wrap {
@@ -231,6 +252,11 @@ export default function ContactoForm({ monedas }: { monedas: MonedaOption[] }) {
           align-items: center;
           padding: 20px 16px 40px;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .ct-embedded {
+          min-height: auto;
+          padding: 0;
+          background: transparent;
         }
         .ct-top {
           width: 100%;

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import type { PublicRate } from "@gamaex/types";
 import { track } from "./analytics";
+import ContactoForm from "@/app/contacto/contacto-form";
 
 // ─── CONFIGURACIÓN WhatsApp ───────────────────────────────────────────────────
 const WA_NUMBER = "56938782514";
@@ -38,6 +39,7 @@ const navHref = (variant: LandingVariant, target: string) => {
     case "ubicacion": return "/#ubicacion";
     case "servicios": return "/servicios";
     case "alerta-precio": return "/alerta-de-precio";
+    case "contacto": return "/#contacto";
     case "faq": return "/preguntas-frecuentes";
     case "nosotros": return "/nosotros";
     default: return `#${target}`;
@@ -376,6 +378,9 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-cta-gold { background: var(--gold); color: var(--dark); padding: 0.95rem 1.4rem; border-radius: 12px; font-size: 1rem; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; border: none; font-family: inherit; width: 100%; }
         .gx-cta-gold:hover { background: var(--gold-deep); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,0.35); }
         .gx-cta-gold:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .gx-cta-form { background: var(--dark); color: var(--white); padding: 0.95rem 1.4rem; border-radius: 12px; font-size: 1rem; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; border: none; font-family: inherit; width: 100%; margin-top: 0.7rem; }
+        .gx-cta-form:hover { background: var(--dark-2); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(15,20,25,0.22); }
+        .gx-contacto-head { text-align: center; max-width: 640px; margin: 0 auto 2.5rem; }
         .gx-cta-outline { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.85rem 1.4rem; border: 1.5px solid var(--dark); border-radius: 50px; color: var(--dark); font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
         .gx-cta-outline:hover { background: var(--dark); color: var(--white); }
 
@@ -722,6 +727,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           <li><a href={navHref(variant, "tasas")}>Tasas</a></li>
           <li><a href={navHref(variant, "servicios")}>Servicios</a></li>
           <li><a href={navHref(variant, "nosotros")}>Nosotros</a></li>
+          <li><a href={navHref(variant, "contacto")}>Contacto</a></li>
           <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
           <li><a href={navHref(variant, "faq")}>FAQ</a></li>
           <li><a href={navHref(variant, "ubicacion")}>Ubicación</a></li>
@@ -768,6 +774,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           <li><a href={navHref(variant, "tasas")} onClick={() => setMobileMenuOpen(false)}>Tasas</a></li>
           <li><a href={navHref(variant, "servicios")} onClick={() => setMobileMenuOpen(false)}>Servicios</a></li>
           <li><a href={navHref(variant, "nosotros")} onClick={() => setMobileMenuOpen(false)}>Nosotros</a></li>
+          <li><a href={navHref(variant, "contacto")} onClick={() => setMobileMenuOpen(false)}>Contacto</a></li>
           <li><a href={navHref(variant, "alerta-precio")} onClick={() => setMobileMenuOpen(false)}>Alerta de precio</a></li>
           <li><a href={navHref(variant, "faq")} onClick={() => setMobileMenuOpen(false)}>FAQ</a></li>
           <li><a href={navHref(variant, "ubicacion")} onClick={() => setMobileMenuOpen(false)}>Ubicación</a></li>
@@ -904,6 +911,17 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           >
             <button className="gx-cta-gold">💬 Cotizar por WhatsApp →</button>
           </a>
+
+          <button
+            type="button"
+            className="gx-cta-form"
+            onClick={() => {
+              track.whatsappClick("calc-form");
+              document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            📝 Déjanos tus datos y te contactamos →
+          </button>
 
           {hasResult && (
             <button className={`gx-share-btn ${copied ? "copied" : ""}`} onClick={copyShareLink}>
@@ -1420,6 +1438,25 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       )}
 
       {/* ── FOOTER ── */}
+      {variant === "home" && (
+        <section id="contacto" className="gx-section gx-section-light gx-reveal">
+          <div className="gx-contacto-head">
+            <span className="gx-label">Contacto</span>
+            <h2 className="gx-title">Déjanos tus datos</h2>
+            <p className="gx-subtitle">
+              Completa el formulario y te contactamos con el precio final y la disponibilidad.
+              Más simple y ordenado que escribir por WhatsApp.
+            </p>
+          </div>
+          <ContactoForm
+            embedded
+            monedas={rates
+              .filter((r) => r.code)
+              .map((r) => ({ code: r.code, name: r.name, flag: r.flag_emoji }))}
+          />
+        </section>
+      )}
+
       <footer className="gx-footer">
         <div className="gx-footer-grid">
           <div className="gx-footer-brand">
