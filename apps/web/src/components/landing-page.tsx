@@ -19,6 +19,7 @@ interface PageContext {
   h1Accent?: string;
   heroDesc?: string;
   articleText?: string;
+  articleHeading?: string;
 }
 
 export type LandingVariant = "full" | "home" | "servicios" | "alerta" | "faq";
@@ -634,6 +635,13 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
         .gx-footer-col a, .gx-footer-col span.staticline { font-size: 0.9rem; color: rgba(255,255,255,0.75); transition: color 0.2s; }
         .gx-footer-col a:hover { color: var(--gold-light); }
+        .gx-quicklinks { background: var(--dark-2); padding: 2.5rem 6%; }
+        .gx-quicklinks-title { font-size: 0.76rem; font-weight: 700; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 1.1rem; }
+        .gx-quicklinks-grid { display: flex; flex-wrap: wrap; gap: 0.55rem 1.4rem; max-width: 1100px; }
+        .gx-quicklinks-grid a { font-size: 0.85rem; color: rgba(255,255,255,0.6); transition: color 0.2s; }
+        .gx-quicklinks-grid a:hover { color: var(--gold-light); }
+        .gx-article h2 { font-size: 1.5rem; font-weight: 600; color: var(--dark); margin-bottom: 1rem; letter-spacing: -0.01em; }
+        .gx-article p + p { margin-top: 1rem; }
         .gx-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.8rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(255,255,255,0.45); flex-wrap: wrap; gap: 0.5rem; }
 
         /* FLOAT WHATSAPP */
@@ -823,7 +831,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       <section className="gx-hero">
         <div className="gx-hero-left">
           <span className="gx-hero-tag">⚡ Casa de cambio · Providencia</span>
-          <h1>{h1Before}<em>{h1Accent}.</em></h1>
+          <h1>{h1Before}<em>{h1Accent}{/[.?!…]$/.test(h1Accent) ? "" : "."}</em></h1>
           <p className="lead">{heroDesc}</p>
           <div className="gx-badges">
             <div className="gx-badge"><span className="dot" /> 0% comisiones</div>
@@ -1360,7 +1368,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {/* ── ARTICLE (opcional) ── */}
       {pageContext?.articleText && (
         <section className="gx-article">
-          <p>{pageContext.articleText}</p>
+          {pageContext.articleHeading && <h2>{pageContext.articleHeading}</h2>}
+          {pageContext.articleText.split("\n\n").map((para, i) => (
+            <p key={i}>{para}</p>
+          ))}
         </section>
       )}
 
@@ -1456,6 +1467,24 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           />
         </section>
       )}
+
+      <section className="gx-quicklinks" aria-label="Búsquedas frecuentes">
+        <p className="gx-quicklinks-title">Búsquedas frecuentes</p>
+        <div className="gx-quicklinks-grid">
+          <a href="/comprar-dolares-santiago">Comprar dólares en Santiago</a>
+          <a href="/vender-dolares-santiago">Vender dólares en Santiago</a>
+          <a href="/comprar-dolares-providencia">Comprar dólares en Providencia</a>
+          <a href="/vender-dolares-providencia">Vender dólares en Providencia</a>
+          <a href="/precio-dolar-hoy-chile">Precio del dólar hoy</a>
+          <a href="/cambio-dolar-hoy-chile">Cambio del dólar hoy en Chile</a>
+          <a href="/cambiar-dolares-a-pesos-chilenos">Cambiar dólares a pesos</a>
+          <a href="/comprar-dolares-sin-comision">Comprar dólares sin comisión</a>
+          <a href="/mejor-tipo-de-cambio-santiago">Mejor tipo de cambio en Santiago</a>
+          <a href="/comprar-euros-santiago">Comprar euros en Santiago</a>
+          <a href="/vender-euros-santiago">Vender euros en Santiago</a>
+          <a href="/tipo-de-cambio-euro-chile">Tipo de cambio del euro</a>
+        </div>
+      </section>
 
       <footer className="gx-footer">
         <div className="gx-footer-grid">
