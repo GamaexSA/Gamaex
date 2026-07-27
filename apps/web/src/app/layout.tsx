@@ -238,8 +238,18 @@ const localBusinessSchema = {
   ],
   publicAccess: true,
   isAccessibleForFree: true,
-  // Nota: NO se incluye aggregateRating — Google prohíbe el "self-serving review"
-  // para LocalBusiness/Organization. Las estrellas salen del Google Business Profile.
+  // aggregateRating: por política de Google el "self-serving review" NO genera rich
+  // snippet (estrella) en el SERP clásico para LocalBusiness/Organization. Se incluye
+  // igual porque Google SÍ lo lee y alimenta las AI Overviews / Gemini (objetivo GEO:
+  // que la IA cite la reputación). Dato REAL verificado vía Google Places API el
+  // 2026-07-27 (place_id ChIJWTo0fmbPYpYR4XOn4uAxnIU). REFRESCAR periódicamente.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    reviewCount: "36",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const websiteSchema = {
