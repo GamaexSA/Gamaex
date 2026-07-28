@@ -238,18 +238,14 @@ const localBusinessSchema = {
   ],
   publicAccess: true,
   isAccessibleForFree: true,
-  // aggregateRating: por política de Google el "self-serving review" NO genera rich
-  // snippet (estrella) en el SERP clásico para LocalBusiness/Organization. Se incluye
-  // igual porque Google SÍ lo lee y alimenta las AI Overviews / Gemini (objetivo GEO:
-  // que la IA cite la reputación). Dato REAL verificado vía Google Places API el
-  // 2026-07-27 (place_id ChIJWTo0fmbPYpYR4XOn4uAxnIU). REFRESCAR periódicamente.
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.5",
-    reviewCount: "36",
-    bestRating: "5",
-    worstRating: "1",
-  },
+  // NO se incluye aggregateRating. Razones: (1) Google no muestra rich snippet de
+  // "self-serving reviews" para LocalBusiness/Organization; y (2) al ir sobre este nodo
+  // con 3 @type (FinancialService/LocalBusiness/CurrencyExchange), Search Console lo
+  // marcó como error crítico "la reseña tiene varias puntuaciones agregadas" (2026-07-28)
+  // → un dato marcado como error Google lo ignora (se pierde snippet Y feed a AI). La
+  // reputación real (4.5★/36, Google Places jul-2026) vive en el Google Business Profile,
+  // que es lo que se muestra en Maps/Search. Si se reintroduce: usar un nodo de un solo
+  // @type y validar en el Rich Results Test antes de deployar.
 };
 
 const websiteSchema = {
