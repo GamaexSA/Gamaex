@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "dolar hoy chile cotizacion",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/cambio-de-dolar-hoy",
+    canonical: "https://www.gamaex.cl/cambio-dolar-hoy-chile",
   },
   openGraph: {
     title: "Cambio de Dólar Hoy Chile | Gamaex",

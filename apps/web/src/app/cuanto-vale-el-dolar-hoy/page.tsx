@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     "tipo de cambio dolar hoy",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/cuanto-vale-el-dolar-hoy",
+    canonical: "https://www.gamaex.cl/precio-dolar-hoy-chile",
   },
   openGraph: {
     title: "Cuánto Vale el Dólar Hoy en Chile | Gamaex",

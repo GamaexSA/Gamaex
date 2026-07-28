@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "cuanto esta el dolar hoy en chile",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/tipo-de-cambio-dolar-hoy-chile",
+    canonical: "https://www.gamaex.cl/precio-dolar-hoy-chile",
   },
   openGraph: {
     title: "Tipo de Cambio Dólar Hoy Chile | USD/CLP — Gamaex",

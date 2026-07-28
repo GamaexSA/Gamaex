@@ -49,7 +49,7 @@ export default async function VenderDolaresChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vender dólares en ", h1Accent: "Chile", heroDesc: "Vende tus dólares en Chile al mejor precio. Gamaex en Providencia — pago inmediato, sin comisiones, cotización USD/CLP justa." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Vender dólares en ", h1Accent: "Chile", heroDesc: "Vende tus dólares en Chile al mejor precio. Gamaex en Providencia — pago inmediato, sin comisiones, cotización USD/CLP justa.", articleHeading: "Vender dólares en Chile al precio del día", articleText: "Si tienes dólares en efectivo —de un viaje, una remesa o un pago recibido— en Gamaex los compramos a pesos chilenos al precio publicado del día, sin comisiones. Estamos en Providencia con 38 años de trayectoria y atendemos a clientes de todo Chile.\n\nEl valor que recibes corresponde al precio de compra del dólar que aparece en la tabla de tasas de esta página. Aceptamos billetes en buen estado; los muy deteriorados o fuera de circulación quedan sujetos a evaluación en el momento. Solo necesitas tu cédula de identidad y el pago es inmediato.\n\nPara montos altos conviene confirmar el precio por WhatsApp antes de venir. Vender en una casa de cambio es más rápido y transparente que en un banco cuando tienes efectivo." }} />
     </>
   );
 }

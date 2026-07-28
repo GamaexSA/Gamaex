@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "cuanto esta el dolar hoy chile compra venta",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/cotizacion-dolar-chile-hoy",
+    canonical: "https://www.gamaex.cl/precio-dolar-hoy-chile",
   },
   openGraph: {
     title: "Cotización Dólar Chile Hoy | USD/CLP — Gamaex",

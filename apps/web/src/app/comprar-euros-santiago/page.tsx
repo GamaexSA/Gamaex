@@ -49,7 +49,7 @@ export default async function ComprarEurosSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar euros en ", h1Accent: "Santiago", heroDesc: "Compra euros en Santiago al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada, sin comisiones." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar euros en ", h1Accent: "Santiago", heroDesc: "Compra euros en Santiago al mejor precio. Gamaex en Providencia — cotización EUR/CLP actualizada, sin comisiones.", articleHeading: "Comprar euros en Santiago para tu viaje o pago", articleText: "En Gamaex compras euros (EUR) en Santiago al precio publicado del día, sin comisiones. Es la opción práctica si viajas a Europa o necesitas euros en efectivo para un pago, sin depender de una tarjeta ni de recargos por conversión.\n\nEstamos en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia. Llegas con tus pesos, presentas tu cédula y recibes los euros al momento; en operaciones de monto alto se registra la transacción según la normativa de la UAF.\n\nLa disponibilidad de billetes en euros puede variar, así que para montos importantes te recomendamos escribirnos por WhatsApp antes de venir para confirmar stock y precio del día." }} />
     </>
   );
 }

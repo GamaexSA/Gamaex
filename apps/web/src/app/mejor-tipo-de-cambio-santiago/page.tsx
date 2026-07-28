@@ -49,7 +49,7 @@ export default async function MejorTipoDeCambioSantiagoPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "El mejor tipo de ", h1Accent: "cambio en Santiago", heroDesc: "Gamaex ofrece el mejor tipo de cambio en Santiago. Sin comisiones, precios actualizados y 38 años de trayectoria en Providencia." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "El mejor tipo de ", h1Accent: "cambio en Santiago", heroDesc: "Gamaex ofrece el mejor tipo de cambio en Santiago. Sin comisiones, precios actualizados y 38 años de trayectoria en Providencia.", articleHeading: "¿Cómo saber cuál es el mejor tipo de cambio en Santiago?", articleText: "El mejor tipo de cambio no es solo el número más conveniente en una vitrina: es el precio real que recibes después de comisiones y cargos. En Gamaex publicamos el precio de compra y de venta del día y operamos sin comisiones, así que lo que ves es lo que obtienes.\n\nPara comparar de verdad conviene fijarse en tres cosas: el precio publicado, si hay o no comisión, y la rapidez de la atención. Llevamos 38 años en Providencia con local físico verificable y reseñas en Google, lo que da respaldo a la operación.\n\nRevisa el precio del día en la calculadora de esta página y, para montos altos, confirma el valor por WhatsApp antes de venir a Av. Pedro de Valdivia 020." }} />
     </>
   );
 }

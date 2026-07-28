@@ -49,7 +49,7 @@ export default async function CambiarDolaresAPesosChilenosPage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambiar dólares a ", h1Accent: "pesos chilenos", heroDesc: "Cambia tus dólares a pesos chilenos al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, pago inmediato." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Cambiar dólares a ", h1Accent: "pesos chilenos", heroDesc: "Cambia tus dólares a pesos chilenos al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, pago inmediato.", articleHeading: "Cómo cambiar dólares a pesos chilenos", articleText: "Cambiar dólares (USD) a pesos chilenos (CLP) en Gamaex es directo: llegas con tus dólares en efectivo, se aplican al precio de compra publicado del día y recibes los pesos al instante, sin comisiones. Puedes estimar cuánto recibirás usando la calculadora de esta página antes de venir.\n\nEstamos en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia. No necesitas abrir cuenta ni hacer trámites: basta tu cédula de identidad, y en operaciones de monto alto se registra la transacción según la normativa de la UAF.\n\nEl precio del dólar se mueve durante el día, así que para sumas importantes conviene confirmar el valor por WhatsApp justo antes de acudir." }} />
     </>
   );
 }

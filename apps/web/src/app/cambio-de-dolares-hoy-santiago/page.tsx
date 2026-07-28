@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "tipo cambio dolares santiago",
   ],
   alternates: {
-    canonical: "https://www.gamaex.cl/cambio-de-dolares-hoy-santiago",
+    canonical: "https://www.gamaex.cl/cambio-dolar-hoy-chile",
   },
   openGraph: {
     title: "Cambio de Dólares Hoy Santiago | USD/CLP — Gamaex",

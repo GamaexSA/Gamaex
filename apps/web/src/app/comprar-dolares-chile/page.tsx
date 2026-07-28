@@ -49,7 +49,7 @@ export default async function ComprarDolaresChilePage() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: breadcrumb }} />
-      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar dólares en ", h1Accent: "Chile", heroDesc: "Compra dólares en Chile al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, atención directa." }} />
+      <LandingPage rates={data.rates} systemStatus={data.system_status} lastSyncAt={data.last_sync_at} pageContext={{ h1Before: "Comprar dólares en ", h1Accent: "Chile", heroDesc: "Compra dólares en Chile al mejor precio. Gamaex en Providencia — cotización USD/CLP actualizada, sin comisiones, atención directa.", articleHeading: "Comprar dólares en Chile: cómo y dónde", articleText: "Comprar dólares en Chile conviene hacerlo en una casa de cambio con local físico y precio publicado. Gamaex opera desde 1988 en Av. Pedro de Valdivia 020, Providencia, y atiende a clientes de todo el país que buscan dólares para viajes, importaciones o ahorro en efectivo. El precio de venta se actualiza a diario y lo ves en la calculadora de esta página, sin comisiones.\n\nA diferencia de un banco, no necesitas abrir una cuenta ni esperar aprobaciones: llegas con tus pesos, presentas tu cédula y recibes los dólares al precio del momento. En operaciones de monto alto se registra la transacción según la normativa de la UAF.\n\nSi estás fuera de Santiago o vas a cambiar una suma importante, escríbenos por WhatsApp antes para confirmar la disponibilidad de billetes y el precio del día." }} />
     </>
   );
 }
