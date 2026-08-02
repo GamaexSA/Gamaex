@@ -81,7 +81,10 @@ export const metadata: Metadata = {
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
-  "@type": ["FinancialService", "LocalBusiness", "CurrencyExchange"],
+  // @type ÚNICO a propósito: CurrencyExchange ya es-un FinancialService es-un
+  // LocalBusiness (herencia schema.org). Un array de los 3 hacía que Search Console
+  // leyera 3 entidades → error "varias puntuaciones agregadas" con el aggregateRating.
+  "@type": "CurrencyExchange",
   "@id": "https://www.gamaex.cl/#organization",
   name: "Gamaex Chile",
   alternateName: "Inversiones y Turismo Gamaex Chile S.A.",
@@ -135,13 +138,8 @@ const localBusinessSchema = {
       opens: "09:00",
       closes: "13:00",
     },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Sunday"],
-      opens: "00:00",
-      closes: "00:00",
-      description: "Cerrado los domingos",
-    },
+    // Domingo se omite a propósito: según schema.org/Google, un día no declarado = cerrado.
+    // Declararlo como 00:00–00:00 puede leerse como "abierto a medianoche".
   ],
   areaServed: [
     { "@type": "City", name: "Santiago de Chile" },
@@ -232,20 +230,21 @@ const localBusinessSchema = {
   image: "https://www.gamaex.cl/opengraph-image",
   hasMap:
     "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
-  sameAs: [
-    "https://g.page/r/CeFzp-LgMZyFEAE",
-    "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
-  ],
+  sameAs: ["https://g.page/r/CeFzp-LgMZyFEAE"],
   publicAccess: true,
   isAccessibleForFree: true,
-  // NO se incluye aggregateRating. Razones: (1) Google no muestra rich snippet de
-  // "self-serving reviews" para LocalBusiness/Organization; y (2) al ir sobre este nodo
-  // con 3 @type (FinancialService/LocalBusiness/CurrencyExchange), Search Console lo
-  // marcó como error crítico "la reseña tiene varias puntuaciones agregadas" (2026-07-28)
-  // → un dato marcado como error Google lo ignora (se pierde snippet Y feed a AI). La
-  // reputación real (4.5★/36, Google Places jul-2026) vive en el Google Business Profile,
-  // que es lo que se muestra en Maps/Search. Si se reintroduce: usar un nodo de un solo
-  // @type y validar en el Rich Results Test antes de deployar.
+  // aggregateRating REAL (4.5★/36, Google Places jul-2026). Ahora va sobre el nodo de
+  // un solo @type (arreglado arriba), lo que elimina el error "varias puntuaciones
+  // agregadas" que dio con el array de 3 @type (28-jul). No genera rich snippet en el
+  // SERP (self-serving LocalBusiness) pero SÍ alimenta AI Overviews/Gemini (objetivo GEO)
+  // sin ser un dato malformado que Google ignore. Refrescar los números periódicamente.
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "4.5",
+    reviewCount: "36",
+    bestRating: "5",
+    worstRating: "1",
+  },
 };
 
 const websiteSchema = {
