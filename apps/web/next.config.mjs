@@ -20,6 +20,18 @@ const config = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        // apex gamaex.cl → www (308 permanente). Evita el duplicado www/no-www ahora
+        // que el apex está asignado al proyecto y sirve con cert válido.
+        source: "/:path*",
+        has: [{ type: "host", value: "gamaex.cl" }],
+        destination: "https://www.gamaex.cl/:path*",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default config;
