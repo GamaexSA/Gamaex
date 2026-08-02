@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import SiteNav from "./site-nav";
 
 // Página de Servicios standalone que REPLICA el sistema de diseño del sitio Gamaex
 // (fuentes Cormorant Garamond + Inter, paleta oro/oscuro/crema, logo SVG con gradiente,
@@ -44,21 +45,6 @@ const PASOS = [
   { n: "03", t: "Comienza a operar", d: "Como cliente registrado operas más rápido, presencial o coordinado." },
 ];
 
-function Logo() {
-  return (
-    <svg viewBox="0 0 800 280" aria-hidden="true">
-      <g transform="translate(140,140)">
-        <circle cx="0" cy="0" r="100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="4" />
-        <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gxLogoGold)" strokeWidth="1" opacity="0.5" />
-        <path d="M -38 -42 A 50 50 0 1 0 38 42 L 38 0 L 0 0" fill="none" stroke="url(#gxLogoGold)" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M -7 -100 L 0 -107 L 7 -100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M -7 100 L 0 107 L 7 100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-      <text x="280" y="170" fontFamily="'Cormorant Garamond', serif" fontSize="92" fontWeight="500" letterSpacing="14" fill="url(#gxLogoGold)">GAMAEX</text>
-    </svg>
-  );
-}
-
 export default function ServiciosPage() {
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -88,15 +74,7 @@ export default function ServiciosPage() {
         </defs>
       </svg>
 
-      <nav className="sv-nav">
-        <a href="/" className="sv-logo" aria-label="Gamaex — Casa de cambio"><Logo /></a>
-        <ul className="sv-nav-links">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/servicios">Servicios</a></li>
-          <li><a href="/#contacto">Contacto</a></li>
-        </ul>
-        <a href="/hazte-cliente" className="sv-cta-dark">Hazte cliente</a>
-      </nav>
+      <SiteNav active="servicios" />
 
       <header className="sv-hero">
         <span className="sv-tag">Nuestros servicios</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import SiteNav from "./site-nav";
 import { track } from "./analytics";
 
 const WA_NUMBER = "56938782514";
@@ -10,72 +10,32 @@ const WA_MSG = "Hola, quiero consultar una cotización en Gamaex.";
 const WA_LINK = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(WA_MSG)}`;
 const MAPS_LINK = "https://www.google.com/maps/place/?q=place_id:ChIJWTo0fmbPYpYR4XOn4uAxnIU";
 
+type IconName = "cambio" | "globo" | "empresa" | "preferencial" | "escudo" | "institucion" | "pin";
+
+function Icon({ name }: { name: IconName }) {
+  const c = { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.7, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  switch (name) {
+    case "cambio":
+      return (<svg {...c}><path d="M4 8h13M14 5l3 3-3 3" /><path d="M20 16H7M10 13l-3 3 3 3" /></svg>);
+    case "globo":
+      return (<svg {...c}><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3c2.6 2.8 2.6 15.2 0 18M12 3c-2.6 2.8-2.6 15.2 0 18" /></svg>);
+    case "empresa":
+      return (<svg {...c}><path d="M5 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16" /><path d="M15 9h3a1 1 0 0 1 1 1v11" /><path d="M3 21h18M8 8h3M8 12h3M8 16h3" /></svg>);
+    case "preferencial":
+      return (<svg {...c}><path d="M12 3l7 2.8v5.4c0 4.3-3 7.4-7 8.8-4-1.4-7-4.5-7-8.8V5.8z" /></svg>);
+    case "escudo":
+      return (<svg {...c}><path d="M12 3l7 2.8v5.4c0 4.3-3 7.4-7 8.8-4-1.4-7-4.5-7-8.8V5.8z" /><path d="M9 12l2 2 4-4" /></svg>);
+    case "institucion":
+      return (<svg {...c}><path d="M3 21h18" /><path d="M4 21V10M9 21V10M15 21V10M20 21V10" /><path d="M12 3L4 9h16z" /></svg>);
+    case "pin":
+      return (<svg {...c}><path d="M12 21s-6-5.2-6-10a6 6 0 0 1 12 0c0 4.8-6 10-6 10z" /><circle cx="12" cy="11" r="2.2" /></svg>);
+  }
+}
+
 export default function NosotrosPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <main className="ns-root">
-      {/* ── NAV ── */}
-      <nav className="ns-nav">
-        <a href="/" className="ns-brand">
-          <svg viewBox="0 33 800 214" xmlns="http://www.w3.org/2000/svg" aria-label="Gamaex">
-            <defs>
-              <linearGradient id="nsLogoGold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#E8C76E" />
-                <stop offset="50%" stopColor="#C9A84C" />
-                <stop offset="100%" stopColor="#9C7E2E" />
-              </linearGradient>
-            </defs>
-            <g transform="translate(140,140)">
-              <circle cx="0" cy="0" r="100" fill="none" stroke="url(#nsLogoGold)" strokeWidth="4" />
-              <circle cx="0" cy="0" r="86" fill="none" stroke="url(#nsLogoGold)" strokeWidth="1" opacity="0.5" />
-              <path d="M -38 -42 A 50 50 0 1 0 38 42 L 38 0 L 0 0" fill="none" stroke="url(#nsLogoGold)" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M -7 -100 L 0 -107 L 7 -100" fill="none" stroke="url(#nsLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-              <path d="M -7 100 L 0 107 L 7 100" fill="none" stroke="url(#nsLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </g>
-            <text x="280" y="170" fontFamily="'Cormorant Garamond', serif" fontSize="92" fontWeight="500" letterSpacing="14" fill="url(#nsLogoGold)">GAMAEX</text>
-          </svg>
-        </a>
-        <div className="ns-nav-links">
-          <a href="/">Inicio</a>
-          <a href="/servicios">Servicios</a>
-          <a href="/preguntas-frecuentes">FAQ</a>
-          <a href="/#ubicacion">Ubicación</a>
-        </div>
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-cta-dark ns-cta-desktop" onClick={() => track.whatsappClick("nosotros-nav")}>💬 Cotizar</a>
-        <button
-          type="button"
-          className={`ns-burger ${menuOpen ? "open" : ""}`}
-          aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((v) => !v)}
-        >
-          <span /><span /><span />
-        </button>
-      </nav>
-
-      {/* ── MOBILE DRAWER ── */}
-      <div
-        className={`ns-mobile-overlay ${menuOpen ? "open" : ""}`}
-        onClick={() => setMenuOpen(false)}
-        aria-hidden={!menuOpen}
-      />
-      <aside
-        className={`ns-mobile-drawer ${menuOpen ? "open" : ""}`}
-        aria-hidden={!menuOpen}
-      >
-        <ul className="ns-mobile-links">
-          <li><a href="/" onClick={() => setMenuOpen(false)}>Inicio</a></li>
-          <li><a href="/servicios" onClick={() => setMenuOpen(false)}>Servicios</a></li>
-          <li><a href="/preguntas-frecuentes" onClick={() => setMenuOpen(false)}>FAQ</a></li>
-          <li><a href="/#ubicacion" onClick={() => setMenuOpen(false)}>Ubicación</a></li>
-        </ul>
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-mobile-cta" onClick={() => { track.whatsappClick("nosotros-mobile-menu"); setMenuOpen(false); }}>
-          💬 Cotizar por WhatsApp
-        </a>
-        <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-mobile-cta-outline" onClick={() => { track.phoneClick(); setMenuOpen(false); }}>
-          📞 Llamar al local
-        </a>
-      </aside>
+      <SiteNav active="nosotros" />
 
       {/* ── HERO ── */}
       <section className="ns-hero">
@@ -86,8 +46,8 @@ export default function NosotrosPage() {
             Empresa familiar con más de tres décadas operando en el mercado cambiario chileno desde nuestra casa matriz en Av. Pedro de Valdivia 020, Providencia. Atención presencial, billetes verificados, sin comisiones ocultas.
           </p>
           <div className="ns-hero-ctas">
-            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-hero")}>💬 Cotizar por WhatsApp</a>
-            <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>📍 Cómo llegar</a>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-hero")}>Cotizar por WhatsApp</a>
+            <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>Cómo llegar</a>
           </div>
         </div>
       </section>
@@ -160,7 +120,7 @@ export default function NosotrosPage() {
 
         <div className="ns-services">
           <article className="ns-service-card">
-            <div className="ns-service-icon">💵</div>
+            <div className="ns-service-icon"><Icon name="cambio" /></div>
             <h3>Cambio de divisas físicas</h3>
             <p>
               Compra y venta presencial de más de 40 monedas: dólar americano (USD), euro (EUR), libra esterlina (GBP), real brasileño (BRL), peso argentino (ARS), franco suizo (CHF), yen japonés (JPY) y muchas más. Tasas actualizadas diariamente, sin comisiones adicionales.
@@ -168,7 +128,7 @@ export default function NosotrosPage() {
           </article>
 
           <article className="ns-service-card">
-            <div className="ns-service-icon">🌎</div>
+            <div className="ns-service-icon"><Icon name="globo" /></div>
             <h3>Transferencias internacionales</h3>
             <p>
               Somos <strong>socios estratégicos aprobados de Western Union</strong> para giros internacionales. Envíos al extranjero con cobertura global, tiempos de entrega claros y trazabilidad completa de cada operación.
@@ -176,7 +136,7 @@ export default function NosotrosPage() {
           </article>
 
           <article className="ns-service-card">
-            <div className="ns-service-icon">🏢</div>
+            <div className="ns-service-icon"><Icon name="empresa" /></div>
             <h3>Pago a proveedores</h3>
             <p>
               Trabajamos con personas naturales y empresas de todos los tamaños. Servicio de pago a proveedores en Chile y en el extranjero — ideal para importadores, exportadores y empresas con operaciones cross-border.
@@ -184,7 +144,7 @@ export default function NosotrosPage() {
           </article>
 
           <article className="ns-service-card">
-            <div className="ns-service-icon">⭐</div>
+            <div className="ns-service-icon"><Icon name="preferencial" /></div>
             <h3>Tasa preferencial</h3>
             <p>
               Operaciones desde <strong>USD 5.000</strong> acceden a tasa preferencial. Si manejas volúmenes recurrentes o vas a hacer una operación grande, contáctanos antes por WhatsApp para coordinar la mejor cotización del día.
@@ -205,22 +165,22 @@ export default function NosotrosPage() {
 
         <div className="ns-trust-grid">
           <div className="ns-trust-card">
-            <div className="ns-trust-icon">🛡️</div>
+            <div className="ns-trust-icon"><Icon name="escudo" /></div>
             <h3>UAF</h3>
             <p>Registrados ante la <strong>Unidad de Análisis Financiero</strong> de Chile, cumpliendo normativas de prevención de lavado de activos.</p>
           </div>
           <div className="ns-trust-card">
-            <div className="ns-trust-icon">🏛️</div>
+            <div className="ns-trust-icon"><Icon name="institucion" /></div>
             <h3>Superintendencia</h3>
             <p>Operamos inscritos ante la <strong>Superintendencia</strong>, bajo los estándares legales del sistema financiero chileno.</p>
           </div>
           <div className="ns-trust-card">
-            <div className="ns-trust-icon">🌐</div>
+            <div className="ns-trust-icon"><Icon name="globo" /></div>
             <h3>Western Union</h3>
             <p>Socios estratégicos aprobados para giros y transferencias internacionales con cobertura global y trazabilidad.</p>
           </div>
           <div className="ns-trust-card">
-            <div className="ns-trust-icon">📍</div>
+            <div className="ns-trust-icon"><Icon name="pin" /></div>
             <h3>Casa matriz física</h3>
             <p>Av. Pedro de Valdivia 020, Providencia, Santiago. A pasos del Metro Pedro de Valdivia (Línea 1).</p>
           </div>
@@ -238,10 +198,10 @@ export default function NosotrosPage() {
         <h2>Te esperamos en <em>Providencia</em>.</h2>
         <p>Av. Pedro de Valdivia 020 · A pasos del Metro Pedro de Valdivia (Línea 1)</p>
         <div className="ns-cta-row">
-          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-cta")}>💬 Cotizar por WhatsApp</a>
-          <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>📍 Ver en Maps</a>
-          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>📞 {FIXED_PHONE}</a>
-          <a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>📞 {FIXED_PHONE_2}</a>
+          <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-gold" onClick={() => track.whatsappClick("nosotros-cta")}>Cotizar por WhatsApp</a>
+          <a href={MAPS_LINK} target="_blank" rel="noopener noreferrer" className="ns-btn-outline" onClick={() => track.mapsClick()}>Ver en Maps</a>
+          <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>{FIXED_PHONE}</a>
+          <a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} className="ns-btn-outline" onClick={() => track.phoneClick()}>{FIXED_PHONE_2}</a>
         </div>
         <div className="ns-hours">
           <span><strong>Lun – Vie</strong> 9:00 — 17:00</span>
@@ -256,6 +216,7 @@ export default function NosotrosPage() {
         <div className="ns-footer-links">
           <a href="/">Inicio</a>
           <a href="/servicios">Servicios</a>
+          <a href="/hazte-cliente">Hazte cliente</a>
           <a href="/preguntas-frecuentes">Preguntas frecuentes</a>
           <a href="/alerta-de-precio">Alerta de precio</a>
         </div>
@@ -281,28 +242,10 @@ export default function NosotrosPage() {
         }
         .ns-root * { box-sizing: border-box; }
         .ns-root a { text-decoration: none; color: inherit; }
-        .ns-root h1, .ns-root h2, .ns-root h3 { margin: 0; font-family: inherit; font-weight: 800; letter-spacing: -1px; line-height: 1.15; }
+        .ns-root h1, .ns-root h2 { margin: 0; font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 600; letter-spacing: -0.5px; line-height: 1.1; }
+        .ns-root h3 { margin: 0; font-family: 'Inter', sans-serif; font-weight: 700; letter-spacing: -0.3px; line-height: 1.2; }
         .ns-root p { margin: 0; }
         .ns-root em { font-style: normal; color: var(--ns-gold-deep); }
-
-        /* NAV */
-        .ns-nav {
-          position: sticky; top: 0; z-index: 50;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 1rem 6%; background: rgba(255,255,255,0.95);
-          backdrop-filter: blur(10px);
-          border-bottom: 1px solid var(--ns-border);
-        }
-        .ns-brand svg { height: 42px; width: auto; }
-        .ns-nav-links { display: flex; gap: 2rem; }
-        .ns-nav-links a { color: var(--ns-gray); font-size: 0.95rem; font-weight: 500; transition: color 0.2s; }
-        .ns-nav-links a:hover { color: var(--ns-dark); }
-        .ns-cta-dark {
-          background: var(--ns-dark); color: var(--ns-white) !important;
-          padding: 0.65rem 1.5rem; border-radius: 50px; font-size: 0.9rem;
-          font-weight: 600; transition: all 0.2s;
-        }
-        .ns-cta-dark:hover { background: var(--ns-dark-2); transform: translateY(-1px); }
 
         /* HERO */
         .ns-hero {
@@ -322,12 +265,12 @@ export default function NosotrosPage() {
         }
         .ns-hero-inner { position: relative; max-width: 850px; margin: 0 auto; }
         .ns-hero h1 {
-          font-size: clamp(2rem, 4.5vw, 3.4rem);
-          font-weight: 800; letter-spacing: -1.5px; line-height: 1.1;
+          font-size: clamp(2.4rem, 5vw, 3.9rem);
           color: var(--ns-white);
           margin: 1.2rem 0 1.5rem;
+          line-height: 1.05;
         }
-        .ns-hero h1 em { color: var(--ns-gold-light); font-style: normal; }
+        .ns-hero h1 em { color: var(--ns-gold-light); }
         .ns-hero-desc { color: rgba(255,255,255,0.75); font-size: 1.15rem; max-width: 650px; margin: 0 auto 2.5rem; }
         .ns-hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
@@ -374,8 +317,9 @@ export default function NosotrosPage() {
         }
         .ns-stat:last-child { border-right: none; }
         .ns-stat-num {
-          font-size: 3rem; font-weight: 800;
-          letter-spacing: -2.5px;
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 3.4rem; font-weight: 600;
+          letter-spacing: -1px;
           color: var(--ns-gold-deep); line-height: 1;
           margin-bottom: 0.6rem;
         }
@@ -392,8 +336,7 @@ export default function NosotrosPage() {
         .ns-section-dark h2 em { color: var(--ns-gold-light); }
         .ns-section-head { max-width: 720px; margin: 0 auto 3.5rem; text-align: center; }
         .ns-section-head h2 {
-          font-size: clamp(1.7rem, 3vw, 2.5rem);
-          font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+          font-size: clamp(1.9rem, 3.4vw, 2.8rem);
           margin-bottom: 1rem;
         }
         .ns-section-sub {
@@ -447,10 +390,14 @@ export default function NosotrosPage() {
           box-shadow: 0 12px 30px rgba(15,20,25,0.08);
           transform: translateY(-3px);
         }
-        .ns-service-icon { font-size: 2.4rem; margin-bottom: 1rem; }
+        .ns-service-icon {
+          width: 54px; height: 54px; border-radius: 13px;
+          background: rgba(201,168,76,0.16); color: var(--ns-gold-deep);
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 1.1rem;
+        }
         .ns-service-card h3 {
-          font-size: 1.25rem; font-weight: 700; letter-spacing: -0.5px;
-          line-height: 1.25;
+          font-size: 1.25rem;
           margin-bottom: 0.8rem; color: var(--ns-dark);
         }
         .ns-service-card p {
@@ -473,7 +420,12 @@ export default function NosotrosPage() {
           border-color: var(--ns-gold);
           background: rgba(201,168,76,0.05);
         }
-        .ns-trust-icon { font-size: 2rem; margin-bottom: 0.8rem; }
+        .ns-trust-icon {
+          width: 50px; height: 50px; border-radius: 12px;
+          background: rgba(201,168,76,0.14); color: var(--ns-gold-light);
+          display: flex; align-items: center; justify-content: center;
+          margin-bottom: 1rem;
+        }
         .ns-trust-card h3 {
           font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 700;
           letter-spacing: 0.05em; text-transform: uppercase;
@@ -494,8 +446,7 @@ export default function NosotrosPage() {
           border-top: 1px solid var(--ns-border);
         }
         .ns-cta-section h2 {
-          font-size: clamp(1.8rem, 3.5vw, 2.7rem);
-          font-weight: 800; letter-spacing: -1px; line-height: 1.15;
+          font-size: clamp(2rem, 3.6vw, 3rem);
           margin-bottom: 0.8rem;
         }
         .ns-cta-section > p { font-size: 1.1rem; color: var(--ns-gray); margin-bottom: 2rem; }
@@ -517,44 +468,12 @@ export default function NosotrosPage() {
           flex-wrap: wrap; gap: 1.5rem;
           font-size: 0.88rem;
         }
-        .ns-footer-links { display: flex; gap: 1.5rem; }
+        .ns-footer-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
         .ns-footer-links a { color: rgba(255,255,255,0.6); transition: color 0.2s; }
         .ns-footer-links a:hover { color: var(--ns-gold-light); }
 
         /* RESPONSIVE */
-        /* HAMBURGER + DRAWER */
-        .ns-burger { display: none; flex-direction: column; justify-content: center; gap: 5px; width: 44px; height: 44px; padding: 10px; background: transparent; border: none; cursor: pointer; border-radius: 10px; margin-left: auto; }
-        .ns-burger:hover { background: rgba(15,20,25,0.06); }
-        .ns-burger span { display: block; width: 22px; height: 2px; background: var(--ns-dark); border-radius: 2px; transition: transform 0.25s ease, opacity 0.2s ease; }
-        .ns-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-        .ns-burger.open span:nth-child(2) { opacity: 0; }
-        .ns-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-        .ns-mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(15,20,25,0.55); backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity 0.25s; z-index: 99; }
-        .ns-mobile-overlay.open { opacity: 1; pointer-events: auto; }
-
-        .ns-mobile-drawer {
-          display: none; position: fixed; top: 0; right: 0; bottom: 0; width: min(82vw, 360px);
-          background: white; padding: 100px 1.75rem 2rem; flex-direction: column; gap: 1rem;
-          box-shadow: -8px 0 28px rgba(15,20,25,0.18); transform: translateX(100%); transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-          z-index: 100; overflow-y: auto;
-        }
-        .ns-mobile-drawer.open { transform: translateX(0); }
-        .ns-mobile-links { list-style: none; padding: 0; margin: 0 0 1.5rem; display: flex; flex-direction: column; gap: 0.25rem; }
-        .ns-mobile-links a { display: block; padding: 0.95rem 0.25rem; font-size: 1.05rem; font-weight: 500; color: var(--ns-dark); border-bottom: 1px solid var(--ns-border); transition: color 0.2s, padding-left 0.2s; }
-        .ns-mobile-links a:hover, .ns-mobile-links a:active { color: var(--ns-gold-deep); padding-left: 0.5rem; }
-        .ns-mobile-links li:last-child a { border-bottom: none; }
-        .ns-mobile-cta { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem 1.25rem; background: var(--ns-gold); color: var(--ns-dark); border-radius: 12px; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(201,168,76,0.3); transition: transform 0.15s; }
-        .ns-mobile-cta:active { transform: scale(0.98); }
-        .ns-mobile-cta-outline { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.95rem 1.25rem; background: white; color: var(--ns-dark); border: 1.5px solid var(--ns-border); border-radius: 12px; font-size: 0.95rem; font-weight: 600; }
-
         @media (max-width: 900px) {
-          .ns-nav { padding: 1rem 5%; }
-          .ns-nav-links { display: none; }
-          .ns-cta-desktop { display: none; }
-          .ns-burger { display: flex; }
-          .ns-mobile-overlay { display: block; }
-          .ns-mobile-drawer { display: flex; }
           .ns-stats { grid-template-columns: repeat(2, 1fr); }
           .ns-stat:nth-child(2) { border-right: none; }
           .ns-stat:nth-child(1), .ns-stat:nth-child(2) { border-bottom: 1px solid var(--ns-border); }
@@ -571,7 +490,6 @@ export default function NosotrosPage() {
           .ns-stat { border-right: none !important; border-bottom: 1px solid var(--ns-border); }
           .ns-stat:last-child { border-bottom: none; }
           .ns-trust-grid { grid-template-columns: 1fr; }
-          .ns-hero h1 { font-size: 2.2rem; }
           .ns-hero-ctas { flex-direction: column; }
           .ns-hero-ctas a { width: 100%; justify-content: center; }
           .ns-cta-row a { flex: 1; min-width: 140px; }

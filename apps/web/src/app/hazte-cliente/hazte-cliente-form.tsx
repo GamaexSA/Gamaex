@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import SiteNav from "@/components/site-nav";
 
 type Tipo = "persona" | "empresa";
 type Status = "idle" | "sending" | "ok" | "error";
@@ -15,21 +16,6 @@ const INTERESES = [
   "Pago a proveedores (empresa)",
   "Otro",
 ];
-
-function Logo() {
-  return (
-    <svg viewBox="0 0 800 280" aria-hidden="true">
-      <g transform="translate(140,140)">
-        <circle cx="0" cy="0" r="100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="4" />
-        <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gxLogoGold)" strokeWidth="1" opacity="0.5" />
-        <path d="M -38 -42 A 50 50 0 1 0 38 42 L 38 0 L 0 0" fill="none" stroke="url(#gxLogoGold)" strokeWidth="11" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M -7 -100 L 0 -107 L 7 -100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M -7 100 L 0 107 L 7 100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-      </g>
-      <text x="280" y="170" fontFamily="'Cormorant Garamond', serif" fontSize="92" fontWeight="500" letterSpacing="14" fill="url(#gxLogoGold)">GAMAEX</text>
-    </svg>
-  );
-}
 
 export default function HazteClienteForm() {
   const [tipo, setTipo] = useState<Tipo>("persona");
@@ -85,15 +71,7 @@ export default function HazteClienteForm() {
         </defs>
       </svg>
 
-      <nav className="hc-nav">
-        <a href="/" className="hc-logo" aria-label="Gamaex — Casa de cambio"><Logo /></a>
-        <ul className="hc-nav-links">
-          <li><a href="/">Inicio</a></li>
-          <li><a href="/servicios">Servicios</a></li>
-          <li><a href="/#contacto">Contacto</a></li>
-        </ul>
-        <a href={"https://wa.me/56938782514"} target="_blank" rel="noopener noreferrer" className="hc-cta-dark">WhatsApp</a>
-      </nav>
+      <SiteNav cta="whatsapp" />
 
       <main className="hc-main">
         <div className="hc-card">
