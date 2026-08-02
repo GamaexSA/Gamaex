@@ -17,7 +17,7 @@ const LINKS: { key: NavKey; label: string; href: string }[] = [
   { key: "nosotros", label: "Nosotros", href: "/nosotros" },
   { key: "contacto", label: "Contacto", href: "/#contacto" },
   { key: "alerta", label: "Alerta de precio", href: "/alerta-de-precio" },
-  { key: "faq", label: "Preguntas frecuentes", href: "/preguntas-frecuentes" },
+  { key: "faq", label: "FAQ", href: "/preguntas-frecuentes" },
   { key: "ubicacion", label: "Ubicación", href: "/#ubicacion" },
 ];
 
@@ -121,7 +121,7 @@ export default function SiteNav({
         }
         .snv-logo { display: flex; align-items: center; flex-shrink: 0; }
         .snv-logo svg { height: 56px; width: auto; }
-        .snv-links { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; flex-wrap: nowrap; }
+        .snv-links { display: flex; gap: 1.5rem; list-style: none; margin: 0; padding: 0; flex-wrap: nowrap; }
         .snv-links a { font-size: 0.9rem; font-weight: 500; color: var(--gray); text-decoration: none; transition: color 0.2s; white-space: nowrap; }
         .snv-links a:hover { color: var(--dark); }
         .snv-links a.is-active { color: var(--gold-deep); font-weight: 600; }
@@ -145,7 +145,7 @@ export default function SiteNav({
         .snv-drawer-links li:last-child a { border-bottom: none; }
         .snv-drawer-cta { display: flex; align-items: center; justify-content: center; padding: 1rem 1.25rem; background: var(--gold); color: var(--dark); text-decoration: none; border-radius: 12px; font-size: 1rem; font-weight: 700; box-shadow: 0 4px 14px rgba(201,168,76,0.3); }
 
-        @media (max-width: 1080px) {
+        @media (max-width: 1200px) {
           .snv-links { display: none; }
           .snv-cta-desktop { display: none; }
           .snv-burger { display: flex; }
