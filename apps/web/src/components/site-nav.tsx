@@ -47,7 +47,7 @@ export default function SiteNav({
 
       <nav className="snv-nav">
         <a href="/" className="snv-logo" aria-label="Gamaex — Casa de cambio">
-          <svg viewBox="0 0 800 280" aria-hidden="true">
+          <svg viewBox="0 0 800 280" width="160" height="56" aria-hidden="true">
             <g transform="translate(140,140)">
               <circle cx="0" cy="0" r="100" fill="none" stroke="url(#gxNavGold)" strokeWidth="4" />
               <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gxNavGold)" strokeWidth="1" opacity="0.5" />

@@ -156,7 +156,7 @@ export default function HazteClienteForm() {
       </main>
 
       <footer className="hc-footer">
-        <svg className="hc-footer-logo" viewBox="0 0 800 280" aria-hidden="true">
+        <svg className="hc-footer-logo" viewBox="0 0 800 280" width="211" height="74" aria-hidden="true">
           <g transform="translate(140,140)">
             <circle cx="0" cy="0" r="100" fill="none" stroke="url(#gxLogoGold)" strokeWidth="4" />
             <circle cx="0" cy="0" r="86" fill="none" stroke="url(#gxLogoGold)" strokeWidth="1" opacity="0.5" />
