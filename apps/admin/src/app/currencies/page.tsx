@@ -458,7 +458,7 @@ export default function CurrenciesPage() {
                   {edit.currency.flag_emoji} {edit.currency.name} ({edit.currency.code})
                 </div>
                 <div style={{ fontSize: 12, color: "var(--text-dim)", marginTop: 2 }}>
-                  Base actual: ${fmtCLP(edit.currency.quote_config?.last_base_price ?? null, edit.currency.decimal_places)}
+                  Referencia Cambios Santiago (promedio): ${fmtCLP(edit.currency.quote_config?.last_base_price ?? null, edit.currency.decimal_places)}
                 </div>
               </div>
               <button
@@ -493,10 +493,12 @@ export default function CurrenciesPage() {
             {edit.mode === "margins" ? (
               <>
                 <div style={{ fontSize: 12, color: "var(--text-dim)", marginBottom: 14, lineHeight: 1.5 }}>
-                  Precio final = base + margen. Márgenes en CLP (pueden ser negativos).
+                  Se copia la pizarra de Cambios Santiago cada 5 min en horario de atención.
+                  Compra = su compra + margen compra · Venta = su venta + margen venta.
+                  Para ganarles: margen compra +1 y margen venta -1.
                 </div>
-                <Input label="Margen compra (CLP)" value={edit.buyMargin} onChange={(v) => setEdit((p) => p ? { ...p, buyMargin: v } : p)} placeholder="-5" />
-                <Input label="Margen venta (CLP)" value={edit.sellMargin} onChange={(v) => setEdit((p) => p ? { ...p, sellMargin: v } : p)} placeholder="8" />
+                <Input label="Margen compra (CLP)" value={edit.buyMargin} onChange={(v) => setEdit((p) => p ? { ...p, buyMargin: v } : p)} placeholder="1" />
+                <Input label="Margen venta (CLP)" value={edit.sellMargin} onChange={(v) => setEdit((p) => p ? { ...p, sellMargin: v } : p)} placeholder="-1" />
               </>
             ) : (
               <>

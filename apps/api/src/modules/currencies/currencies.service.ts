@@ -35,24 +35,35 @@ export class CurrenciesService {
 
     let currentBuy = config.current_buy;
     let currentSell = config.current_sell;
+    let basePrice = config.last_base_price;
+    let recalculated = false;
 
-    if (config.mode === QuoteMode.AUTO && config.last_base_price) {
-      const result = this.rates.calculatePrices(
-        { ...config, buy_margin: dto.buy_margin, sell_margin: dto.sell_margin },
-        config.last_base_price,
-        currency.decimal_places,
-      );
-      currentBuy = result.buy;
-      currentSell = result.sell;
+    if (config.mode === QuoteMode.AUTO) {
+      const ref = await this.rates.fetchReferenceFor(currency.code);
+      if (ref) {
+        try {
+          const result = this.rates.calculatePrices(
+            { ...config, buy_margin: dto.buy_margin, sell_margin: dto.sell_margin },
+            ref,
+            currency.decimal_places,
+          );
+          currentBuy = result.buy;
+          currentSell = result.sell;
+          basePrice = this.rates.referenceMid(ref);
+          recalculated = true;
+        } catch (err) {
+          throw new BadRequestException((err as Error).message);
+        }
+      }
     }
 
     const snapshotOp =
-      config.mode === QuoteMode.AUTO && config.last_base_price && currentBuy && currentSell
+      recalculated && basePrice && currentBuy && currentSell
         ? [
             this.db.quoteSnapshot.create({
               data: {
                 currency_id: currency.id,
-                base_price: config.last_base_price,
+                base_price: basePrice,
                 buy_price: currentBuy,
                 sell_price: currentSell,
                 buy_margin: dto.buy_margin,
@@ -73,6 +84,7 @@ export class CurrenciesService {
           sell_margin: dto.sell_margin,
           current_buy: currentBuy,
           current_sell: currentSell,
+          last_base_price: basePrice,
           last_synced_by: actorRef,
         },
       }),
@@ -193,11 +205,18 @@ export class CurrenciesService {
     let recalculated = false;
 
     if (config) {
-      if (config.mode === QuoteMode.AUTO && config.last_base_price) {
-        const result = this.rates.calculatePrices(config, config.last_base_price, n);
-        currentBuy = result.buy;
-        currentSell = result.sell;
-        recalculated = true;
+      if (config.mode === QuoteMode.AUTO) {
+        const ref = await this.rates.fetchReferenceFor(currency.code);
+        if (ref) {
+          try {
+            const result = this.rates.calculatePrices(config, ref, n);
+            currentBuy = result.buy;
+            currentSell = result.sell;
+            recalculated = true;
+          } catch {
+            // Referencia inválida: se mantienen los precios actuales; el cron reintenta
+          }
+        }
       } else if (config.mode === QuoteMode.MANUAL && config.manual_buy != null && config.manual_sell != null) {
         currentBuy = parseFloat(config.manual_buy.toFixed(n));
         currentSell = parseFloat(config.manual_sell.toFixed(n));
@@ -243,17 +262,26 @@ export class CurrenciesService {
 
     const before = { mode: config.mode };
 
+    // Precio inmediato desde la referencia; si la fuente falla se mantienen los
+    // precios actuales y el cron los actualiza en la próxima pasada.
     let currentBuy = config.current_buy;
     let currentSell = config.current_sell;
+    let basePrice = config.last_base_price;
 
-    if (config.last_base_price) {
-      const result = this.rates.calculatePrices(
-        { ...config, mode: QuoteMode.AUTO, manual_buy: null, manual_sell: null },
-        config.last_base_price,
-        currency.decimal_places,
-      );
-      currentBuy = result.buy;
-      currentSell = result.sell;
+    const ref = await this.rates.fetchReferenceFor(currency.code);
+    if (ref) {
+      try {
+        const result = this.rates.calculatePrices(
+          { ...config, mode: QuoteMode.AUTO, manual_buy: null, manual_sell: null },
+          ref,
+          currency.decimal_places,
+        );
+        currentBuy = result.buy;
+        currentSell = result.sell;
+        basePrice = this.rates.referenceMid(ref);
+      } catch (err) {
+        throw new BadRequestException(`${currency.code} no puede pasar a AUTO: ${(err as Error).message}`);
+      }
     }
 
     await this.db.$transaction([
@@ -265,6 +293,7 @@ export class CurrenciesService {
           manual_sell: null,
           current_buy: currentBuy,
           current_sell: currentSell,
+          last_base_price: basePrice,
           last_synced_by: actorRef,
         },
       }),

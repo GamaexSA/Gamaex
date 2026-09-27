@@ -19,7 +19,7 @@ datasource db {
 // ─────────────────────────────────────────────────────────────────────────────
 
 enum QuoteMode {
-  AUTO    // base_price de ExchangeRatesAPI + márgenes definidos por Gamaex
+  AUTO    // pizarra de Cambios Santiago (compra/venta) + márgenes definidos por Gamaex
   MANUAL  // compra y venta fijadas directamente por el admin
 }
 
@@ -127,7 +127,7 @@ model QuoteConfig {
   mode QuoteMode @default(AUTO)
 
   // Márgenes en pesos CLP (aplican solo en AUTO)
-  // Negativos = compra por debajo del base. Positivos = venta por encima.
+  // compra = compra de referencia + buy_margin · venta = venta de referencia + sell_margin
   buy_margin  Float @default(0)
   sell_margin Float @default(0)
 
@@ -140,7 +140,7 @@ model QuoteConfig {
   current_buy  Float?
   current_sell Float?
 
-  // Último base_price recibido del proveedor externo (solo referencial)
+  // Promedio compra/venta de la referencia en la última sync (freno anti-saltos)
   last_base_price Float?
 
   // Metadatos de la última sync
