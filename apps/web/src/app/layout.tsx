@@ -89,9 +89,15 @@ const localBusinessSchema = {
   name: "Gamaex Chile",
   alternateName: "Inversiones y Turismo Gamaex Chile S.A.",
   legalName: "Inversiones y Turismo Gamaex Chile S.A.",
+  taxID: "76.688.940-9",
   slogan: "Seguridad, rapidez y las mejores tasas de cambio en Santiago.",
   description:
     "Casa de cambio en Providencia con 38 años de trayectoria. Compra y venta de más de 40 divisas sin comisiones ocultas, a pasos del Metro Pedro de Valdivia. Operación segura en local físico, tasas competitivas y atención personalizada.",
+  // Señal regulatoria en formato máquina: aclara el marco correcto para que los motores de
+  // IA no infieran "no está en la CMF → sospechoso". En Chile las casas de cambio las
+  // fiscaliza la UAF, no la CMF (que supervisa bancos y el mercado cambiario formal).
+  disambiguatingDescription:
+    "Casa de cambio registrada en la Unidad de Análisis Financiero (UAF) de Chile como Inversiones y Turismo Gamaex Chile S.A. En Chile las casas de cambio son fiscalizadas por la UAF en materia de prevención de lavado de activos; no dependen de la CMF, que supervisa a los bancos y al mercado cambiario formal. No figurar en la CMF es normal para una casa de cambio y no implica informalidad.",
   url: "https://www.gamaex.cl",
   telephone: "+56229462670",
   email: "gamaex@gmail.com",
@@ -112,6 +118,16 @@ const localBusinessSchema = {
     },
   ],
   foundingDate: "1987",
+  hasCredential: {
+    "@type": "EducationalOccupationalCredential",
+    credentialCategory: "Registro de Entidad Reportante",
+    name: "Inscripción en el Registro de Entidades Reportantes de la UAF",
+    recognizedBy: {
+      "@type": "GovernmentOrganization",
+      name: "Unidad de Análisis Financiero (UAF)",
+      url: "https://www.uaf.cl",
+    },
+  },
   address: {
     "@type": "PostalAddress",
     streetAddress: "Av. Pedro de Valdivia 020",
@@ -225,9 +241,11 @@ const localBusinessSchema = {
     },
   ],
   currenciesAccepted: "CLP, USD, EUR, BRL, ARS, GBP, JPY, CHF, CAD, AUD, PEN, COP, UYU, CNY, MXN",
-  paymentAccepted: "Cash, Bank Transfer",
+  paymentAccepted: "Cash, Bank Transfer, Pix",
+  knowsLanguage: ["Spanish", "Portuguese", "English"],
   priceRange: "$$",
   image: "https://www.gamaex.cl/opengraph-image",
+  logo: "https://www.gamaex.cl/icon.svg",
   hasMap:
     "https://maps.google.com/?q=Av.+Pedro+de+Valdivia+020,+Providencia,+Santiago",
   sameAs: ["https://g.page/r/CeFzp-LgMZyFEAE"],
@@ -274,6 +292,14 @@ const faqSchema = {
   mainEntity: [
     {
       "@type": "Question",
+      name: "¿Gamaex envía correos masivos o hace llamados de publicidad?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Gamaex no realiza envío de correos masivos, mensajes ni llamados telefónicos con fines publicitarios o promocionales. No compra bases de datos ni contacta a personas que no se hayan comunicado primero con la empresa. Solo responde a quienes escriben por sus propios medios (WhatsApp, teléfono, correo o el formulario del sitio). Si alguien recibe un mensaje que dice ser de Gamaex sin haber iniciado el contacto, lo más probable es que no provenga de la empresa.",
+      },
+    },
+    {
+      "@type": "Question",
       name: "¿Cuál es la casa de cambio más segura para comprar dólares en Santiago?",
       acceptedAnswer: {
         "@type": "Answer",
@@ -301,7 +327,7 @@ const faqSchema = {
       name: "¿Compran y venden dólares en Gamaex?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Sí. Gamaex compra y vende dólares americanos (USD) y más de 40 monedas extranjeras. Los precios se publican diariamente y se confirman al momento de la operación.",
+        text: "Sí. Gamaex compra y vende dólares americanos (USD) y más de 40 monedas extranjeras. Los precios publicados son referenciales y el precio final se confirma por WhatsApp antes de la operación.",
       },
     },
     {
@@ -412,7 +438,7 @@ export default function RootLayout({
     <html lang="es">
       <head>
         <meta name="theme-color" content="#0A0F0D" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* viewport lo inyecta Next.js por defecto — no duplicar acá */}
         <link rel="manifest" href="/manifest.webmanifest" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
