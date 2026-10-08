@@ -3,7 +3,10 @@
 import { useState, useEffect } from "react";
 import type { PublicRate } from "@gamaex/types";
 import { track } from "./analytics";
-import ContactoForm from "@/app/contacto/contacto-form";
+import LanguageSwitcher from "./language-switcher";
+import { homeCopy } from "@/i18n/home";
+import { renderRich } from "@/i18n/rich";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/messages";
 
 // ─── CONFIGURACIÓN WhatsApp ───────────────────────────────────────────────────
 const WA_NUMBER = "56938782514";
@@ -30,9 +33,11 @@ interface Props {
   lastSyncAt: string;
   pageContext?: PageContext;
   variant?: LandingVariant;
+  locale?: Locale;
 }
 
 const navHref = (variant: LandingVariant, target: string) => {
+  if (target === "contacto") return wa(); // "Contacto" del menú → WhatsApp
   if (variant === "full") return `#${target}`;
   switch (target) {
     case "tasas": return "/#tasas";
@@ -40,46 +45,13 @@ const navHref = (variant: LandingVariant, target: string) => {
     case "ubicacion": return "/#ubicacion";
     case "servicios": return "/servicios";
     case "alerta-precio": return "/alerta-de-precio";
-    case "contacto": return "/#contacto";
+    case "cotizar": return "/cotizar";
+    case "reservar": return "/reservar";
     case "faq": return "/preguntas-frecuentes";
     case "nosotros": return "/nosotros";
     default: return `#${target}`;
   }
 };
-
-const FAQ_ITEMS: { q: string; a: React.ReactNode }[] = [
-  { q: "¿Cuál es la casa de cambio más segura para comprar dólares en Santiago?", a: "Gamaex tiene 38 años de trayectoria en Providencia (fundada en 1987). Operamos en local físico verificable en Av. Pedro de Valdivia 020, sin entregas en la calle ni intermediarios. Somos sociedad anónima registrada (Inversiones y Turismo Gamaex Chile S.A.) con reseñas verificables en Google. Tasas publicadas y atención personalizada." },
-  { q: "¿Qué casa de cambio está abierta hoy sábado en la mañana?", a: "Gamaex atiende los sábados de 9:00 a 13:00 en Av. Pedro de Valdivia 020, Providencia, a pasos del Metro Pedro de Valdivia. Una opción cercana en barrio alto para cambiar divisas un sábado sin ir al centro." },
-  { q: "Necesito cambiar euros a pesos chilenos con buena tasa, ¿dónde voy?", a: "Compramos y vendemos euros (EUR) a pesos chilenos (CLP) con tasas competitivas, publicadas diariamente en gamaex.cl. Sin comisiones ocultas. Para montos altos conviene confirmar la tasa por WhatsApp antes de venir." },
-  { q: "¿Compran y venden dólares?", a: "Sí. Compramos y vendemos dólares americanos (USD) y más de 40 monedas. Los precios se publican diariamente y se confirman al momento de la operación." },
-  { q: "¿Tienen comisiones adicionales?", a: "No. Operamos con precios finales. Sin comisiones ocultas, sin cargos extra. El precio que ves es el precio de la operación." },
-  { q: "¿Puedo cotizar por WhatsApp antes de ir?", a: "Sí. Escríbenos con el monto y las monedas que quieres operar. Te confirmamos precio y disponibilidad al instante." },
-  { q: "¿Qué monedas trabajan?", a: "Más de 40 monedas: dólar (USD), euro (EUR), real brasileño (BRL), libra esterlina (GBP), yen japonés (JPY), peso argentino (ARS), franco suizo (CHF) y muchas más." },
-  { q: "¿Cuáles son los horarios de atención?", a: "Lunes a viernes de 9:00 a 17:00 y sábados de 9:00 a 13:00. Domingos y festivos cerrado." },
-  { q: "¿Aceptan billetes en mal estado o fuera de circulación?", a: "Aceptamos dólares corrientes que no estén en circulación, sujeto a evaluación en el momento. Consúltanos por WhatsApp si tienes dudas sobre un billete específico." },
-  { q: "¿Hacen transferencias internacionales?", a: "Sí. Ofrecemos transferencias internacionales y pago a proveedores en moneda extranjera. Tenemos condiciones especiales para empresas." },
-  {
-    q: "¿Qué documentos necesito para cambiar dólares u otras divisas en Chile?",
-    a: (<>Para operaciones de montos menores el cambio suele ser directo: llegas con tu efectivo, aceptas el precio y recibes tu dinero en minutos. Para montos más altos, la normativa chilena de prevención de lavado de activos — fiscalizada por la <a href="https://www.uaf.cl" target="_blank" rel="noopener noreferrer">Unidad de Análisis Financiero (UAF)</a> — exige identificar al cliente, por lo que te pueden pedir la cédula de identidad o el pasaporte. Es un requisito legal que aplica a todas las casas de cambio registradas en Chile.</>),
-  },
-  {
-    q: "¿Cuál es la diferencia entre el precio de compra y el de venta?",
-    a: "El precio de compra es el valor al que la casa de cambio te compra la divisa: por ejemplo, cuando entregas dólares y recibes pesos chilenos. El precio de venta es el valor al que te la vende: cuando entregas pesos y te llevas dólares. La diferencia entre ambos precios se llama spread y es el margen con el que opera toda casa de cambio; por eso el precio de venta siempre es más alto que el de compra.",
-  },
-  {
-    q: "¿Cómo se determina el tipo de cambio en Chile?",
-    a: (<>En Chile el tipo de cambio es flexible: el precio del dólar y de las demás divisas se determina por la oferta y la demanda del mercado, y por eso varía constantemente durante el día. Como referencia oficial, el <a href="https://www.bcentral.cl" target="_blank" rel="noopener noreferrer">Banco Central de Chile</a> publica cada día hábil el &laquo;dólar observado&raquo;, un promedio de las operaciones del mercado formal. Las casas de cambio fijan sus precios de compra y venta a partir de ese mercado.</>),
-  },
-  {
-    q: "¿Hay límites para cambiar efectivo en Chile?",
-    a: "Cambiar efectivo es legal y no existe una prohibición general por monto. Sin embargo, las operaciones que superan ciertos umbrales están sujetas a la normativa de prevención de lavado de activos que fiscaliza la Unidad de Análisis Financiero (UAF): la casa de cambio debe identificar al cliente y registrar la operación. Si planeas cambiar una suma importante, te recomendamos escribirnos antes por WhatsApp para confirmar disponibilidad de billetes y agilizar la atención en el local.",
-  },
-  {
-    q: "¿Cómo funciona una casa de cambio?",
-    a: "Una casa de cambio compra y vende monedas extranjeras al público. Publica un precio de compra y un precio de venta para cada divisa y obtiene su margen de la diferencia entre ambos (el spread), no de comisiones adicionales. La operación es inmediata: entregas una moneda y recibes la otra en el momento. En Chile las casas de cambio operan registradas ante la Unidad de Análisis Financiero y aplican verificación de identidad en operaciones de mayor monto.",
-  },
-  { q: "¿Cómo llego al local?", a: "Estamos en Av. Pedro de Valdivia 020, Providencia. A pasos de la salida del Metro Pedro de Valdivia (Línea 1). También cerca de Costanera Center." },
-];
 
 const CURRENCY_GRID = [
   { flag: "🇺🇸", code: "USD" }, { flag: "🇪🇺", code: "EUR" }, { flag: "🇧🇷", code: "BRL" }, { flag: "🇬🇧", code: "GBP" },
@@ -97,16 +69,16 @@ const TESTIMONIALS = [
   { name: "Araceli Gutiérrez", initial: "AG", context: "Junio 2026", text: "Muy amables y pacientes." },
   { name: "Jeremy Balmaceda", initial: "JB", context: "Junio 2026", text: "Excelente atención." },
   { name: "Jessica Luana Azambuja", initial: "JA", context: "Junio 2026", text: "Excelente atendimento." },
-  { name: "Camila", initial: "CM", context: "Junio 2026", text: "Muy buena casa de cambio. Tienen mucha variedad de divisas disponibles (más de 40) y el trato es muy profesional." },
+  { name: "Camila", initial: "CM", context: "Junio 2026", text: "Muy buena casa de cambio, mucha variedad de divisas y trato profesional." },
   { name: "Daniel Trumper", initial: "DT", context: "Junio 2026", text: "La mejor de Providencia, cambio increíble y una atención 10/10." },
   { name: "Tomás Moreira", initial: "TM", context: "Junio 2026", text: "Excelente atención." },
   { name: "Inversiones Line 3", initial: "IL", context: "Junio 2026", text: "Maravilloso." },
-  { name: "Luis Hernández", initial: "LH", context: "Junio 2026", text: "Buen servicio, excelente trato, me dieron buen tipo de cambio. Totalmente recomendable y seguros." },
+  { name: "Luis Hernández", initial: "LH", context: "Junio 2026", text: "Buen servicio y buen tipo de cambio. Recomendable y seguros." },
   { name: "Guillermo Squartini", initial: "GS", context: "Junio 2026", text: "Muy buena atención, precios accesibles, muy recomendado." },
   { name: "Felipe Carrasco", initial: "FC", context: "Junio 2026", text: "Buena atención." },
   { name: "Vivih Silva", initial: "VS", context: "Junio 2026", text: "Perfeito ❤️" },
   { name: "Caio Pichinine", initial: "CP", context: "Mayo 2026", text: "Foi ótimo o atendimento do Eugênio. Estamos muito satisfeitos." },
-  { name: "Artem Meleshchenko", initial: "AM", context: "Mayo 2026", text: "La mejor tasa y atención del barrio. Recomendado 100%, además trabajan el sábado." },
+  { name: "Artem Meleshchenko", initial: "AM", context: "Mayo 2026", text: "La mejor tasa y atención del barrio. Y abren sábado." },
   { name: "José Correa Ortúzar", initial: "JC", context: "Mayo 2026", text: "Muy buena atención y mucha honestidad." },
   { name: "María René Flores", initial: "MF", context: "Mayo 2026", text: "" },
   { name: "Flavia Franzani", initial: "FF", context: "Mayo 2026", text: "" },
@@ -119,7 +91,8 @@ const TESTIMONIALS = [
   { name: "Matías Bascur", initial: "MB", context: "Febrero 2018", text: "" },
 ];
 
-export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt, pageContext, variant = "full" }: Props) {
+export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt, pageContext, variant = "full", locale = DEFAULT_LOCALE }: Props) {
+  const T = homeCopy[locale];
   const rates = [...rawRates].sort((a, b) => {
     const ai = RATE_PRIORITY.indexOf(a.code);
     const bi = RATE_PRIORITY.indexOf(b.code);
@@ -128,9 +101,9 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
     if (bi === -1) return -1;
     return ai - bi;
   });
-  const h1Before = pageContext?.h1Before ?? "Casa de cambio en ";
-  const h1Accent = pageContext?.h1Accent ?? "Providencia";
-  const heroDesc = pageContext?.heroDesc ?? "38 años de trayectoria a pasos del Metro Pedro de Valdivia. Compra y venta de dólares, euros, reales y más de 40 divisas.";
+  const h1Before = pageContext?.h1Before ?? T.hero.h1Before;
+  const h1Accent = pageContext?.h1Accent ?? T.hero.h1Accent;
+  const heroDesc = pageContext?.heroDesc ?? T.hero.heroDesc;
 
   const isFull = variant === "full";
   const showHero      = isFull || variant === "home";
@@ -145,7 +118,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
   const showVideo     = isFull || variant === "servicios";
   const showAlerta    = isFull || variant === "alerta";
   const showOpiniones = isFull || variant === "home";
-  const showFaq       = isFull || variant === "faq" || variant === "home";
+  const showFaq       = isFull || variant === "faq";
   const showUbicacion = isFull || variant === "home";
   const showPageHeader = !isFull && !showHero;
 
@@ -237,6 +210,24 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
     if (amt) setAmount(amt);
   }, []);
 
+  // Al llegar desde otra página con hash (#tasas, #contacto, #ubicacion…),
+  // asegura que el scroll caiga en la sección (el salto nativo a veces falla
+  // en Next App Router porque la sección aún no está montada al cargar).
+  useEffect(() => {
+    const id = window.location.hash.replace("#", "");
+    if (!id) return;
+    let tries = 0;
+    const jump = () => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else if (tries++ < 10) {
+        setTimeout(jump, 120);
+      }
+    };
+    setTimeout(jump, 60);
+  }, []);
+
   // ── Calculadora ──────────────────────────────────────────────────────────────
   const selectOptions = [
     { code: "CLP", flag_emoji: "🇨🇱", name: "Peso Chileno" },
@@ -268,8 +259,8 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
   const hasResult = result.value > 0 && numAmount > 0;
 
   const waCalcMsg = hasResult
-    ? `Hola, quiero cotizar ${numAmount.toLocaleString("es-CL")} ${fromCurrency} a ${toCurrency} en Gamaex. ¿Pueden confirmarme precio y disponibilidad?`
-    : WA_MSG;
+    ? T.wa.calc.replace("{amount}", numAmount.toLocaleString("es-CL")).replace("{from}", fromCurrency).replace("{to}", toCurrency)
+    : T.wa.generic;
 
   function swap() {
     setFromCurrency(toCurrency);
@@ -329,7 +320,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
   }, []);
 
   return (
-    <div className="gx-root">
+    <div className="gx-root" lang={locale}>
       <style dangerouslySetInnerHTML={{ __html: `
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -343,13 +334,15 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-root { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--dark); background: var(--white); line-height: 1.5; -webkit-font-smoothing: antialiased; }
         .gx-root a { text-decoration: none; }
         html { scroll-behavior: smooth; }
+        /* Anclas de nav: no quedar tapadas por el nav fijo (~86px) al saltar desde otra página */
+        #tasas, #contacto, #ubicacion, #opiniones, #calculadora, #alerta { scroll-margin-top: 100px; }
 
         /* NAV */
         .gx-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(255,255,255,0.94); backdrop-filter: blur(14px); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 6%; height: 86px; }
         .gx-logo { display: flex; align-items: center; gap: 0.6rem; }
         .gx-logo svg { height: 60px; width: auto; }
-        .gx-nav-links { display: flex; gap: 2rem; list-style: none; }
-        .gx-nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray); transition: color 0.2s; }
+        .gx-nav-links { display: flex; gap: 1.5rem; list-style: none; }
+        .gx-nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray); transition: color 0.2s; white-space: nowrap; }
         .gx-nav-links a:hover { color: var(--dark); }
         .gx-nav-actions { display: flex; align-items: center; gap: 1rem; }
         .gx-status { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; padding: 0.35rem 0.8rem; border-radius: 50px; }
@@ -376,6 +369,8 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         }
         .gx-cta-dark { background: var(--dark); color: var(--white); padding: 0.65rem 1.5rem; border-radius: 50px; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; cursor: pointer; border: none; font-family: inherit; }
         .gx-cta-dark:hover { background: #2A3038; transform: translateY(-1px); }
+        .gx-nav-cliente { background: var(--gold); color: var(--dark); padding: 0.65rem 1.5rem; border-radius: 50px; font-size: 0.9rem; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+        .gx-nav-cliente:hover { background: var(--gold-deep); color: var(--white); transform: translateY(-1px); box-shadow: 0 8px 20px rgba(201,168,76,0.3); }
         .gx-cta-gold { background: var(--gold); color: var(--dark); padding: 0.95rem 1.4rem; border-radius: 12px; font-size: 1rem; font-weight: 700; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; cursor: pointer; border: none; font-family: inherit; width: 100%; }
         .gx-cta-gold:hover { background: var(--gold-deep); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(201,168,76,0.35); }
         .gx-cta-gold:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
@@ -471,12 +466,15 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-currencies-cta a { color: var(--gold-deep); font-weight: 700; }
 
         /* RATES TABLE */
-        .gx-rates-wrap { background: var(--white); border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin-top: 2.5rem; overflow: hidden; }
+        .gx-rates-wrap { background: var(--white); border-radius: 18px; box-shadow: 0 4px 16px rgba(0,0,0,0.04); margin: 2.5rem auto 0; overflow: hidden; max-width: 960px; }
+        .gx-rates-split { display: grid; grid-template-columns: 1fr 1fr; }
+        .gx-rates-split table:first-child { border-right: 1px solid var(--border); }
+        @media (max-width: 760px) { .gx-rates-split { grid-template-columns: 1fr; } .gx-rates-split table:first-child { border-right: none; } }
         .gx-rates-meta { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; }
         .gx-stale-warn { font-size: 0.82rem; color: #B45309; background: #FEF3C7; border: 1px solid #FCD34D; border-radius: 8px; padding: 0.5rem 1rem; margin-top: 1rem; display: inline-block; }
         .gx-rates-table { width: 100%; border-collapse: collapse; }
-        .gx-rates-table th { background: var(--dark); color: var(--white); padding: 1rem 1.5rem; text-align: left; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
-        .gx-rates-table td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
+        .gx-rates-table th { background: var(--dark); color: var(--white); padding: 0.7rem 1.3rem; text-align: left; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; }
+        .gx-rates-table td { padding: 0.7rem 1.3rem; border-bottom: 1px solid var(--border); font-size: 0.92rem; }
         .gx-rates-table tr:last-child td { border-bottom: none; }
         .gx-rates-table tr.clickable { cursor: pointer; transition: background 0.15s; }
         .gx-rates-table tr.clickable:hover td { background: var(--light); }
@@ -488,7 +486,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-rates-empty { padding: 3rem 1.5rem; text-align: center; color: var(--gray); font-size: 0.95rem; }
         .gx-rates-empty a { color: var(--gold-deep); font-weight: 700; }
         .gx-rates-foot { font-size: 0.82rem; color: var(--gray); margin-top: 1rem; text-align: center; }
-        .gx-rates-bigamount { margin-top: 1.5rem; padding: 1.1rem 1.4rem; background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(232,199,110,0.08) 100%); border: 1px solid rgba(201,168,76,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .gx-rates-bigamount { margin: 1.5rem auto 0; max-width: 960px; padding: 1.1rem 1.4rem; background: linear-gradient(135deg, rgba(201,168,76,0.12) 0%, rgba(232,199,110,0.08) 100%); border: 1px solid rgba(201,168,76,0.35); border-radius: 14px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
         .gx-rates-bigamount .left { display: flex; align-items: center; gap: 0.85rem; }
         .gx-rates-bigamount .icon { font-size: 1.6rem; }
         .gx-rates-bigamount strong { font-size: 0.98rem; color: var(--dark); display: block; margin-bottom: 0.15rem; font-weight: 700; }
@@ -642,6 +640,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-quicklinks-grid a:hover { color: var(--gold-light); }
         .gx-article h2 { font-size: 1.5rem; font-weight: 600; color: var(--dark); margin-bottom: 1rem; letter-spacing: -0.01em; }
         .gx-article p + p { margin-top: 1rem; }
+        .gx-footer-nospam { max-width: 720px; margin: 0 auto 1.6rem; text-align: center; font-size: 0.76rem; line-height: 1.65; color: rgba(255,255,255,0.42); }
         .gx-footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1.8rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: rgba(255,255,255,0.45); flex-wrap: wrap; gap: 0.5rem; }
 
         /* FLOAT WHATSAPP */
@@ -674,6 +673,17 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         .gx-mobile-cta-outline:active { background: var(--light); }
 
         /* RESPONSIVE */
+        /* El nav se llena (7 links + idioma + estado + botón); colapsa a hamburguesa
+           antes de desbordar. El botón dorado "Hazte cliente" es PERSISTENTE: queda
+           siempre en la barra de arriba (desktop y móvil), no se esconde. */
+        @media (max-width: 1240px) {
+          .gx-nav-links { display: none; }
+          .gx-nav-lang { display: none; }
+          .gx-nav-actions .gx-status { display: none; }
+          .gx-burger { display: flex; }
+          .gx-mobile-overlay { display: block; }
+          .gx-mobile-drawer { display: flex; }
+        }
         @media (max-width: 968px) {
           .gx-nav-links { display: none; }
           .gx-burger { display: flex; }
@@ -681,6 +691,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           .gx-mobile-drawer { display: flex; }
           .gx-cta-desktop { display: none; }
           .gx-status { font-size: 0.72rem; padding: 0.28rem 0.6rem; }
+          .gx-nav-cliente { padding: 0.5rem 1rem; font-size: 0.85rem; }
           .gx-nav { padding: 0 4%; height: 70px; }
           .gx-logo svg { height: 50px; }
           .gx-hero { grid-template-columns: 1fr; padding: 100px 6% 3rem; gap: 2.5rem; }
@@ -698,6 +709,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           .gx-zero { padding: 3.5rem 6%; }
         }
         @media (max-width: 540px) {
+          .gx-logo svg { height: 40px; }
+          .gx-nav-cliente { padding: 0.4rem 0.8rem; font-size: 0.78rem; }
+          .gx-nav-actions { gap: 0.5rem; }
+          .gx-nav { padding: 0 3.5%; }
           .gx-stats { grid-template-columns: 1fr; }
           .gx-currencies { grid-template-columns: repeat(3, 1fr); }
           .gx-hours { grid-template-columns: 1fr; }
@@ -732,28 +747,29 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           </svg>
         </a>
         <ul className="gx-nav-links">
-          <li><a href={navHref(variant, "tasas")}>Tasas</a></li>
-          <li><a href={navHref(variant, "servicios")}>Servicios</a></li>
-          <li><a href={navHref(variant, "nosotros")}>Nosotros</a></li>
-          <li><a href={navHref(variant, "contacto")}>Contacto</a></li>
-          <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
-          <li><a href={navHref(variant, "faq")}>FAQ</a></li>
-          <li><a href={navHref(variant, "ubicacion")}>Ubicación</a></li>
+          <li><a href={navHref(variant, "tasas")}>{T.nav.tasas}</a></li>
+          <li><a href={navHref(variant, "servicios")}>{T.nav.servicios}</a></li>
+          <li><a href={navHref(variant, "nosotros")}>{T.nav.nosotros}</a></li>
+          <li><a href={navHref(variant, "contacto")}>{T.nav.contacto}</a></li>
+          <li><a href={navHref(variant, "alerta-precio")}>{T.nav.alerta}</a></li>
+          <li><a href={navHref(variant, "faq")}>{T.nav.faq}</a></li>
+          <li><a href={navHref(variant, "ubicacion")}>{T.nav.ubicacion}</a></li>
         </ul>
         <div className="gx-nav-actions">
+          <span className="gx-nav-lang"><LanguageSwitcher compact initial={locale} /></span>
           {isOpen !== null && (
             <span className={`gx-status ${isOpen ? "open" : "closed"}`}>
               <span className="dot" />
-              {isOpen ? "Abierto ahora" : "Cerrado"}
+              {isOpen ? T.nav.openNow : T.nav.closed}
             </span>
           )}
-          <a href={wa()} target="_blank" rel="noopener noreferrer" className="gx-cta-dark gx-cta-desktop" onClick={() => track.whatsappClick("nav")}>
-            💬 Cotizar
+          <a href="/hazte-cliente" className="gx-nav-cliente">
+            {T.nav.cliente}
           </a>
           <button
             type="button"
             className={`gx-burger ${mobileMenuOpen ? "open" : ""}`}
-            aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+            aria-label={mobileMenuOpen ? T.nav.closeMenu : T.nav.openMenu}
             aria-expanded={mobileMenuOpen}
             onClick={() => setMobileMenuOpen((v) => !v)}
           >
@@ -775,33 +791,36 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         {isOpen !== null && (
           <span className={`gx-status ${isOpen ? "open" : "closed"}`} style={{ alignSelf: "flex-start", marginBottom: "1rem" }}>
             <span className="dot" />
-            {isOpen ? "Abierto ahora" : "Cerrado"}
+            {isOpen ? T.nav.openNow : T.nav.closed}
           </span>
         )}
         <ul className="gx-mobile-links">
-          <li><a href={navHref(variant, "tasas")} onClick={() => setMobileMenuOpen(false)}>Tasas</a></li>
-          <li><a href={navHref(variant, "servicios")} onClick={() => setMobileMenuOpen(false)}>Servicios</a></li>
-          <li><a href={navHref(variant, "nosotros")} onClick={() => setMobileMenuOpen(false)}>Nosotros</a></li>
-          <li><a href={navHref(variant, "contacto")} onClick={() => setMobileMenuOpen(false)}>Contacto</a></li>
-          <li><a href={navHref(variant, "alerta-precio")} onClick={() => setMobileMenuOpen(false)}>Alerta de precio</a></li>
-          <li><a href={navHref(variant, "faq")} onClick={() => setMobileMenuOpen(false)}>FAQ</a></li>
-          <li><a href={navHref(variant, "ubicacion")} onClick={() => setMobileMenuOpen(false)}>Ubicación</a></li>
+          <li><a href={navHref(variant, "tasas")} onClick={() => setMobileMenuOpen(false)}>{T.nav.tasas}</a></li>
+          <li><a href={navHref(variant, "servicios")} onClick={() => setMobileMenuOpen(false)}>{T.nav.servicios}</a></li>
+          <li><a href={navHref(variant, "nosotros")} onClick={() => setMobileMenuOpen(false)}>{T.nav.nosotros}</a></li>
+          <li><a href={navHref(variant, "contacto")} onClick={() => setMobileMenuOpen(false)}>{T.nav.contacto}</a></li>
+          <li><a href={navHref(variant, "alerta-precio")} onClick={() => setMobileMenuOpen(false)}>{T.nav.alerta}</a></li>
+          <li><a href={navHref(variant, "faq")} onClick={() => setMobileMenuOpen(false)}>{T.nav.faq}</a></li>
+          <li><a href={navHref(variant, "ubicacion")} onClick={() => setMobileMenuOpen(false)}>{T.nav.ubicacion}</a></li>
         </ul>
+        <div style={{ margin: "1rem 0 0.5rem" }}>
+          <LanguageSwitcher initial={locale} />
+        </div>
         <a
-          href={wa()}
+          href={wa(T.wa.generic)}
           target="_blank"
           rel="noopener noreferrer"
           className="gx-mobile-cta"
           onClick={() => { track.whatsappClick("mobile-menu"); setMobileMenuOpen(false); }}
         >
-          💬 Cotizar por WhatsApp
+          {T.nav.cotizarWa}
         </a>
         <a
           href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`}
           className="gx-mobile-cta-outline"
           onClick={() => { track.phoneClick(); setMobileMenuOpen(false); }}
         >
-          📞 Llamar al local
+          {T.nav.llamarLocal}
         </a>
       </aside>
 
@@ -830,21 +849,19 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {showHero && (
       <section className="gx-hero">
         <div className="gx-hero-left">
-          <span className="gx-hero-tag">⚡ Casa de cambio · Providencia</span>
+          <span className="gx-hero-tag">{T.hero.tag}</span>
           <h1>{h1Before}<em>{h1Accent}{/[.?!…]$/.test(h1Accent) ? "" : "."}</em></h1>
           <p className="lead">{heroDesc}</p>
           <div className="gx-badges">
-            <div className="gx-badge"><span className="dot" /> 0% comisiones</div>
-            <div className="gx-badge"><span className="dot" /> +40 divisas</div>
-            <div className="gx-badge"><span className="dot" /> Atención presencial</div>
-            <div className="gx-badge"><span className="dot" /> Sin app, sin registro</div>
-            <div className="gx-badge"><span className="dot" /> Desde 1988</div>
+            {T.hero.badges.map((b) => (
+              <div className="gx-badge" key={b}><span className="dot" /> {b}</div>
+            ))}
           </div>
         </div>
 
         {/* Calculadora */}
         <div className="gx-converter" id="calculadora">
-          <h3>¿Cuánto quieres cambiar hoy?</h3>
+          <h3>{T.calc.title}</h3>
           <div className="gx-pairs">
             {[
               { from: "USD", to: "CLP", label: "USD→CLP" },
@@ -867,7 +884,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
           <div className="gx-conv-row">
             <div style={{ flex: 1 }}>
-              <span className="gx-conv-label">Tú entregas</span>
+              <span className="gx-conv-label">{T.calc.youGive}</span>
               <input
                 className="gx-conv-amount"
                 type="text"
@@ -885,12 +902,12 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
           </div>
 
           <div className="gx-swap-wrap">
-            <button onClick={swap} aria-label="Invertir monedas">⇅</button>
+            <button onClick={swap} aria-label={T.calc.swap}>⇅</button>
           </div>
 
           <div className="gx-conv-row">
             <div style={{ flex: 1 }}>
-              <span className="gx-conv-label">Tú recibes (aprox.)</span>
+              <span className="gx-conv-label">{T.calc.youGet}</span>
               <div className="gx-conv-amount result">
                 {hasResult
                   ? result.value.toLocaleString("es-CL", { minimumFractionDigits: result.decimals, maximumFractionDigits: result.decimals })
@@ -906,7 +923,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
           {fromRate && toCurrency === "CLP" && (
             <div className="gx-rate-info">
-              <span>Tasa de hoy</span>
+              <span>{T.calc.rateToday}</span>
               <strong>1 {fromCurrency} = ${fromRate.buy.toLocaleString("es-CL")} CLP</strong>
             </div>
           )}
@@ -917,26 +934,15 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
             rel="noopener noreferrer"
             onClick={() => track.calcWaClick(fromCurrency, toCurrency, numAmount)}
           >
-            <button className="gx-cta-gold">💬 Cotizar por WhatsApp →</button>
+            <button className="gx-cta-gold">{T.calc.ctaWa}</button>
           </a>
-
-          <button
-            type="button"
-            className="gx-cta-form"
-            onClick={() => {
-              track.whatsappClick("calc-form");
-              document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-            }}
-          >
-            📝 Déjanos tus datos y te contactamos →
-          </button>
 
           {hasResult && (
             <button className={`gx-share-btn ${copied ? "copied" : ""}`} onClick={copyShareLink}>
-              {copied ? "✓ Enlace copiado" : "🔗 Compartir cotización"}
+              {copied ? T.calc.shareCopied : T.calc.share}
             </button>
           )}
-          <p className="gx-secure-note">🔒 Cotización referencial · Sin comisiones · Atención inmediata</p>
+          <p className="gx-secure-note">{T.calc.secureNote}</p>
         </div>
       </section>
       )}
@@ -958,7 +964,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
             ))}
             {lastSyncFmt && (
               <div className="gx-ticker-item gx-ticker-meta">
-                <span>● Actualizado {lastSyncFmt}</span>
+                <span>● {T.calc.updated} {lastSyncFmt}</span>
               </div>
             )}
           </div>
@@ -968,10 +974,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {/* ── STATS ── */}
       {showStats && (
       <div className="gx-stats gx-reveal">
-        <div className="gx-stat"><h3><span className="gx-counter" data-target="38">0</span><span>+</span></h3><p>Años de trayectoria</p></div>
-        <div className="gx-stat"><h3><span className="gx-counter" data-target="40">0</span><span>+</span></h3><p>Divisas disponibles</p></div>
-        <div className="gx-stat"><h3>0<span>%</span></h3><p>Comisiones ocultas</p></div>
-        <div className="gx-stat"><h3><span className="gx-counter" data-target="5">0</span><span>min</span></h3><p>Operación promedio</p></div>
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="38">0</span><span>+</span></h3><p>{T.stats.years}</p></div>
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="40">0</span><span>+</span></h3><p>{T.stats.currencies}</p></div>
+        <div className="gx-stat"><h3>0<span>%</span></h3><p>{T.stats.hiddenFees}</p></div>
+        <div className="gx-stat"><h3><span className="gx-counter" data-target="5">0</span><span>min</span></h3><p>{T.stats.avgOp}</p></div>
       </div>
       )}
 
@@ -1027,16 +1033,16 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       <section id="tasas" className="gx-section gx-reveal">
         <div className="gx-rates-meta">
           <div>
-            <p className="gx-label">Tasas de hoy</p>
-            <h2 className="gx-title">Cotizaciones publicadas<br />a diario</h2>
-            <p className="gx-subtitle">Las cotizaciones varían constantemente. <strong>Confirme el valor por WhatsApp antes de acudir.</strong></p>
+            <p className="gx-label">{T.tasas.label}</p>
+            <h2 className="gx-title">{T.tasas.title}</h2>
+            <p className="gx-subtitle">{renderRich(T.tasas.subtitle)}</p>
           </div>
           <div style={{ textAlign: "right" }}>
             {lastSyncFmt && (
-              <div style={{ fontSize: "0.85rem", color: "var(--gray)" }}>Última actualización: {lastSyncFmt}</div>
+              <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontSize: "0.92rem", fontWeight: 700, color: "var(--dark)", background: "rgba(5,150,105,0.10)", border: "1px solid rgba(5,150,105,0.30)", borderRadius: "999px", padding: "0.45rem 0.95rem" }}><span style={{ width: 9, height: 9, borderRadius: "50%", background: "#059669", flexShrink: 0 }} />{T.tasas.lastUpdate} {lastSyncFmt}</div>
             )}
             {systemStatus === "stale" && (
-              <div className="gx-stale-warn">⚠ Precios temporalmente no disponibles — consultar por WhatsApp</div>
+              <div className="gx-stale-warn">{T.tasas.stale}</div>
             )}
           </div>
         </div>
@@ -1044,69 +1050,69 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
         <div className="gx-rates-wrap">
           {rates.length === 0 ? (
             <div className="gx-rates-empty">
-              Cotizaciones no disponibles en este momento.{" "}
-              <a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("rates-empty")}>Consultar por WhatsApp →</a>
+              {T.tasas.empty}{" "}
+              <a href={wa(T.wa.generic)} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("rates-empty")}>{T.tasas.emptyCta}</a>
             </div>
           ) : (
-            <table className="gx-rates-table">
-              <thead>
-                <tr>
-                  <th>Divisa · Currency</th>
-                  <th style={{ textAlign: "right" }}>Compramos · We buy</th>
-                  <th style={{ textAlign: "right" }}>Vendemos · We sell</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rates.map((r) => (
-                  <tr
-                    key={r.code}
-                    className="clickable"
-                    onClick={() => {
-                      setFromCurrency(r.code);
-                      setToCurrency("CLP");
-                      track.calcUsed(r.code, "CLP");
-                      document.getElementById("calculadora")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                  >
-                    <td>
-                      {r.code === "ORO"
-                        ? <img src="/oro-coin.png" alt="Onza de oro" className="gx-coin-img" />
-                        : <span className="gx-rate-flag">{r.flag_emoji}</span>}
-                      <strong>{r.name}</strong> <span style={{ color: "var(--gray)", fontSize: "0.85rem" }}>· {r.code}</span>
-                    </td>
-                    <td className="gx-rate-buy" style={{ textAlign: "right" }}>
-                      {r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0 })}
-                    </td>
-                    <td className="gx-rate-sell" style={{ textAlign: "right" }}>
-                      {r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0 })}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <div className="gx-rates-split">
+              {[rates.slice(0, Math.ceil(rates.length / 2)), rates.slice(Math.ceil(rates.length / 2))].map((group, gi) => (
+                <table key={gi} className="gx-rates-table">
+                  <thead>
+                    <tr>
+                      <th>Divisa · Currency</th>
+                      <th style={{ textAlign: "right" }}>Vendes · You sell</th>
+                      <th style={{ textAlign: "right" }}>Compras · You buy</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {group.map((r) => (
+                      <tr
+                        key={r.code}
+                        className="clickable"
+                        onClick={() => {
+                          setFromCurrency(r.code);
+                          setToCurrency("CLP");
+                          track.calcUsed(r.code, "CLP");
+                          document.getElementById("calculadora")?.scrollIntoView({ behavior: "smooth" });
+                        }}
+                      >
+                        <td>
+                          {r.code === "ORO"
+                            ? <img src="/oro-coin.png" alt="Onza de oro" className="gx-coin-img" />
+                            : <span className="gx-rate-flag">{r.flag_emoji}</span>}
+                          <strong>{r.name}</strong> <span style={{ color: "var(--gray)", fontSize: "0.85rem" }}>· {r.code}</span>
+                        </td>
+                        <td className="gx-rate-buy" style={{ textAlign: "right" }}>
+                          {r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0 })}
+                        </td>
+                        <td className="gx-rate-sell" style={{ textAlign: "right" }}>
+                          {r.sell.toLocaleString("es-CL", { minimumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.sell % 1 !== 0 ? r.decimal_places : 0 })}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              ))}
+            </div>
           )}
         </div>
         <div className="gx-rates-bigamount">
           <div className="left">
             <span className="icon">💼</span>
             <div>
-              <strong>Consulte precio por montos mayores</strong>
-              <span>Para operaciones de mayor volumen aplicamos tasa preferencial.</span>
+              <strong>{T.tasas.bigTitle}</strong>
+              <span>{T.tasas.bigSub}</span>
             </div>
           </div>
           <a
-            href={wa("Hola, quiero consultar precio por un monto mayor.")}
+            href={wa(T.wa.bigAmount)}
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track.whatsappClick("rates-bigamount")}
           >
-            💬 Consultar
+            {T.tasas.bigCta}
           </a>
         </div>
-        <p className="gx-rates-foot">
-          Cotización orientativa. El tipo de cambio se determina por la oferta y demanda del mercado; según el{" "}
-          <a href="https://www.bcentral.cl" target="_blank" rel="noopener noreferrer">Banco Central de Chile</a>, el &laquo;dólar observado&raquo; que publica cada día hábil es la referencia oficial. Para confirmar precio y operar, consúltenos directamente.
-        </p>
       </section>
       )}
 
@@ -1268,7 +1274,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                     <input type="number" value={alertPrice} onChange={(e) => setAlertPrice(e.target.value)} placeholder="890" required min={1} step={1} />
                     {alertRate && (
                       <div className="gx-current-rate">
-                        Hoy — Compramos: <span className="buy">${alertRate.buy.toLocaleString("es-CL")}</span> · Vendemos: <span className="sell">${alertRate.sell.toLocaleString("es-CL")}</span>
+                        En este momento — Compramos: <span className="buy">${alertRate.buy.toLocaleString("es-CL")}</span> · Vendemos: <span className="sell">${alertRate.sell.toLocaleString("es-CL")}</span>
                       </div>
                     )}
                   </div>
@@ -1298,20 +1304,9 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {/* ── TESTIMONIALES ── */}
       {showOpiniones && (
       <section id="opiniones" className="gx-section gx-reveal">
-        <p className="gx-label">Opiniones reales</p>
-        <h2 className="gx-title">Lo que dicen nuestros clientes</h2>
-        <p className="gx-subtitle">
-          Reseñas verificadas en{" "}
-          <a
-            href="https://www.google.com/maps/place/?q=place_id:ChIJWTo0fmbPYpYR4XOn4uAxnIU"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "inherit", textDecoration: "underline" }}
-          >
-            Google Maps
-          </a>{" "}
-          · 4,5 ★ con más de 25 opiniones
-        </p>
+        <p className="gx-label">{T.opiniones.label}</p>
+        <h2 className="gx-title">{T.opiniones.title}</h2>
+        <p className="gx-subtitle">{renderRich(T.opiniones.subtitle)}</p>
         <div className="gx-marquee" aria-label="Reseñas de clientes en Google">
           <div className="gx-marquee-track">
             {[...TESTIMONIALS, ...TESTIMONIALS].map((t, i) => (
@@ -1320,7 +1315,7 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                 {t.text ? (
                   <p className="gx-testimonial-text">&ldquo;{t.text}&rdquo;</p>
                 ) : (
-                  <p className="gx-testimonial-text gx-testimonial-empty">Calificación de 5 estrellas en Google.</p>
+                  <p className="gx-testimonial-text gx-testimonial-empty">{T.opiniones.emptyReview}</p>
                 )}
                 <div className="gx-testimonial-author">
                   <div className="gx-avatar">{t.initial}</div>
@@ -1339,10 +1334,10 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {/* ── FAQ ── */}
       {showFaq && (
       <section id="faq" className="gx-section gx-reveal">
-        <p className="gx-label">Preguntas frecuentes</p>
-        <h2 className="gx-title">Lo que más nos preguntan</h2>
+        <p className="gx-label">{T.faq.label}</p>
+        <h2 className="gx-title">{T.faq.title}</h2>
         <div className="gx-faq-list">
-          {FAQ_ITEMS.map((item, i) => (
+          {T.faq.items.map((item, i) => (
             <div key={i} className={`gx-faq-item ${openFaq === i ? "open" : ""}`}>
               <button
                 className="gx-faq-q"
@@ -1352,14 +1347,14 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                 <span>{item.q}</span>
                 <span className="gx-faq-icon">+</span>
               </button>
-              <div className="gx-faq-a"><p>{item.a}</p></div>
+              <div className="gx-faq-a"><p>{renderRich(item.a)}</p></div>
             </div>
           ))}
         </div>
         <div className="gx-faq-cta">
-          <p>¿Tienes otra pregunta? Escribinos directamente.</p>
-          <a href={wa("Hola, tengo una consulta sobre el servicio de Gamaex.")} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("faq")}>
-            <button className="gx-cta-dark">💬 Consultar por WhatsApp</button>
+          <p>{T.faq.ctaText}</p>
+          <a href={wa(T.wa.faqMsg)} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("faq")}>
+            <button className="gx-cta-dark">{T.faq.ctaBtn}</button>
           </a>
         </div>
       </section>
@@ -1378,23 +1373,23 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       {/* ── UBICACIÓN ── */}
       {showUbicacion && (
       <section id="ubicacion" className="gx-section gx-section-light gx-reveal">
-        <p className="gx-label">Ven a vernos</p>
-        <h2 className="gx-title">Av. Pedro de Valdivia 020,<br />Providencia</h2>
-        <p className="gx-subtitle">A pasos del Metro Pedro de Valdivia (Línea 1). Atención presencial sin reserva.</p>
+        <p className="gx-label">{T.ubicacion.label}</p>
+        <h2 className="gx-title">{T.ubicacion.title}</h2>
+        <p className="gx-subtitle">{T.ubicacion.subtitle}</p>
 
         <div className="gx-loc-grid">
           <div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">📍</div>
-              <div><strong>Dirección</strong><span>Av. Pedro de Valdivia 020, Providencia, Santiago</span></div>
+              <div><strong>{T.ubicacion.rowAddress}</strong><span>{T.ubicacion.addressValue}</span></div>
             </div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">🚇</div>
-              <div><strong>Metro</strong><span>Pedro de Valdivia · Línea 1 (a 50 metros)</span></div>
+              <div><strong>{T.ubicacion.rowMetro}</strong><span>{T.ubicacion.metroValue}</span></div>
             </div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">📞</div>
-              <div><strong>Teléfono</strong><span>{FIXED_PHONE} · {FIXED_PHONE_2}</span></div>
+              <div><strong>{T.ubicacion.rowPhone}</strong><span>{FIXED_PHONE} · {FIXED_PHONE_2}</span></div>
             </div>
             <div className="gx-loc-info-row">
               <div className="gx-loc-icon">💬</div>
@@ -1403,16 +1398,16 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
 
             <div className="gx-hours">
               <div className="gx-hour-card">
-                <div className="day">Lun – Vie</div>
-                <div className="time">9:00 — 17:00</div>
+                <div className="day">{T.ubicacion.hoursWeek}</div>
+                <div className="time">{T.ubicacion.weekTime}</div>
               </div>
               <div className="gx-hour-card">
-                <div className="day">Sábado</div>
-                <div className="time">9:00 — 13:00</div>
+                <div className="day">{T.ubicacion.hoursSat}</div>
+                <div className="time">{T.ubicacion.satTime}</div>
               </div>
               <div className="gx-hour-card">
-                <div className="day">Domingo</div>
-                <div className="time closed">Cerrado</div>
+                <div className="day">{T.ubicacion.hoursSun}</div>
+                <div className="time closed">{T.ubicacion.closed}</div>
               </div>
             </div>
 
@@ -1424,13 +1419,13 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                 onClick={() => track.mapsClick()}
                 className="gx-cta-outline"
               >
-                📍 Ver en Maps
+                {T.ubicacion.seeMaps}
               </a>
-              <a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("ubicacion")}>
-                <button className="gx-cta-dark">💬 Cotizar ahora</button>
+              <a href={wa(T.wa.generic)} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("ubicacion")}>
+                <button className="gx-cta-dark">{T.ubicacion.cotizarNow}</button>
               </a>
               <a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} onClick={() => track.phoneClick()} className="gx-cta-outline">
-                📞 Llamar
+                {T.ubicacion.call}
               </a>
             </div>
           </div>
@@ -1448,41 +1443,12 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
       </section>
       )}
 
-      {/* ── FOOTER ── */}
-      {variant === "home" && (
-        <section id="contacto" className="gx-section gx-section-light gx-reveal">
-          <div className="gx-contacto-head">
-            <span className="gx-label">Contacto</span>
-            <h2 className="gx-title">Déjanos tus datos</h2>
-            <p className="gx-subtitle">
-              Completa el formulario y te contactamos con el precio final y la disponibilidad.
-              Más simple y ordenado que escribir por WhatsApp.
-            </p>
-          </div>
-          <ContactoForm
-            embedded
-            monedas={rates
-              .filter((r) => r.code)
-              .map((r) => ({ code: r.code, name: r.name, flag: r.flag_emoji }))}
-          />
-        </section>
-      )}
-
-      <section className="gx-quicklinks" aria-label="Búsquedas frecuentes">
-        <p className="gx-quicklinks-title">Búsquedas frecuentes</p>
+      <section className="gx-quicklinks" aria-label={T.quicklinks.title}>
+        <p className="gx-quicklinks-title">{T.quicklinks.title}</p>
         <div className="gx-quicklinks-grid">
-          <a href="/comprar-dolares-santiago">Comprar dólares en Santiago</a>
-          <a href="/vender-dolares-santiago">Vender dólares en Santiago</a>
-          <a href="/comprar-dolares-providencia">Comprar dólares en Providencia</a>
-          <a href="/vender-dolares-providencia">Vender dólares en Providencia</a>
-          <a href="/precio-dolar-hoy-chile">Precio del dólar hoy</a>
-          <a href="/cambio-dolar-hoy-chile">Cambio del dólar hoy en Chile</a>
-          <a href="/cambiar-dolares-a-pesos-chilenos">Cambiar dólares a pesos</a>
-          <a href="/comprar-dolares-sin-comision">Comprar dólares sin comisión</a>
-          <a href="/mejor-tipo-de-cambio-santiago">Mejor tipo de cambio en Santiago</a>
-          <a href="/comprar-euros-santiago">Comprar euros en Santiago</a>
-          <a href="/vender-euros-santiago">Vender euros en Santiago</a>
-          <a href="/tipo-de-cambio-euro-chile">Tipo de cambio del euro</a>
+          {T.quicklinks.links.map((l) => (
+            <a href={l.href} key={l.href}>{l.label}</a>
+          ))}
         </div>
       </section>
 
@@ -1500,41 +1466,42 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
               <text x="280" y="155" fontFamily="'Cormorant Garamond', serif" fontSize="78" fontWeight="500" letterSpacing="14" fill="url(#gxLogoGold)">GAMAEX</text>
               <text x="280" y="195" fontFamily="'Inter', sans-serif" fontSize="16" fontWeight="400" letterSpacing="6" fill="#C9A84C">CASA DE CAMBIO · DESDE 1988</text>
             </svg>
-            <p>38 años brindando el mejor tipo de cambio en Santiago. Casa de cambio en Providencia, a pasos del Metro Pedro de Valdivia.</p>
+            <p>{T.footer.tagline}</p>
           </div>
           <div className="gx-footer-col">
-            <h5>Servicios</h5>
+            <h5>{T.footer.colServicios}</h5>
             <ul>
-              <li><a href={navHref(variant, "servicios")}>Cambio de divisas</a></li>
-              <li><a href={navHref(variant, "servicios")}>Transferencias</a></li>
-              <li><a href={navHref(variant, "servicios")}>Pago a proveedores</a></li>
-              <li><a href={navHref(variant, "servicios")}>Atención corporativa</a></li>
+              <li><a href={navHref(variant, "servicios")}>{T.footer.sCambio}</a></li>
+              <li><a href={navHref(variant, "servicios")}>{T.footer.sTransfer}</a></li>
+              <li><a href={navHref(variant, "servicios")}>{T.footer.sPago}</a></li>
+              <li><a href={navHref(variant, "servicios")}>{T.footer.sCorp}</a></li>
             </ul>
           </div>
           <div className="gx-footer-col">
-            <h5>Información</h5>
+            <h5>{T.footer.colInfo}</h5>
             <ul>
-              <li><a href={navHref(variant, "tasas")}>Tasas de hoy</a></li>
-              <li><a href={navHref(variant, "nosotros")}>Quiénes somos</a></li>
-              <li><a href={navHref(variant, "alerta-precio")}>Alerta de precio</a></li>
-              <li><a href={navHref(variant, "opiniones")}>Opiniones</a></li>
-              <li><a href={navHref(variant, "faq")}>FAQ</a></li>
-              <li><a href={navHref(variant, "ubicacion")}>Cómo llegar</a></li>
+              <li><a href={navHref(variant, "tasas")}>{T.footer.iTasas}</a></li>
+              <li><a href={navHref(variant, "nosotros")}>{T.footer.iNosotros}</a></li>
+              <li><a href={navHref(variant, "alerta-precio")}>{T.footer.iAlerta}</a></li>
+              <li><a href={navHref(variant, "opiniones")}>{T.footer.iOpiniones}</a></li>
+              <li><a href={navHref(variant, "faq")}>{T.footer.iFaq}</a></li>
+              <li><a href={navHref(variant, "ubicacion")}>{T.footer.iComoLlegar}</a></li>
             </ul>
           </div>
           <div className="gx-footer-col">
-            <h5>Contacto</h5>
+            <h5>{T.footer.colContacto}</h5>
             <ul>
-              <li><a href={wa()} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("footer")}>WhatsApp +56 9 3878 2514</a></li>
+              <li><a href={wa(T.wa.generic)} target="_blank" rel="noopener noreferrer" onClick={() => track.whatsappClick("footer")}>WhatsApp +56 9 3878 2514</a></li>
               <li><a href={`tel:${FIXED_PHONE.replace(/\s/g, "")}`} onClick={() => track.phoneClick()}>{FIXED_PHONE}</a></li>
               <li><a href={`tel:${FIXED_PHONE_2.replace(/\s/g, "")}`} onClick={() => track.phoneClick()}>{FIXED_PHONE_2}</a></li>
               <li><a href="mailto:gamaex@gmail.com">gamaex@gmail.com</a></li>
-              <li><span className="staticline">Lun–Vie 9:00–17:00 · Sáb 9:00–13:00</span></li>
+              <li><span className="staticline">{T.footer.hoursLine}</span></li>
             </ul>
           </div>
         </div>
+        <p className="gx-footer-nospam">{T.footer.noSpam}</p>
         <div className="gx-footer-bottom">
-          <span>© {new Date().getFullYear()} Gamaex Chile · Inversiones y Turismo Gamaex Chile S.A.</span>
+          <span>© {new Date().getFullYear()} {T.footer.rights}</span>
           <span>Av. Pedro de Valdivia 020, Providencia, Santiago</span>
         </div>
       </footer>

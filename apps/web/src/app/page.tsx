@@ -1,5 +1,6 @@
 import type { PublicRatesResponse } from "@gamaex/types";
 import LandingPage from "@/components/landing-page";
+import { getLocale } from "@/i18n/server";
 
 async function getRates(): Promise<PublicRatesResponse> {
   const empty: PublicRatesResponse = { rates: [], system_status: "stale", last_sync_at: "", cache_ttl_seconds: 60 };
@@ -14,11 +15,12 @@ async function getRates(): Promise<PublicRatesResponse> {
 }
 
 export default async function HomePage() {
-  const data = await getRates();
+  const [data, locale] = await Promise.all([getRates(), getLocale()]);
 
   return (
     <LandingPage
       variant="home"
+      locale={locale}
       rates={data.rates}
       systemStatus={data.system_status}
       lastSyncAt={data.last_sync_at}

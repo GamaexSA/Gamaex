@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { homeCopy } from "@/i18n/home";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/messages";
 
 export interface MonedaOption {
   code: string;
@@ -27,10 +29,13 @@ const DEFAULT_MONEDAS: MonedaOption[] = [
 export default function ContactoForm({
   monedas,
   embedded = false,
+  locale = DEFAULT_LOCALE,
 }: {
   monedas: MonedaOption[];
   embedded?: boolean;
+  locale?: Locale;
 }) {
+  const t = homeCopy[locale].form;
   const opts = monedas.length ? monedas : DEFAULT_MONEDAS;
   const [operacion, setOperacion] = useState<Operacion>("comprar");
   const [moneda, setMoneda] = useState(opts[0]?.code ?? "USD");
@@ -80,11 +85,11 @@ export default function ContactoForm({
         setStatus("ok");
       } else {
         setStatus("error");
-        setError(data.error ?? "No pudimos enviar la solicitud. Intenta de nuevo.");
+        setError(data.error ?? t.errGeneric);
       }
     } catch {
       setStatus("error");
-      setError("Problema de conexión. Revisa tu internet e intenta de nuevo.");
+      setError(t.errConn);
     }
   }
 
@@ -115,28 +120,28 @@ export default function ContactoForm({
         {status === "ok" ? (
           <div className="ct-success" role="status">
             <div className="ct-check">✓</div>
-            <h1>¡Solicitud enviada!</h1>
-            <p>
-              Recibimos tus datos. Te contactamos a la brevedad con el precio final y la
-              disponibilidad. Gracias por preferir Gamaex.
-            </p>
+            <h1>{t.successTitle}</h1>
+            <p>{t.successBody}</p>
             <div className="ct-success-actions">
               <button type="button" className="ct-btn-ghost" onClick={resetForm}>
-                Enviar otra solicitud
+                {t.sendAnother}
               </button>
-              <a className="ct-btn" href="/">Ir al inicio</a>
+              <a className="ct-btn" href="/">{t.goHome}</a>
             </div>
           </div>
         ) : (
           <>
-            <div className="ct-head">
-              <h1>Cotiza tu cambio</h1>
-              <p>Déjanos tus datos y te contactamos con el precio final. Sin compromiso.</p>
-            </div>
+            {/* Embebido (home) ya trae su propio encabezado de sección → evita 2º <h1> */}
+            {!embedded && (
+              <div className="ct-head">
+                <h1>Cotiza tu cambio</h1>
+                <p>Déjanos tus datos y te contactamos con el precio final. Sin compromiso.</p>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} noValidate>
               <fieldset className="ct-op">
-                <legend>¿Qué necesitas?</legend>
+                <legend>{t.question}</legend>
                 <div className="ct-toggle">
                   <button
                     type="button"
@@ -144,7 +149,7 @@ export default function ContactoForm({
                     aria-pressed={operacion === "comprar"}
                     onClick={() => setOperacion("comprar")}
                   >
-                    Quiero comprar
+                    {t.wantBuy}
                   </button>
                   <button
                     type="button"
@@ -152,14 +157,14 @@ export default function ContactoForm({
                     aria-pressed={operacion === "vender"}
                     onClick={() => setOperacion("vender")}
                   >
-                    Quiero vender
+                    {t.wantSell}
                   </button>
                 </div>
               </fieldset>
 
               <div className="ct-row">
                 <label className="ct-field">
-                  <span>Moneda</span>
+                  <span>{t.currency}</span>
                   <select value={moneda} onChange={(e) => setMoneda(e.target.value)}>
                     {opts.map((m) => (
                       <option key={m.code} value={m.code}>
@@ -169,10 +174,10 @@ export default function ContactoForm({
                   </select>
                 </label>
                 <label className="ct-field">
-                  <span>Monto (en {moneda})</span>
+                  <span>{t.amountPre}{moneda}{t.amountPost}</span>
                   <input
                     inputMode="decimal"
-                    placeholder="Ej: 1.000"
+                    placeholder={t.amountPlaceholder}
                     value={cantidad}
                     onChange={(e) => setCantidad(e.target.value.replace(/[^\d.,]/g, ""))}
                   />
@@ -181,34 +186,34 @@ export default function ContactoForm({
 
               <div className="ct-row">
                 <label className="ct-field">
-                  <span>Nombre</span>
+                  <span>{t.name}</span>
                   <input value={nombre} onChange={(e) => setNombre(e.target.value)} autoComplete="given-name" />
                 </label>
                 <label className="ct-field">
-                  <span>Apellido</span>
+                  <span>{t.lastName}</span>
                   <input value={apellido} onChange={(e) => setApellido(e.target.value)} autoComplete="family-name" />
                 </label>
               </div>
 
               <div className="ct-row">
                 <label className="ct-field">
-                  <span>Email</span>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder="tu@correo.cl" />
+                  <span>{t.email}</span>
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" placeholder={t.emailPlaceholder} />
                 </label>
                 <label className="ct-field">
-                  <span>Teléfono / WhatsApp</span>
-                  <input type="tel" value={telefono} onChange={(e) => setTelefono(e.target.value)} autoComplete="tel" placeholder="+56 9 ..." />
+                  <span>{t.phone}</span>
+                  <input type="tel" value={telefono} onChange={(e) => setTelefono(e.target.value)} autoComplete="tel" placeholder={t.phonePlaceholder} />
                 </label>
               </div>
 
               <label className="ct-field">
-                <span>Mensaje <em>(opcional)</em></span>
+                <span>{t.message} <em>{t.optional}</em></span>
                 <textarea
                   rows={3}
                   maxLength={800}
                   value={mensaje}
                   onChange={(e) => setMensaje(e.target.value)}
-                  placeholder="¿Algo que debamos saber? (opcional)"
+                  placeholder={t.messagePlaceholder}
                 />
               </label>
 
@@ -225,12 +230,10 @@ export default function ContactoForm({
               {status === "error" && <div className="ct-alert" role="alert">{error}</div>}
 
               <button type="submit" className="ct-submit" disabled={!canSubmit}>
-                {status === "sending" ? "Enviando…" : "Enviar solicitud"}
+                {status === "sending" ? t.sending : t.send}
               </button>
 
-              <p className="ct-legal">
-                Tus datos solo se usan para contactarte por esta cotización.
-              </p>
+              <p className="ct-legal">{t.legal}</p>
             </form>
           </>
         )}

@@ -12,10 +12,10 @@ const WA = "https://wa.me/56938782514?text=" + encodeURIComponent("Hola, quiero 
 type NavKey = "tasas" | "servicios" | "nosotros" | "contacto" | "alerta" | "faq" | "ubicacion";
 
 const LINKS: { key: NavKey; label: string; href: string }[] = [
-  { key: "tasas", label: "Tasas", href: "/#tasas" },
+  { key: "tasas", label: "Precios", href: "/#tasas" },
   { key: "servicios", label: "Servicios", href: "/servicios" },
   { key: "nosotros", label: "Nosotros", href: "/nosotros" },
-  { key: "contacto", label: "Contacto", href: "/#contacto" },
+  { key: "contacto", label: "Contacto", href: WA },
   { key: "alerta", label: "Alerta de precio", href: "/alerta-de-precio" },
   { key: "faq", label: "FAQ", href: "/preguntas-frecuentes" },
   { key: "ubicacion", label: "Ubicación", href: "/#ubicacion" },

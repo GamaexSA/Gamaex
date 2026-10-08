@@ -31,18 +31,27 @@ function Icon({ name }: { name: IconName }) {
 }
 
 const SERVICIOS: { icon: IconName; title: string; desc: string }[] = [
-  { icon: "cambio", title: "Cambio de divisas", desc: "Compra y venta de dólares, euros y más de 40 monedas al tipo de cambio del día. Precios publicados, sin comisiones ocultas." },
-  { icon: "transfer", title: "Transferencias internacionales", desc: "Envío y recepción de fondos al exterior: pago a proveedores, operaciones en el extranjero y remesas familiares, con asesoría en cada operación." },
-  { icon: "tarjeta", title: "Pago de tarjetas de crédito", desc: "Paga tu tarjeta de crédito internacional al tipo de cambio del día. Consulta el valor con nosotros antes de pagarla con el banco." },
-  { icon: "empresa", title: "Empresas y pago a proveedores", desc: "Para compañías que operan o pagan en moneda extranjera. Condiciones especiales por volumen y atención corporativa dedicada." },
-  { icon: "asesoria", title: "Asesoría personalizada", desc: "Te acompañamos en cada operación con atención directa. 38 años de experiencia en el mercado cambiario chileno." },
-  { icon: "preferencial", title: "Atención preferencial", desc: "Módulos privados para operaciones de mayor monto. Discreción total, trato personalizado y seguridad en local físico." },
+  { icon: "cambio", title: "Cambio de divisas", desc: "Compra y venta presencial de dólares, euros y más de 40 monedas al tipo de cambio del día. Precios publicados en vivo, sin comisiones ni cargos ocultos. Operamos en efectivo, sin abrir cuenta ni esperar aprobaciones." },
+  { icon: "transfer", title: "Transferencias internacionales", desc: "Envío y recepción de fondos al exterior: pago a proveedores, operaciones en el extranjero y remesas familiares. Como socios estratégicos aprobados de Western Union gestionamos giros internacionales con cobertura global y trazabilidad." },
+  { icon: "tarjeta", title: "Pago de tarjetas de crédito", desc: "Paga tu tarjeta de crédito internacional en moneda extranjera al tipo de cambio del día. Consúltanos el valor antes de pagarla con el banco: te ayudamos a comparar y evitar conversiones poco convenientes." },
+  { icon: "empresa", title: "Empresas y pago a proveedores", desc: "Para compañías que importan, exportan o pagan a proveedores en moneda extranjera. Atención corporativa dedicada, condiciones según el volumen y coordinación de operaciones de mayor monto." },
+  { icon: "asesoria", title: "Asesoría personalizada", desc: "Te acompañamos en cada operación con atención directa y humana. 38 años de experiencia en el mercado cambiario chileno para orientarte según lo que necesitas cambiar o enviar." },
+  { icon: "preferencial", title: "Atención preferencial", desc: "Módulos privados para operaciones de mayor monto, con discreción total y trato personalizado. La seguridad de operar en un local físico establecido, en pleno Providencia." },
 ];
 
 const PASOS = [
   { n: "01", t: "Déjanos tus datos", d: "Completa el formulario de «Hazte cliente» con tu información." },
   { n: "02", t: "Te validamos", d: "Te contactamos para verificar el registro y completar los requisitos." },
   { n: "03", t: "Comienza a operar", d: "Como cliente registrado operas más rápido, presencial o coordinado." },
+];
+
+const FAQ_SV: { q: string; a: string }[] = [
+  { q: "¿Qué servicios ofrece Gamaex?", a: "Gamaex ofrece compra y venta de más de 40 divisas al tipo de cambio del día, transferencias y giros internacionales (como socios aprobados de Western Union), pago de tarjetas de crédito internacionales, pago a proveedores para empresas y asesoría personalizada. Todo de forma presencial en Providencia, sin comisiones ocultas." },
+  { q: "¿Gamaex cobra comisión por cambiar divisas?", a: "No cobramos comisiones ni cargos ocultos. El precio del día está publicado en vivo en la tabla de tasas y la calculadora del sitio, y es el mismo con el que operamos en el mostrador." },
+  { q: "¿Puedo pagar mi tarjeta de crédito internacional en Gamaex?", a: "Sí. Pagamos tarjetas de crédito internacionales en moneda extranjera al tipo de cambio del día. Consúltanos el valor antes de pagarla con el banco para poder comparar." },
+  { q: "¿Gamaex hace transferencias al extranjero?", a: "Sí. Como socios estratégicos aprobados de Western Union gestionamos giros y transferencias internacionales con cobertura global y trazabilidad, además de pago a proveedores en el exterior." },
+  { q: "¿Atienden a empresas?", a: "Sí. Trabajamos con empresas que importan, exportan o pagan a proveedores en moneda extranjera, con atención corporativa dedicada y condiciones según el volumen de la operación." },
+  { q: "¿Dónde está Gamaex y en qué horario atiende?", a: "Estamos en Av. Pedro de Valdivia 020, Providencia, Santiago, a pasos del Metro Pedro de Valdivia (Línea 1). Atendemos de lunes a viernes de 9:00 a 17:00 y sábado de 9:00 a 13:00." },
 ];
 
 export default function ServiciosPage() {
@@ -119,6 +128,26 @@ export default function ServiciosPage() {
         <a href="/hazte-cliente" className="sv-btn-gold sv-btn-center">Comenzar registro</a>
       </section>
 
+      <section className="sv-section sv-section-light sv-reveal">
+        <p className="sv-label">Sobre nuestros servicios</p>
+        <h2 className="sv-title">Tu socio en moneda extranjera</h2>
+        <div className="sv-prose">
+          <p>Gamaex es una casa de cambio familiar con más de 38 años de trayectoria en Providencia, Santiago. Más allá del cambio de divisas, somos el socio de personas y empresas para todas sus operaciones en moneda extranjera: desde comprar dólares o euros para un viaje, hasta gestionar el pago a un proveedor en el exterior o pagar una tarjeta de crédito internacional al tipo de cambio del día.</p>
+          <p>Trabajamos con más de 40 monedas, siempre con el precio del día publicado y sin comisiones ni cargos ocultos. La atención es presencial, en efectivo y sin necesidad de abrir cuenta: consultas el valor, operas en el momento y te vas con la operación cerrada. Para montos altos pedimos tu cédula de identidad y registramos la operación según la normativa de la Unidad de Análisis Financiero (UAF).</p>
+          <p>Como socios estratégicos aprobados de Western Union también gestionamos transferencias y giros internacionales con cobertura global. Y si tienes dudas sobre qué conviene en tu caso, nuestra asesoría personalizada te orienta antes de operar. Escríbenos por WhatsApp para confirmar la disponibilidad de billetes o coordinar operaciones de mayor monto.</p>
+        </div>
+
+        <div className="sv-faq">
+          <p className="sv-label sv-faq-label">Preguntas frecuentes</p>
+          {FAQ_SV.map((f) => (
+            <details className="sv-q" key={f.q}>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
+
       <footer className="sv-footer">
         <svg className="sv-footer-logo" viewBox="0 0 800 280" width="229" height="80" aria-hidden="true">
           <g transform="translate(140,140)">
@@ -188,6 +217,17 @@ export default function ServiciosPage() {
         .sv-footer-logo { height: 80px; width: auto; margin-bottom: 1.2rem; }
         .sv-footer-addr { color: rgba(255,255,255,0.6); font-size: 0.9rem; margin: 0 0 1rem; }
         .sv-footer-back { color: var(--gold-light); text-decoration: none; font-size: 0.9rem; font-weight: 600; }
+
+        .sv-prose { max-width: 720px; margin: 2rem auto 0; text-align: left; }
+        .sv-prose p { color: var(--gray); font-size: 1rem; line-height: 1.75; margin: 0 0 1.1rem; }
+        .sv-faq { max-width: 720px; margin: 2.5rem auto 0; text-align: left; }
+        .sv-faq-label { display: block; margin-bottom: 0.6rem; }
+        .sv-q { border-bottom: 1px solid var(--border); }
+        .sv-q summary { cursor: pointer; font-weight: 650; color: var(--dark); font-size: 1.02rem; padding: 1.1rem 2rem 1.1rem 0; list-style: none; position: relative; }
+        .sv-q summary::-webkit-details-marker { display: none; }
+        .sv-q summary::after { content: "+"; position: absolute; right: 0; top: 0.95rem; font-size: 1.4rem; color: var(--gold-deep); font-weight: 400; }
+        .sv-q[open] summary::after { content: "\\2212"; }
+        .sv-q p { color: var(--gray); font-size: 0.96rem; line-height: 1.7; margin: 0 0 1.2rem; padding-right: 1rem; }
 
         .sv-reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1); }
         .sv-reveal.is-visible { opacity: 1; transform: translateY(0); }

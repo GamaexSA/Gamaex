@@ -14,7 +14,8 @@
     "db:reset": "prisma migrate reset",
     "db:add-admins": "tsx prisma/add-admins.ts",
     "db:add-cop": "tsx prisma/add-cop.ts",
-    "db:add-oro": "tsx prisma/add-oro.ts"
+    "db:add-oro": "tsx prisma/add-oro.ts",
+    "db:add-nuevas": "tsx prisma/add-nuevas-monedas.ts"
   },
   "dependencies": {
     "@prisma/client": "^5.15.0",

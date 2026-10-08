@@ -93,9 +93,22 @@ export default function HazteClienteForm() {
                 <span className="hc-tag">Hazte cliente</span>
                 <h1>Opera con Gamaex como cliente registrado</h1>
                 <p className="hc-lede">
-                  Déjanos tus datos y te contactamos para validar el registro. La verificación de
-                  identidad se coordina en ese momento — no subas documentos por acá.
+                  Déjanos tus datos y te contactamos para validar tu registro. Si prefieres dejar
+                  todo listo ahora, puedes completar tu ficha y subir tus antecedentes directamente.
                 </p>
+                <a
+                  href="/ficha-cliente"
+                  style={{
+                    display: "inline-flex", alignItems: "center", gap: "0.55rem",
+                    margin: "0.4rem 0 1.7rem", padding: "1rem 1.7rem",
+                    background: "linear-gradient(135deg, #E8C76E 0%, #C9A84C 55%, #9C7E2E 100%)",
+                    color: "#0F1419", fontWeight: 800, fontSize: "1.02rem",
+                    borderRadius: "12px", textDecoration: "none",
+                    boxShadow: "0 8px 22px rgba(201,168,76,0.42)",
+                  }}
+                >
+                  Completar ficha y subir antecedentes online →
+                </a>
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
