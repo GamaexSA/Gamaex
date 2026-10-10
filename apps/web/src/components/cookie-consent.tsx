@@ -36,9 +36,12 @@ function readLocale(): Loc {
   return (m?.[1] as Loc) ?? "es";
 }
 
+// El consentimiento vale solo para la visita actual (sessionStorage): al volver a entrar,
+// aunque sea la misma persona, se pide de nuevo.
 export function hasConsent(): boolean {
   try {
-    return localStorage.getItem(CONSENT_KEY) === "accepted";
+    localStorage.removeItem(CONSENT_KEY); // limpia el consentimiento permanente de versiones anteriores
+    return sessionStorage.getItem(CONSENT_KEY) === "accepted";
   } catch {
     return false;
   }
@@ -63,7 +66,7 @@ export default function CookieConsent() {
   }, [state]);
 
   function accept() {
-    try { localStorage.setItem(CONSENT_KEY, "accepted"); } catch { /* sin storage: queda solo en esta visita */ }
+    try { sessionStorage.setItem(CONSENT_KEY, "accepted"); } catch { /* sin storage: queda solo en esta visita */ }
     setState("accepted");
     window.dispatchEvent(new Event(CONSENT_EVENT));
   }
