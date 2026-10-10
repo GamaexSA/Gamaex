@@ -1,14 +1,18 @@
 import { NextResponse } from "next/server";
+import { get } from "@vercel/blob";
 import { buildDocUrl } from "@/lib/ficha-link";
 
 // Recibe la Ficha Cliente (datos + pathnames de los documentos ya subidos al store
 // privado) y le manda a Gamaex un email con todo + enlaces de descarga firmados que
 // expiran (7 días). Mismo canal que /api/contacto (Resend → gamaex@gmail.com), con
-// honeypot anti-spam. No adjunta archivos: los documentos se leen bajo demanda desde
-// el store privado a través de /api/ficha-cliente/doc.
+// honeypot anti-spam. Los documentos van ADJUNTOS al correo (hasta ~25 MB en total, el límite
+// de Resend es 40 MB en base64); lo que no quepa queda disponible por los enlaces firmados.
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
+
+const MAX_ATTACH_BYTES = 25 * 1024 * 1024;
 
 const NOTIFY_TO = process.env["CONTACTO_NOTIFY_EMAIL"] ?? "gamaex@gmail.com";
 const EMAIL_FROM = process.env["EMAIL_FROM"] ?? "Fichas Gamaex <onboarding@resend.dev>";
@@ -234,6 +238,23 @@ export async function POST(req: Request): Promise<Response> {
     ...docs.map((d) => `- ${d.label} (${d.filename}): ${buildDocUrl(SITE_URL, d.pathname)}`),
   ].filter(Boolean);
 
+  // Adjunta los archivos desde el store privado (hasta MAX_ATTACH_BYTES en total).
+  const attachments: { filename: string; content: string }[] = [];
+  let attachedBytes = 0;
+  for (const d of docs) {
+    try {
+      const r = await get(d.pathname, { access: "private" });
+      if (!r || r.statusCode !== 200) continue;
+      const buf = Buffer.from(await new Response(r.stream).arrayBuffer());
+      if (attachedBytes + buf.length > MAX_ATTACH_BYTES) continue;
+      attachedBytes += buf.length;
+      const safe = `${d.label} - ${d.filename}`.replace(/[\\/:*?"<>|]/g, "_").slice(0, 180);
+      attachments.push({ filename: safe, content: buf.toString("base64") });
+    } catch (err) {
+      console.error("[/api/ficha-cliente] No se pudo adjuntar", d.pathname, err);
+    }
+  }
+
   try {
     const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -245,6 +266,7 @@ export async function POST(req: Request): Promise<Response> {
         subject,
         html,
         text: textLines.join("\n"),
+        ...(attachments.length ? { attachments } : {}),
       }),
     });
     if (!res.ok) {
