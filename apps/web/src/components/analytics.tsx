@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { CONSENT_EVENT, hasConsent } from "./cookie-consent";
 
 // GA4 Measurement ID — formato G-XXXXXXXXXX
 // analytics.google.com → Admin → Data Streams
@@ -96,26 +97,40 @@ export default function Analytics() {
   useEffect(() => {
     if (!GA_ID && !GADS_ID) return;
 
-    const loaderId = GA_ID ?? GADS_ID;
-    const script = document.createElement("script");
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${loaderId}`;
-    script.async = true;
-    document.head.appendChild(script);
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
 
-    window.dataLayer = window.dataLayer ?? [];
-    window.gtag = function gtag() {
-      // Debe usar `arguments` (no spread) para que gtag.js procese cada hit.
-      // eslint-disable-next-line prefer-rest-params
-      window.dataLayer!.push(arguments);
+      const loaderId = GA_ID ?? GADS_ID;
+      const script = document.createElement("script");
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${loaderId}`;
+      script.async = true;
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer ?? [];
+      window.gtag = function gtag() {
+        // Debe usar `arguments` (no spread) para que gtag.js procese cada hit.
+        // eslint-disable-next-line prefer-rest-params
+        window.dataLayer!.push(arguments);
+      };
+      window.gtag("js", new Date());
+
+      if (GA_ID) {
+        window.gtag("config", GA_ID, { send_page_view: true });
+      }
+      if (GADS_ID) {
+        window.gtag("config", GADS_ID, { allow_enhanced_conversions: true });
+      }
     };
-    window.gtag("js", new Date());
 
-    if (GA_ID) {
-      window.gtag("config", GA_ID, { send_page_view: true });
+    // El tracking solo se carga después de que el visitante acepta las cookies.
+    if (hasConsent()) {
+      start();
+      return undefined;
     }
-    if (GADS_ID) {
-      window.gtag("config", GADS_ID, { allow_enhanced_conversions: true });
-    }
+    window.addEventListener(CONSENT_EVENT, start);
+    return () => window.removeEventListener(CONSENT_EVENT, start);
   }, []);
 
   return null;

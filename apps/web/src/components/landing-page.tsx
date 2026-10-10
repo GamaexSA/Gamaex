@@ -91,7 +91,7 @@ const TESTIMONIALS = [
   { name: "Matías Bascur", initial: "MB", context: "Febrero 2018", text: "" },
 ];
 
-export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt, pageContext, variant = "full", locale = DEFAULT_LOCALE }: Props) {
+export default function LandingPage({ rates: rawRates, systemStatus, pageContext, variant = "full", locale = DEFAULT_LOCALE }: Props) {
   const T = homeCopy[locale];
   const rates = [...rawRates].sort((a, b) => {
     const ai = RATE_PRIORITY.indexOf(a.code);
@@ -128,7 +128,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [copied, setCopied] = useState(false);
   const [isOpen, setIsOpen] = useState<boolean | null>(null);
-  const [lastSyncFmt, setLastSyncFmt] = useState("");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Alerta de precio
@@ -278,13 +277,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
     if (next === fromCurrency) setFromCurrency(newFrom);
     track.calcUsed(newFrom, next);
   }
-
-  useEffect(() => {
-    if (!lastSyncAt) { setLastSyncFmt(""); return; }
-    setLastSyncFmt(
-      new Date(lastSyncAt).toLocaleString("es-CL", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "America/Santiago" }),
-    );
-  }, [lastSyncAt]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -962,11 +954,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
                 <strong>{r.buy.toLocaleString("es-CL", { minimumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0, maximumFractionDigits: r.buy % 1 !== 0 ? r.decimal_places : 0 })}</strong>
               </div>
             ))}
-            {lastSyncFmt && (
-              <div className="gx-ticker-item gx-ticker-meta">
-                <span>● {T.calc.updated} {lastSyncFmt}</span>
-              </div>
-            )}
           </div>
         </div>
       )}
@@ -1038,9 +1025,6 @@ export default function LandingPage({ rates: rawRates, systemStatus, lastSyncAt,
             <p className="gx-subtitle">{renderRich(T.tasas.subtitle)}</p>
           </div>
           <div style={{ textAlign: "right" }}>
-            {lastSyncFmt && (
-              <div style={{ display: "inline-flex", alignItems: "center", gap: "0.5rem", fontSize: "0.92rem", fontWeight: 700, color: "var(--dark)", background: "rgba(5,150,105,0.10)", border: "1px solid rgba(5,150,105,0.30)", borderRadius: "999px", padding: "0.45rem 0.95rem" }}><span style={{ width: 9, height: 9, borderRadius: "50%", background: "#059669", flexShrink: 0 }} />{T.tasas.lastUpdate} {lastSyncFmt}</div>
-            )}
             {systemStatus === "stale" && (
               <div className="gx-stale-warn">{T.tasas.stale}</div>
             )}

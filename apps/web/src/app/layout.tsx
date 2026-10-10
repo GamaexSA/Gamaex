@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Analytics from "@/components/analytics";
+import CookieConsent from "@/components/cookie-consent";
 import ChatWidget from "@/components/chat-widget";
 
 export const metadata: Metadata = {
@@ -464,6 +465,7 @@ export default function RootLayout({
       </head>
       <body>
         <Analytics />
+        <CookieConsent />
         {children}
         <ChatWidget />
       </body>
