@@ -31,7 +31,7 @@ interface DocField {
 const DOCS: Record<Tipo, DocField[]> = {
   empresa: [
     { key: "constitucion", label: "Constitución de sociedad y modificaciones", hint: "PDF de la escritura y sus modificaciones", required: true },
-    { key: "vigencia", label: "Certificado de vigencia de la sociedad", hint: "Emitido por el Registro de Comercio", required: true },
+    { key: "vigencia", label: "Vigencia de la sociedad y de los poderes", hint: "Certificados del CBRS (Conservador de Bienes Raíces), con no más de 30 días de antigüedad. Puedes subir varios archivos", required: true, multiple: true },
     { key: "cedulaRep", label: "Cédula de identidad del representante legal", hint: "Ambos lados (imagen o PDF)", required: true, multiple: true },
     { key: "erut", label: "e-RUT de la empresa (SII)", hint: "Carpeta tributaria o e-RUT del SII", required: true },
     { key: "origenFondos", label: "Origen de los fondos / actividad económica", hint: "Documento que respalde el origen de los fondos (PDF o imagen)", required: true },

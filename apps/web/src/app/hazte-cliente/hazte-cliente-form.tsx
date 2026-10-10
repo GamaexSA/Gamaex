@@ -109,6 +109,24 @@ export default function HazteClienteForm() {
                 >
                   Completar ficha y subir antecedentes online →
                 </a>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: "1rem", margin: "0 0 1.6rem", textAlign: "left" }}>
+                  <div style={{ border: "1px solid rgba(201,168,76,0.45)", borderRadius: 12, padding: "1rem 1.1rem", background: "#fffdf6" }}>
+                    <strong style={{ display: "block", marginBottom: "0.5rem" }}>Persona natural</strong>
+                    <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.6, fontSize: "0.93rem" }}>
+                      <li>Ficha de cliente completa</li>
+                      <li>Cédula de identidad por ambos lados</li>
+                    </ul>
+                  </div>
+                  <div style={{ border: "1px solid rgba(201,168,76,0.45)", borderRadius: 12, padding: "1rem 1.1rem", background: "#fffdf6" }}>
+                    <strong style={{ display: "block", marginBottom: "0.5rem" }}>Persona jurídica (empresa)</strong>
+                    <ul style={{ margin: 0, paddingLeft: "1.1rem", lineHeight: 1.6, fontSize: "0.93rem" }}>
+                      <li>Ficha de cliente completa</li>
+                      <li>Cédula de identidad del representante legal por ambos lados</li>
+                      <li>e-RUT de la empresa</li>
+                      <li>Vigencia de la sociedad y de los poderes, con no más de 30 días de antigüedad (CBRS)</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
 
               <form onSubmit={handleSubmit} noValidate>
