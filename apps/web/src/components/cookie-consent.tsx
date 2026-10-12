@@ -7,27 +7,21 @@ export const CONSENT_EVENT = "gamaex-consent";
 
 type Loc = "es" | "en" | "pt";
 
-const COPY: Record<Loc, { text: string; reject: string; accept: string; blocked: string; acceptBlocked: string }> = {
+const COPY: Record<Loc, { text: string; reject: string; accept: string }> = {
   es: {
-    text: "Usamos cookies y tecnologías similares para que el sitio funcione, medir cómo se usa y mejorar tu experiencia. Para usar gamaex.cl necesitas aceptarlas.",
+    text: "Usamos cookies y tecnologías similares para mejorar y personalizar tu experiencia, comprender cómo interactúas con el sitio web y con fines de marketing. Haz clic en \"Rechazar\" para rechazar las cookies opcionales o en \"Entiendo\" para aceptarlas.",
     reject: "Rechazar",
     accept: "Entiendo",
-    blocked: "Para usar este sitio es necesario aceptar las cookies.",
-    acceptBlocked: "Aceptar y continuar",
   },
   en: {
-    text: "We use cookies and similar technologies to make the site work, measure how it is used and improve your experience. To use gamaex.cl you need to accept them.",
+    text: "We use cookies and similar technologies to improve and personalize your experience, understand how you interact with the website and for marketing purposes. Click \"Reject\" to decline optional cookies or \"I understand\" to accept them.",
     reject: "Reject",
     accept: "I understand",
-    blocked: "You need to accept cookies to use this site.",
-    acceptBlocked: "Accept and continue",
   },
   pt: {
-    text: "Usamos cookies e tecnologias semelhantes para que o site funcione, medir como é usado e melhorar sua experiência. Para usar gamaex.cl você precisa aceitá-los.",
+    text: "Usamos cookies e tecnologias semelhantes para melhorar e personalizar sua experiência, entender como você interage com o site e para fins de marketing. Clique em \"Rejeitar\" para recusar os cookies opcionais ou em \"Entendi\" para aceitá-los.",
     reject: "Rejeitar",
     accept: "Entendi",
-    blocked: "Para usar este site é necessário aceitar os cookies.",
-    acceptBlocked: "Aceitar e continuar",
   },
 };
 
@@ -36,75 +30,66 @@ function readLocale(): Loc {
   return (m?.[1] as Loc) ?? "es";
 }
 
-// El consentimiento vale solo para la visita actual (sessionStorage): al volver a entrar,
-// aunque sea la misma persona, se pide de nuevo.
-export function hasConsent(): boolean {
+function readChoice(): "accepted" | "rejected" | null {
   try {
     localStorage.removeItem(CONSENT_KEY); // limpia el consentimiento permanente de versiones anteriores
-    return sessionStorage.getItem(CONSENT_KEY) === "accepted";
+    const v = sessionStorage.getItem(CONSENT_KEY);
+    return v === "accepted" || v === "rejected" ? v : null;
   } catch {
-    return false;
+    return null;
   }
 }
 
+// El aviso se muestra en cada visita nueva (sessionStorage), aunque sea la misma persona.
+// NO bloquea el sitio: si rechaza, puede seguir usándolo; solo no se cargan las cookies opcionales.
+export function hasConsent(): boolean {
+  return readChoice() === "accepted";
+}
+
 export default function CookieConsent() {
-  const [state, setState] = useState<"unknown" | "pending" | "rejected" | "accepted">("unknown");
+  const [state, setState] = useState<"unknown" | "pending" | "done">("unknown");
   const [loc, setLoc] = useState<Loc>("es");
 
   useEffect(() => {
     setLoc(readLocale());
-    setState(hasConsent() ? "accepted" : "pending");
+    setState(readChoice() ? "done" : "pending");
   }, []);
 
-  useEffect(() => {
-    if (state === "pending" || state === "rejected") {
-      const prev = document.body.style.overflow;
-      document.body.style.overflow = "hidden";
-      return () => { document.body.style.overflow = prev; };
-    }
-    return undefined;
-  }, [state]);
-
-  function accept() {
-    try { sessionStorage.setItem(CONSENT_KEY, "accepted"); } catch { /* sin storage: queda solo en esta visita */ }
-    setState("accepted");
-    window.dispatchEvent(new Event(CONSENT_EVENT));
+  function choose(choice: "accepted" | "rejected") {
+    try { sessionStorage.setItem(CONSENT_KEY, choice); } catch { /* sin storage: vale solo esta página */ }
+    setState("done");
+    if (choice === "accepted") window.dispatchEvent(new Event(CONSENT_EVENT));
   }
 
-  if (state === "unknown" || state === "accepted") return null;
+  if (state !== "pending") return null;
 
   const t = COPY[loc];
-  const rejected = state === "rejected";
 
   return (
     <div
-      role="dialog"
-      aria-modal="true"
-      aria-live="polite"
+      role="region"
+      aria-label="Cookies"
       style={{
-        position: "fixed", inset: 0, zIndex: 2147483647,
-        background: "rgba(10,10,10,0.72)", backdropFilter: "blur(6px)", WebkitBackdropFilter: "blur(6px)",
-        display: "flex", alignItems: "center", justifyContent: "center", padding: "1rem",
+        position: "fixed", left: "50%", bottom: "1rem", transform: "translateX(-50%)",
+        zIndex: 2147483000, width: "calc(100% - 2rem)", maxWidth: 520,
+        background: "#fff", color: "#1a1a1a", borderRadius: 16, padding: "1.3rem 1.3rem 1.2rem",
+        boxShadow: "0 12px 40px rgba(0,0,0,0.28)", border: "1px solid rgba(0,0,0,0.08)", fontFamily: "inherit",
       }}
     >
-      <div style={{ background: "#fff", color: "#1a1a1a", borderRadius: 16, maxWidth: 480, width: "100%", padding: "1.6rem 1.5rem", boxShadow: "0 20px 60px rgba(0,0,0,0.4)", fontFamily: "inherit" }}>
-        <p style={{ margin: 0, fontSize: "1rem", lineHeight: 1.55 }}>{rejected ? t.blocked : t.text}</p>
-        <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.3rem" }}>
-          {!rejected && (
-            <button
-              onClick={() => setState("rejected")}
-              style={{ flex: 1, padding: "0.8rem 1rem", borderRadius: 10, border: "1.5px solid #1a1a1a", background: "#fff", color: "#1a1a1a", fontSize: "0.98rem", fontWeight: 600, cursor: "pointer" }}
-            >
-              {t.reject}
-            </button>
-          )}
-          <button
-            onClick={accept}
-            style={{ flex: 1, padding: "0.8rem 1rem", borderRadius: 10, border: "none", background: "#111", color: "#fff", fontSize: "0.98rem", fontWeight: 600, cursor: "pointer" }}
-          >
-            {rejected ? t.acceptBlocked : t.accept}
-          </button>
-        </div>
+      <p style={{ margin: 0, fontSize: "0.95rem", lineHeight: 1.55, color: "#4a4a4a" }}>{t.text}</p>
+      <div style={{ display: "flex", gap: "0.75rem", marginTop: "1.1rem" }}>
+        <button
+          onClick={() => choose("rejected")}
+          style={{ flex: 1, padding: "0.8rem 1rem", borderRadius: 10, border: "1.5px solid #1a1a1a", background: "#fff", color: "#1a1a1a", fontSize: "0.98rem", fontWeight: 600, cursor: "pointer" }}
+        >
+          {t.reject}
+        </button>
+        <button
+          onClick={() => choose("accepted")}
+          style={{ flex: 1, padding: "0.8rem 1rem", borderRadius: 10, border: "none", background: "#0d1b2a", color: "#fff", fontSize: "0.98rem", fontWeight: 600, cursor: "pointer" }}
+        >
+          {t.accept}
+        </button>
       </div>
     </div>
   );
