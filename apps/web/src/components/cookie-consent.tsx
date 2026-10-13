@@ -30,18 +30,26 @@ function readLocale(): Loc {
   return (m?.[1] as Loc) ?? "es";
 }
 
+const COOKIE_MAX_AGE = 60 * 60 * 24 * 365 * 10; // 10 años: decisión definitiva
+
 function readChoice(): "accepted" | "rejected" | null {
-  try {
-    localStorage.removeItem(CONSENT_KEY); // limpia el consentimiento permanente de versiones anteriores
-    const v = sessionStorage.getItem(CONSENT_KEY);
-    return v === "accepted" || v === "rejected" ? v : null;
-  } catch {
-    return null;
+  let v: string | null = null;
+  try { v = localStorage.getItem(CONSENT_KEY); } catch { /* sin storage */ }
+  if (!v) {
+    const m = document.cookie.match(new RegExp(`(?:^|; )${CONSENT_KEY}=(accepted|rejected)`));
+    v = m?.[1] ?? null;
   }
+  return v === "accepted" || v === "rejected" ? v : null;
 }
 
-// El aviso se muestra en cada visita nueva (sessionStorage), aunque sea la misma persona.
-// NO bloquea el sitio: si rechaza, puede seguir usándolo; solo no se cargan las cookies opcionales.
+function saveChoice(choice: "accepted" | "rejected") {
+  try { localStorage.setItem(CONSENT_KEY, choice); } catch { /* sin storage */ }
+  document.cookie = `${CONSENT_KEY}=${choice}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax; Secure`;
+}
+
+// La respuesta se pregunta UNA sola vez por dispositivo/navegador y queda definitiva:
+// aceptada = se cargan las cookies opcionales; rechazada = nunca se cargan.
+// NO bloquea el sitio: si rechaza, puede seguir usándolo igual.
 export function hasConsent(): boolean {
   return readChoice() === "accepted";
 }
@@ -56,7 +64,7 @@ export default function CookieConsent() {
   }, []);
 
   function choose(choice: "accepted" | "rejected") {
-    try { sessionStorage.setItem(CONSENT_KEY, choice); } catch { /* sin storage: vale solo esta página */ }
+    saveChoice(choice);
     setState("done");
     if (choice === "accepted") window.dispatchEvent(new Event(CONSENT_EVENT));
   }
